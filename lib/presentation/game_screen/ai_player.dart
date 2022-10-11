@@ -2,18 +2,26 @@ import 'dart:convert';
 
 import 'package:text_project/domain/repository/ai_repository.dart';
 
+enum AIStatus { Playing, GivingUp, Warning }
+
+class NextMove {
+  String? word;
+  final AIStatus aiStatus;
+  NextMove({required this.aiStatus, this.word});
+}
+
 class AIPlayer {
   final AIRepository aiRepository;
   AIPlayer({required this.aiRepository});
 
   Set<int>? killerWordIndices;
 
-  Future takeNextMove(String word, Set<int> usedWordIndices) async {
+  Future<NextMove> takeNextMove(String word, Set<int> usedWordIndices) async {
     final edge = await aiRepository.getEdgeByWord(word);
     if (edge == null) {
       // 단어가 등록되어있지 않음
       // 플레이어에게 제대로 된 단어를 입력하라고 메시지 보내야함.
-      return;
+      return NextMove(aiStatus: AIStatus.Warning);
     }
 
     // 다음 스텝 계산을 위해 반환받은 엣지와 이미 사용한 단어의 차집합을 구함.
@@ -22,7 +30,7 @@ class AIPlayer {
     // 차집합이 공집합이라면
     if (possibleWordIndices.isEmpty) {
       // AI가 게임에서 짐
-      return;
+      return NextMove(aiStatus: AIStatus.GivingUp);
     }
 
     // 차집합이 공집합이 아니라면 사용할 수 있는 단어 중 한방 단어를 찾음
@@ -39,14 +47,16 @@ class AIPlayer {
       if (safeWord == null) {
         final wordIndexList = possibleWordIndices.toList()..shuffle();
         // 갈 수 있는 단어 중 아무 단어나 반환함
-        return aiRepository.getWordByIndex(wordIndexList.first);
+        final nextWord = await aiRepository.getWordByIndex(wordIndexList.first);
+        return NextMove(aiStatus: AIStatus.Playing, word: nextWord);
       }
       // 안전한 단어가 있다면 안전한 단어를 반환함.
-      return safeWord;
+      return NextMove(aiStatus: AIStatus.Playing, word: safeWord);
     }
 
     // 한방 단어가 있다면 한방 단어를 사용함
-    return aiRepository.getWordByIndex(killerWordIndices.first);
+    final nextWord = await aiRepository.getWordByIndex(killerWordIndices.first);
+    return NextMove(aiStatus: AIStatus.Playing, word: nextWord);
   }
 
   Future<void> loadAllKillerWordIndices() async {
