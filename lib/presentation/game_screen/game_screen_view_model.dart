@@ -4,9 +4,11 @@ import 'package:text_project/presentation/game_screen/ai_player.dart';
 import 'package:text_project/presentation/game_screen/game_screen_state.dart';
 
 class GameScreenViewModel with ChangeNotifier {
+  final AIPlayer _aiPlayer;
+  GameScreenViewModel(this._aiPlayer);
+
   GameScreenState _state = GameScreenState(messages: []);
   GameScreenState get state => _state;
-  AIPlayer? _aiPlayer;
 
   bool sendMessage(String content) {
     if (_validateMessage(content)) {
@@ -26,9 +28,6 @@ class GameScreenViewModel with ChangeNotifier {
     }
 
     return false;
-  }
-
-  Future<void> loadAIPlayer() async {
   }
 
   void resetState() {

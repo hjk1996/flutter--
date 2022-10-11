@@ -54,11 +54,11 @@ class DBHelper {
   }
 
   Future<List<Map>?> getWordInfosByIndices(Set<int> indices) async {
-    final wordInfos = await database.query(
-      'word_table',
-      where: 'word_index = (${('?' * (indices.length)).split('').join(', ')})',
-      whereArgs: [...indices],
-    );
+    final wordInfos = await database.query('word_table',
+        where:
+            'word_index = (${('?' * (indices.length)).split('').join(', ')})',
+        whereArgs: [...indices],
+        orderBy: 'word_index');
 
     if (wordInfos.isEmpty) return null;
 
@@ -66,7 +66,7 @@ class DBHelper {
   }
 
   // 단어를 통해 단어의 인덱스를 찾음
-  Future<int?> getWordIndexByWord(String word) async {
+  Future<int?> getIndexByWord(String word) async {
     final wordIndex = await database.query(
       'word_table',
       columns: ['word_table'],
@@ -79,6 +79,33 @@ class DBHelper {
     } else {
       return null;
     }
+  }
+
+  // 인덱스를 톻해 단어를 찾음
+  Future<String?> getWordByIndex(int index) async {
+    final word = await database.query(
+      'word',
+      columns: ['word_table'],
+      where: 'word_index = ?',
+      whereArgs: [index],
+    );
+
+    if (word.isNotEmpty) {
+      return word.first['word'] as String;
+    } else {
+      return null;
+    }
+  }
+
+  Future<Set<int>> loadAllKillerWordIndices() async {
+    return database
+        .query('word_table',
+            columns: ['word_index'],
+            where: 'is_killer_word = ?',
+            whereArgs: [1])
+        .then(
+          (list) => list.map((e) => e['word_index'] as int).toSet(),
+        );
   }
 
   // 단어의 인덱스를 가지고 한방단어로 이어질 수 있는 단어의 인덱스들을 찾음

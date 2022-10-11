@@ -11,22 +11,32 @@ class AIRepositoryImpl implements AIRepository {
   }
 
   @override
-  Future<int?> getWordIndexByWord(String word) async {
-    return dbHelper.getWordIndexByWord(word);
+  Future<int?> getIndexByWord(String word) async {
+    return dbHelper.getIndexByWord(word);
   }
 
   @override
-  Future<Set<int>?> findKillerWordIndices(Set<int> wordIndices) {
+  Future<String?> getWordByIndex(int index) async {
+    return dbHelper.getWordByIndex(index);
+  }
+
+  @override
+  Future<Set<int>?> findKillerWordIndices(Set<int> wordIndices) async {
     return dbHelper.findKillerWordIndices(wordIndices);
   }
 
   @override
-  Future<List<Set<int>>?> getEdgesByIndices(Set<int> indices) {
+  Future<List<Set<int>>?> getEdgesByIndices(Set<int> indices) async {
     return dbHelper.getEdgesByIndices(indices);
   }
 
   @override
-  Future<List<Map>?> getWordInfosByIndices(Set<int> indices) {
+  Future<List<Map>?> getWordInfosByIndices(Set<int> indices) async {
     return dbHelper.getWordInfosByIndices(indices);
+  }
+
+  @override
+  Future<Set<int>> loadAllKillerWordIndices() async {
+    return dbHelper.loadAllKillerWordIndices();
   }
 }

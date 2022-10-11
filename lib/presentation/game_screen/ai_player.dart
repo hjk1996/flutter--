@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:text_project/domain/repository/ai_repository.dart';
 
 class AIPlayer {
   final AIRepository aiRepository;
   AIPlayer({required this.aiRepository});
 
-  takeNextMove(String word, Set<int> usedWordIndices) async {
+  Set<int>? killerWordIndices;
+
+  Future takeNextMove(String word, Set<int> usedWordIndices) async {
     final edge = await aiRepository.getEdgeByWord(word);
     if (edge == null) {
       // 단어가 등록되어있지 않음
@@ -21,23 +25,47 @@ class AIPlayer {
       return;
     }
 
-    // 차집합이 공집합이 아니라면 한방 단어를 찾음
+    // 차집합이 공집합이 아니라면 사용할 수 있는 단어 중 한방 단어를 찾음
     final killerWordIndices =
-        await aiRepository.findKillerWordIndices(possibleWordIndices);
+        await aiRepository.findKillerWordIndices(possibleWordIndices).then(
+              (set) => set?.toList()?..shuffle(),
+            );
 
     // 한방 단어가 없다면
     if (killerWordIndices == null) {
       // 사용가능한 단어 중에서 한방 단어로 이어지지 않을 단어 중 하나를 반환해야함
-      final safeWordIndices = await findSafeWordIndices(possibleWordIndices);
+      final safeWord = await findSafeWord(possibleWordIndices);
+      // 안전한 단어가 없다면
+      if (safeWord == null) {
+        final wordIndexList = possibleWordIndices.toList()..shuffle();
+        // 갈 수 있는 단어 중 아무 단어나 반환함
+        return aiRepository.getWordByIndex(wordIndexList.first);
+      }
+      // 안전한 단어가 있다면 안전한 단어를 반환함.
+      return safeWord;
     }
+
+    // 한방 단어가 있다면 한방 단어를 사용함
+    return aiRepository.getWordByIndex(killerWordIndices.first);
   }
 
-  // TO-DO: edge와 index를 동시에 받아야 어떤 단어가 안전한 단어인지 알 수 있음
-  Future<Set<int>?> findSafeWordIndices(Set<int> wordIndices) async {
-    final possibleNextMoves =
-        await aiRepository.getEdgesByIndices(wordIndices);
+  Future<void> loadAllKillerWordIndices() async {
+    killerWordIndices ??= await aiRepository.loadAllKillerWordIndices();
+  }
 
-    if (possibleNextMoves == null) return null;
-
+  Future<String?> findSafeWord(Set<int> wordIndices) async {
+    final wordInfos = await aiRepository.getWordInfosByIndices(wordIndices);
+    if (wordInfos == null) return null;
+    wordInfos.shuffle();
+    for (Map info in wordInfos) {
+      final Set<int> edge = Set.from(jsonDecode(info['edge'] as String));
+      // 안전한 단어를 찾았다면
+      if (edge.intersection(killerWordIndices!).isEmpty) {
+        // 안전한 단어를 반환함
+        return info['word'];
+      }
+    }
+    // 안전한 단어를 찾지못하면 null을 반환함
+    return null;
   }
 }
