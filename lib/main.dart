@@ -6,11 +6,8 @@ import 'package:text_project/presentation/home_screen/home_screen_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final providers = await getProviders();
-  runApp(MultiProvider(
-    providers: providers,
-    child: const MyApp(),
-  ));
+  // final providers = await getProviders();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

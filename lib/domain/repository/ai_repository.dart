@@ -5,11 +5,11 @@ abstract class AIRepository {
 
   Future<String?> getWordByIndex(int index);
 
-  Future<Set<int>?> findKillerWordIndices(Set<int> wordIndices);
+  Future<Set<String>?> findKillerWords(Set<int> wordIndices);
 
   Future<List<Set<int>>?> getEdgesByIndices(Set<int> indices);
 
-  Future<List<Map>?> getWordInfosByIndices(Set<int> indices);
+  Future<List<Map>?> getWordInfosByIndice(Set<int> indices);
 
-  Future<Set<int>> loadAllKillerWordIndices();
+  Future<Set<int>> loadAllKillerWordIndice();
 }

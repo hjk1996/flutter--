@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>244425073491-vskm3rqr23se15saeo3ra2hbuk2mk9r8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.244425073491-vskm3rqr23se15saeo3ra2hbuk2mk9r8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAURZ7kDW9pSD_Bxh-kgABfOs3wVLTxaAo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>244425073491</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.textProject</string>
+	<key>PROJECT_ID</key>
+	<string>word-relay-game</string>
+	<key>STORAGE_BUCKET</key>
+	<string>word-relay-game.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:244425073491:ios:533f11a56aec8fe9fdb7a6</string>
+</dict>
+</plist>

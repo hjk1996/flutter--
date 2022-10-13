@@ -8,7 +8,6 @@ class ChatScreenPopButtonDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chatViewModel = context.read<GameScreenViewModel>();
     return AlertDialog(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(

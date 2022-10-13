@@ -4,39 +4,17 @@ import 'package:sqflite/sqflite.dart';
 import 'package:text_project/data/data_source/db_helper.dart';
 import 'package:text_project/data/repository/ai_repository_impl.dart';
 import 'package:text_project/domain/repository/ai_repository.dart';
+import 'package:text_project/presentation/game_screen/ai_player.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
-import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
-Future<Database> getDB() async {
-  var databasesPath = await getDatabasesPath();
-  var path = join(databasesPath, '~www/word_db.db');
-  var exists = await databaseExists(path);
-
-  if (!exists) {
-    try {
-      await Directory(dirname(path)).create(recursive: true);
-    } catch (_) {}
-
-    var data = await rootBundle.load(join('assets', 'word_data.db'));
-    List<int> bytes = data.buffer.asUint8List(
-      data.offsetInBytes,
-      data.lengthInBytes,
-    );
-
-    await File(path).writeAsBytes(bytes, flush: true);
-  }
-
-  return await openDatabase(path);
-}
-
-Future<List<SingleChildWidget>> getProviders() async {
-  Database database = await getDB();
+Future<GameScreenViewModel> makeGameScreenViewModel() async {
+  final directory = await getApplicationDocumentsDirectory();
+  final dbPath = join(directory.path, 'word_db.db');
+  Database database = await openDatabase(dbPath);
   DBHelper dbHelper = DBHelper(database: database);
   AIRepository aiRepository = AIRepositoryImpl(dbHelper);
-
-  return [
-    ChangeNotifierProvider(create: (context) => GameScreenViewModel()),
-  ];
+  AIPlayer aiPlayer = AIPlayer(aiRepository: aiRepository);
+  return GameScreenViewModel(aiPlayer: aiPlayer);
 }

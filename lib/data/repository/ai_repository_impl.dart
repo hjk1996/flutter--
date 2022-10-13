@@ -21,8 +21,8 @@ class AIRepositoryImpl implements AIRepository {
   }
 
   @override
-  Future<Set<int>?> findKillerWordIndices(Set<int> wordIndices) async {
-    return dbHelper.findKillerWordIndices(wordIndices);
+  Future<Set<String>?> findKillerWords(Set<int> wordIndices) async {
+    return dbHelper.findKillerWords(wordIndices);
   }
 
   @override
@@ -31,12 +31,12 @@ class AIRepositoryImpl implements AIRepository {
   }
 
   @override
-  Future<List<Map>?> getWordInfosByIndices(Set<int> indices) async {
-    return dbHelper.getWordInfosByIndices(indices);
+  Future<List<Map>?> getWordInfosByIndice(Set<int> indices) async {
+    return dbHelper.getWordInfosByIndice(indices);
   }
 
   @override
-  Future<Set<int>> loadAllKillerWordIndices() async {
-    return dbHelper.loadAllKillerWordIndices();
+  Future<Set<int>> loadAllKillerWordIndice() async {
+    return dbHelper.loadAllKillerWordIndice();
   }
 }

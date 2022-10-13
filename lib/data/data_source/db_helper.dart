@@ -53,7 +53,7 @@ class DBHelper {
         .toList();
   }
 
-  Future<List<Map>?> getWordInfosByIndices(Set<int> indices) async {
+  Future<List<Map>?> getWordInfosByIndice(Set<int> indices) async {
     final wordInfos = await database.query('word_table',
         where:
             'word_index = (${('?' * (indices.length)).split('').join(', ')})',
@@ -97,7 +97,7 @@ class DBHelper {
     }
   }
 
-  Future<Set<int>> loadAllKillerWordIndices() async {
+  Future<Set<int>> loadAllKillerWordIndice() async {
     return database
         .query('word_table',
             columns: ['word_index'],
@@ -109,15 +109,15 @@ class DBHelper {
   }
 
   // 단어의 인덱스를 가지고 한방단어로 이어질 수 있는 단어의 인덱스들을 찾음
-  Future<Set<int>?> findKillerWordIndices(Set<int> wordIndices) async {
+  Future<Set<String>?> findKillerWords(Set<int> indice) async {
     final killerWordIndices = await database.query('word_table',
-        columns: ['word_index'],
+        columns: ['word'],
         where:
-            'is_killer_word = ? AND word_index IN (${('?' * (wordIndices.length)).split('').join(', ')})',
-        whereArgs: [1, ...wordIndices.toList()]);
+            'is_killer_word = ? AND word_index IN (${('?' * (indice.length)).split('').join(', ')})',
+        whereArgs: [1, ...indice.toList()]);
 
     if (killerWordIndices.isNotEmpty) {
-      return Set.from(killerWordIndices.map((e) => e['word_index']));
+      return Set.from(killerWordIndices.map((e) => e['word']));
     } else {
       return null;
     }

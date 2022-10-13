@@ -17,6 +17,7 @@ class _GameScreenViewState extends State<GameScreenView> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.read<GameScreenViewModel>();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -28,8 +29,8 @@ class _GameScreenViewState extends State<GameScreenView> {
 
               if (isEnd != null && isEnd == true) {
                 if (!mounted) return;
-                Navigator.pop(context);
                 viewModel.resetState();
+                Navigator.pop(context);
               }
             },
             icon: Icon(Icons.exit_to_app)),
