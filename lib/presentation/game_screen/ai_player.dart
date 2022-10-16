@@ -94,7 +94,8 @@ class AIPlayer {
     return null;
   }
 
-  void quitGame() {
+  Future<void> quitGame() async {
     killerWordIndice = null;
+    await aiRepository.closeDB();
   }
 }

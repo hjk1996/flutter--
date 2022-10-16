@@ -123,6 +123,10 @@ class DBHelper {
     }
   }
 
+  Future<void> closeDB() async {
+    await database.close();
+  }
+
   // 단어의 인덱스를 가지고 한방단어로 이어지지 않는 안전한 단어들의 인덱스를 찾음.
   // Future<Set<int>?> findSafeWordIndices(Set<int> wordIndices) async {
   //   var possibleMoves = await database.query(

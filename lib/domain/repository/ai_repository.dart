@@ -12,4 +12,6 @@ abstract class AIRepository {
   Future<List<Map>?> getWordInfosByIndice(Set<int> indices);
 
   Future<Set<int>> loadAllKillerWordIndice();
+
+  Future<void> closeDB();
 }

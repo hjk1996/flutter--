@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:text_project/presentation/common/asking_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:text_project/presentation/game_screen/components/chat_bubble.dart';
 import 'package:provider/provider.dart';
-import 'package:text_project/presentation/game_screen/components/dialog.dart';
 
 class GameScreenView extends StatefulWidget {
   const GameScreenView({Key? key}) : super(key: key);
@@ -24,7 +24,11 @@ class _GameScreenViewState extends State<GameScreenView> {
             onPressed: () async {
               final isEnd = await showDialog<bool>(
                 context: context,
-                builder: (context) => const ChatScreenPopButtonDialog(),
+                builder: (context) => const AskingDialog(
+                  message: '게임에서 나가겠습니까?',
+                  agreeText: '네',
+                  disagreeText: '계속하기',
+                ),
               );
 
               if (isEnd != null && isEnd == true) {

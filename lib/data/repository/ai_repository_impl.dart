@@ -39,4 +39,9 @@ class AIRepositoryImpl implements AIRepository {
   Future<Set<int>> loadAllKillerWordIndice() async {
     return dbHelper.loadAllKillerWordIndice();
   }
+
+  @override
+  Future<void> closeDB() async {
+    return dbHelper.closeDB();
+  }
 }

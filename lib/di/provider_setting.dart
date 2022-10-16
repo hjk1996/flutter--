@@ -16,5 +16,6 @@ Future<GameScreenViewModel> makeGameScreenViewModel() async {
   DBHelper dbHelper = DBHelper(database: database);
   AIRepository aiRepository = AIRepositoryImpl(dbHelper);
   AIPlayer aiPlayer = AIPlayer(aiRepository: aiRepository);
+  await aiPlayer.startGame();
   return GameScreenViewModel(aiPlayer: aiPlayer);
 }

@@ -29,6 +29,13 @@
             {
               "client_id": "244425073491-fmubkpub0sik81v9lb1l3d8qulbua109.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "244425073491-vskm3rqr23se15saeo3ra2hbuk2mk9r8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.textProject"
+              }
             }
           ]
         }
