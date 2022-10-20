@@ -1,9 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:text_project/di/provider_setting.dart';
-import 'package:text_project/presentation/game_screen/game_screen_view.dart';
-import 'package:text_project/presentation/home_screen/home_screen_view.dart';
+import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 import 'firebase_options.dart';
 
@@ -12,8 +10,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // final providers = await getProviders();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthScreenViewModel())
+      ],
+      builder: (context, child) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,8 +30,17 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          textTheme: TextTheme(bodyMedium: TextStyle(fontSize: 24))),
-      home: InitialScreenView(),
+          textTheme: TextTheme(
+            bodyMedium: TextStyle(fontSize: 24),
+          ),
+          // TODO: elevated button theme과 text button theme 만들기
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(),
+          )),
+      home: const InitialScreenView(),
     );
   }
 }
