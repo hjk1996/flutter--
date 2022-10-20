@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:text_project/presentation/auth_screen/auth_screen_event.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_state.dart';
 
 class AuthScreenViewModel with ChangeNotifier {
@@ -12,6 +15,9 @@ class AuthScreenViewModel with ChangeNotifier {
       isValidPassword: false,
       isValidConfirmPassword: false);
   AuthScreenState get state => _state;
+
+  final _eventController = StreamController<AuthScreenEvent>();
+  Stream<AuthScreenEvent> get eventStream => _eventController.stream;
 
   void toggleAuthMode() {
     _state = _state.copyWith(
@@ -49,8 +55,32 @@ class AuthScreenViewModel with ChangeNotifier {
       final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: state.email, password: state.password);
+
+      _eventController.sink.add(const AuthScreenEvent.onSignInSuccess());
     } on FirebaseAuthException catch (error) {
-      
+      switch (error.message) {
+        case 'invalid-email':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('잘못된 이메일입니다.'));
+          break;
+        case 'user-disabled':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('비활성화된 유저입니다.'));
+          break;
+        case 'user-not-found':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('유저를 찾지 못했습니다.'));
+          break;
+        case 'wrong-password':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('잘못된 비밀번호입니다.'));
+          break;
+
+        default:
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('알 수 없는 에러가 발생했습니다.'));
+          break;
+      }
     }
   }
 
@@ -59,7 +89,32 @@ class AuthScreenViewModel with ChangeNotifier {
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: state.email, password: state.password);
-    } on FirebaseAuthException catch (error) {}
+
+      _eventController.sink.add(const AuthScreenEvent.onSignUpSuccess());
+    } on FirebaseAuthException catch (error) {
+      switch (error.message) {
+        case 'email-already-in-use':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('이미 사용중인 이메일입니다.'));
+          break;
+        case 'invalid-email':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('올바르지않은 이메일입니다.'));
+          break;
+        case 'operation-not-allowed':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('허용되지 않은 작업입니다.'));
+          break;
+        case 'weak-password':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('좀 더 강한 비밀번호를 설정하세요.'));
+          break;
+        default:
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('알 수 없는 에러가 발생했습니다.'));
+          break;
+      }
+    }
   }
 
   bool get isValid => state.isSignIn

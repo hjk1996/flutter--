@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -15,6 +17,26 @@ class AuthScreenView extends StatefulWidget {
 }
 
 class _AuthScreenViewState extends State<AuthScreenView> {
+  StreamSubscription? _streamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      final viewModel = context.read<AuthScreenViewModel>();
+
+      viewModel.eventStream.listen(
+        (event) {
+          event.when(
+              onAuthError: (String message) {},
+              onSignInSuccess: () {},
+              onSignUpSuccess: () {});
+        },
+      );
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
