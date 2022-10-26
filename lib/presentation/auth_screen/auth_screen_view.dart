@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/auth_screen/components/sign_in_form.dart';
 import 'package:text_project/presentation/auth_screen/components/sign_up_form.dart';
+import 'package:text_project/presentation/home_screen/home_screen_view.dart';
+import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
 // TODO: 로그인 화면 만들기
 class AuthScreenView extends StatefulWidget {
@@ -26,12 +28,35 @@ class _AuthScreenViewState extends State<AuthScreenView> {
     Future.microtask(() {
       final viewModel = context.read<AuthScreenViewModel>();
 
-      viewModel.eventStream.listen(
+      _streamSubscription = viewModel.eventStream.listen(
         (event) {
           event.when(
-              onAuthError: (String message) {},
-              onSignInSuccess: () {},
-              onSignUpSuccess: () {});
+            onAuthError: (String message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(message),
+                ),
+              );
+            },
+            onSignInSuccess: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const InitialScreenView(),
+                ),
+              );
+
+              print('sign in');
+            },
+            onSignUpSuccess: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const InitialScreenView(),
+                ),
+              );
+
+              print('sign up');
+            },
+          );
         },
       );
     });
@@ -39,6 +64,7 @@ class _AuthScreenViewState extends State<AuthScreenView> {
 
   @override
   void dispose() {
+    _streamSubscription?.cancel();
     super.dispose();
   }
 

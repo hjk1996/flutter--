@@ -76,9 +76,14 @@ class _SignUpFormState extends State<SignUpForm> {
           const SizedBox(
             height: AUTH_FORM_FILED_GAP,
           ),
-          TextButton(
-            onPressed: viewModel.toggleAuthMode,
-            child: const Text('이미 계정이 있어요'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: viewModel.toggleAuthMode,
+                child: const Text('이미 계정이 있어요'),
+              ),
+            ],
           ),
           const SizedBox(
             height: 10,

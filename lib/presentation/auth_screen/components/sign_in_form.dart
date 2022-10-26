@@ -64,9 +64,14 @@ class _SignInFormState extends State<SignInForm> {
           const SizedBox(
             height: AUTH_FORM_FILED_GAP,
           ),
-          TextButton(
-            onPressed: viewModel.toggleAuthMode,
-            child: const Text('비밀 번호를 잊어버렸나요?'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: viewModel.toggleAuthMode,
+                child: const Text('계정이 없나요?'),
+              ),
+            ],
           ),
           const SizedBox(
             height: AUTH_FORM_FILED_GAP,

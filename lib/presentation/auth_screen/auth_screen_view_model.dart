@@ -47,10 +47,11 @@ class AuthScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future onAuthButtonClick() async => state.isSignIn ? _signIn() : _signUp();
+  Future<void> onAuthButtonClick() async =>
+      state.isSignIn ? _signIn() : _signUp();
 
   // TODO: signIn과 signUp 메소드 구현하기
-  Future _signIn() async {
+  Future<void> _signIn() async {
     try {
       final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
@@ -58,7 +59,8 @@ class AuthScreenViewModel with ChangeNotifier {
 
       _eventController.sink.add(const AuthScreenEvent.onSignInSuccess());
     } on FirebaseAuthException catch (error) {
-      switch (error.message) {
+      print(error.code);
+      switch (error.code) {
         case 'invalid-email':
           _eventController.sink
               .add(const AuthScreenEvent.onAuthError('잘못된 이메일입니다.'));
@@ -75,6 +77,10 @@ class AuthScreenViewModel with ChangeNotifier {
           _eventController.sink
               .add(const AuthScreenEvent.onAuthError('잘못된 비밀번호입니다.'));
           break;
+        case 'too-many-requests':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('나중에 다시 시도해주세요.'));
+          break;
 
         default:
           _eventController.sink
@@ -84,7 +90,7 @@ class AuthScreenViewModel with ChangeNotifier {
     }
   }
 
-  Future _signUp() async {
+  Future<void> _signUp() async {
     try {
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(

@@ -12,7 +12,7 @@ import 'package:path_provider/path_provider.dart';
 Future<GameScreenViewModel> makeGameScreenViewModel() async {
   final directory = await getApplicationDocumentsDirectory();
   final dbPath = join(directory.path, 'word_db.db');
-  Database database = await openDatabase(dbPath);
+  Database database = await openDatabase(dbPath, );
   DBHelper dbHelper = DBHelper(database: database);
   AIRepository aiRepository = AIRepositoryImpl(dbHelper);
   AIPlayer aiPlayer = AIPlayer(aiRepository: aiRepository);
