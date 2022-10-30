@@ -12,8 +12,9 @@ import 'package:http/http.dart' as http;
 
 import 'package:text_project/di/provider_setting.dart';
 import 'package:text_project/presentation/common/asking_dialog.dart';
-import 'package:text_project/presentation/common/downloader.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
+import 'package:text_project/presentation/home_screen/components/download_asking_dialog.dart';
+import 'package:text_project/presentation/home_screen/components/download_status_dialog.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_mode.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 import 'package:text_project/utils.dart';
@@ -38,84 +39,32 @@ class _HomeScreenViewState extends State<HomeScreenView> {
         _streamSubscription = viewModel.eventStream.listen(
           (event) {
             event.when(
+              onDownloadError: (message) {},
               onGameStartPressed: () async {
                 // final directory = await getApplicationDocumentsDirectory();
-                // final dbPath = path.join(directory.path, 'word.db');
+                // final dbPath = path.join(directory.path, 'word_db.db');
                 // File file = File(dbPath);
                 // await file.delete();
 
                 final dbExists = await checkWordDBExists();
-                print(dbExists);
-                if (true) {
-                  final res = await showDialog<bool>(
+                if (!dbExists) {
+                  final response = await showDialog<bool>(
                     context: context,
-                    builder: (context) => const AskingDialog(
-                      message: 'DB가 존재하지 않습니다.\n다운로드 받으시곘습니까?',
-                      agreeText: '네',
-                      disagreeText: '아니오',
-                    ),
+                    builder: (context) => const DownloadAskingDialog(),
                   );
 
-                  if (res == true) {
-                    final client = http.Client();
-                    await context
-                        .read<HomeScreenViewModel>()
-                        .downloadWordDB(client);
+                  if (response == false) return;
 
-                    showDialog(
-                      context: context,
-                      builder: (context) => Consumer<HomeScreenViewModel>(
-                        builder: (context, vm, child) {
-                          if (vm.downloadDone) {
-                            Navigator.pop(context);
-                          }
-                          return SimpleDialog(
-                            children: [
-                              LinearProgressIndicator(
-                                value: vm.downloadProgress,
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  client.close();
-                                  Navigator.pop(context);
-                                },
-                                child: Text('취소'),
-                              )
-                            ],
-                          );
-                        },
-                      ),
-                    );
-
-                    // final dbRef = FirebaseStorage.instance.ref('word_db.db');
-                    // final downloadUrl = await dbRef.getDownloadURL();
-                    // double progressStatus = .0;
-                    // final data = await HttpDownloader.download(
-                    //   downloadUrl,
-                    //   (total, downloaded, progress) {
-                    //     progressStatus = progress;
-                    //   },
-                    // );
-                    // final directory = await getApplicationDocumentsDirectory();
-                    // final dbPath = path.join(directory.path, 'word.db');
-                  } else {}
-
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => const DownloadStatusDialog(),
+                  );
                   return;
                 }
 
-                final viewModel = await makeGameScreenViewModel();
                 if (!mounted) return;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return ChangeNotifierProvider(
-                        create: (context) => viewModel,
-                        child: const GameScreenView(),
-                      );
-                    },
-                  ),
-                );
+                viewModel.goToGameScreen(context);
               },
               onLogoutPressed: () async {
                 final res = await showDialog<bool>(
@@ -143,9 +92,11 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                 if (!mounted) return;
 
                 if (res == true) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const InitialScreenView(),
-                  ));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const InitialScreenView(),
+                    ),
+                  );
                 }
               },
             );
@@ -199,6 +150,22 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             child: ElevatedButton(
               onPressed: viewModel.gameStart,
               child: const Text('Game Start'),
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                final directory = await getApplicationDocumentsDirectory();
+                final dbPath = path.join(directory.path, 'word_db.db');
+
+                File file = File(dbPath);
+                if (await file.exists()) {
+                  await file.delete();
+                  print('db deleted');
+                }
+                print('db not exists');
+              },
+              child: const Text('Delete DB'),
             ),
           ),
         ],

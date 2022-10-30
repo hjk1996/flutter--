@@ -6,4 +6,5 @@ part 'home_screen_event.freezed.dart';
 abstract class HomeScreenEvent with _$HomeScreenEvent {
   const factory HomeScreenEvent.onGameStartPressed() = OnGameStartPressed;
   const factory HomeScreenEvent.onLogoutPressed() = OnLogoutPressed;
+  const factory HomeScreenEvent.onDownloadError(String message) = OnDownloadError;
 }

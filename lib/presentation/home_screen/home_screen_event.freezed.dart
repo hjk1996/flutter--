@@ -20,18 +20,21 @@ mixin _$HomeScreenEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() onGameStartPressed,
     required TResult Function() onLogoutPressed,
+    required TResult Function(String message) onDownloadError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? onGameStartPressed,
     TResult Function()? onLogoutPressed,
+    TResult Function(String message)? onDownloadError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onGameStartPressed,
     TResult Function()? onLogoutPressed,
+    TResult Function(String message)? onDownloadError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$HomeScreenEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(OnGameStartPressed value) onGameStartPressed,
     required TResult Function(OnLogoutPressed value) onLogoutPressed,
+    required TResult Function(OnDownloadError value) onDownloadError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnGameStartPressed value)? onGameStartPressed,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    TResult Function(OnDownloadError value)? onDownloadError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnGameStartPressed value)? onGameStartPressed,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    TResult Function(OnDownloadError value)? onDownloadError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -116,6 +122,7 @@ class _$OnGameStartPressed implements OnGameStartPressed {
   TResult when<TResult extends Object?>({
     required TResult Function() onGameStartPressed,
     required TResult Function() onLogoutPressed,
+    required TResult Function(String message) onDownloadError,
   }) {
     return onGameStartPressed();
   }
@@ -125,6 +132,7 @@ class _$OnGameStartPressed implements OnGameStartPressed {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? onGameStartPressed,
     TResult Function()? onLogoutPressed,
+    TResult Function(String message)? onDownloadError,
   }) {
     return onGameStartPressed?.call();
   }
@@ -134,6 +142,7 @@ class _$OnGameStartPressed implements OnGameStartPressed {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onGameStartPressed,
     TResult Function()? onLogoutPressed,
+    TResult Function(String message)? onDownloadError,
     required TResult orElse(),
   }) {
     if (onGameStartPressed != null) {
@@ -147,6 +156,7 @@ class _$OnGameStartPressed implements OnGameStartPressed {
   TResult map<TResult extends Object?>({
     required TResult Function(OnGameStartPressed value) onGameStartPressed,
     required TResult Function(OnLogoutPressed value) onLogoutPressed,
+    required TResult Function(OnDownloadError value) onDownloadError,
   }) {
     return onGameStartPressed(this);
   }
@@ -156,6 +166,7 @@ class _$OnGameStartPressed implements OnGameStartPressed {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnGameStartPressed value)? onGameStartPressed,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    TResult Function(OnDownloadError value)? onDownloadError,
   }) {
     return onGameStartPressed?.call(this);
   }
@@ -165,6 +176,7 @@ class _$OnGameStartPressed implements OnGameStartPressed {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnGameStartPressed value)? onGameStartPressed,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    TResult Function(OnDownloadError value)? onDownloadError,
     required TResult orElse(),
   }) {
     if (onGameStartPressed != null) {
@@ -221,6 +233,7 @@ class _$OnLogoutPressed implements OnLogoutPressed {
   TResult when<TResult extends Object?>({
     required TResult Function() onGameStartPressed,
     required TResult Function() onLogoutPressed,
+    required TResult Function(String message) onDownloadError,
   }) {
     return onLogoutPressed();
   }
@@ -230,6 +243,7 @@ class _$OnLogoutPressed implements OnLogoutPressed {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? onGameStartPressed,
     TResult Function()? onLogoutPressed,
+    TResult Function(String message)? onDownloadError,
   }) {
     return onLogoutPressed?.call();
   }
@@ -239,6 +253,7 @@ class _$OnLogoutPressed implements OnLogoutPressed {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onGameStartPressed,
     TResult Function()? onLogoutPressed,
+    TResult Function(String message)? onDownloadError,
     required TResult orElse(),
   }) {
     if (onLogoutPressed != null) {
@@ -252,6 +267,7 @@ class _$OnLogoutPressed implements OnLogoutPressed {
   TResult map<TResult extends Object?>({
     required TResult Function(OnGameStartPressed value) onGameStartPressed,
     required TResult Function(OnLogoutPressed value) onLogoutPressed,
+    required TResult Function(OnDownloadError value) onDownloadError,
   }) {
     return onLogoutPressed(this);
   }
@@ -261,6 +277,7 @@ class _$OnLogoutPressed implements OnLogoutPressed {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnGameStartPressed value)? onGameStartPressed,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    TResult Function(OnDownloadError value)? onDownloadError,
   }) {
     return onLogoutPressed?.call(this);
   }
@@ -270,6 +287,7 @@ class _$OnLogoutPressed implements OnLogoutPressed {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnGameStartPressed value)? onGameStartPressed,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    TResult Function(OnDownloadError value)? onDownloadError,
     required TResult orElse(),
   }) {
     if (onLogoutPressed != null) {
@@ -281,4 +299,144 @@ class _$OnLogoutPressed implements OnLogoutPressed {
 
 abstract class OnLogoutPressed implements HomeScreenEvent {
   const factory OnLogoutPressed() = _$OnLogoutPressed;
+}
+
+/// @nodoc
+abstract class _$$OnDownloadErrorCopyWith<$Res> {
+  factory _$$OnDownloadErrorCopyWith(
+          _$OnDownloadError value, $Res Function(_$OnDownloadError) then) =
+      __$$OnDownloadErrorCopyWithImpl<$Res>;
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$OnDownloadErrorCopyWithImpl<$Res>
+    extends _$HomeScreenEventCopyWithImpl<$Res>
+    implements _$$OnDownloadErrorCopyWith<$Res> {
+  __$$OnDownloadErrorCopyWithImpl(
+      _$OnDownloadError _value, $Res Function(_$OnDownloadError) _then)
+      : super(_value, (v) => _then(v as _$OnDownloadError));
+
+  @override
+  _$OnDownloadError get _value => super._value as _$OnDownloadError;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(_$OnDownloadError(
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$OnDownloadError implements OnDownloadError {
+  const _$OnDownloadError(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'HomeScreenEvent.onDownloadError(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OnDownloadError &&
+            const DeepCollectionEquality().equals(other.message, message));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$OnDownloadErrorCopyWith<_$OnDownloadError> get copyWith =>
+      __$$OnDownloadErrorCopyWithImpl<_$OnDownloadError>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onGameStartPressed,
+    required TResult Function() onLogoutPressed,
+    required TResult Function(String message) onDownloadError,
+  }) {
+    return onDownloadError(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onGameStartPressed,
+    TResult Function()? onLogoutPressed,
+    TResult Function(String message)? onDownloadError,
+  }) {
+    return onDownloadError?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onGameStartPressed,
+    TResult Function()? onLogoutPressed,
+    TResult Function(String message)? onDownloadError,
+    required TResult orElse(),
+  }) {
+    if (onDownloadError != null) {
+      return onDownloadError(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnGameStartPressed value) onGameStartPressed,
+    required TResult Function(OnLogoutPressed value) onLogoutPressed,
+    required TResult Function(OnDownloadError value) onDownloadError,
+  }) {
+    return onDownloadError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnGameStartPressed value)? onGameStartPressed,
+    TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    TResult Function(OnDownloadError value)? onDownloadError,
+  }) {
+    return onDownloadError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnGameStartPressed value)? onGameStartPressed,
+    TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    TResult Function(OnDownloadError value)? onDownloadError,
+    required TResult orElse(),
+  }) {
+    if (onDownloadError != null) {
+      return onDownloadError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnDownloadError implements HomeScreenEvent {
+  const factory OnDownloadError(final String message) = _$OnDownloadError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$OnDownloadErrorCopyWith<_$OnDownloadError> get copyWith =>
+      throw _privateConstructorUsedError;
 }

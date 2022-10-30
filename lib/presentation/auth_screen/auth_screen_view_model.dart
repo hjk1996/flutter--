@@ -50,7 +50,6 @@ class AuthScreenViewModel with ChangeNotifier {
   Future<void> onAuthButtonClick() async =>
       state.isSignIn ? _signIn() : _signUp();
 
-  // TODO: signIn과 signUp 메소드 구현하기
   Future<void> _signIn() async {
     try {
       final userCredential = await FirebaseAuth.instance
@@ -59,7 +58,6 @@ class AuthScreenViewModel with ChangeNotifier {
 
       _eventController.sink.add(const AuthScreenEvent.onSignInSuccess());
     } on FirebaseAuthException catch (error) {
-      print(error.code);
       switch (error.code) {
         case 'invalid-email':
           _eventController.sink
@@ -147,7 +145,7 @@ class AuthScreenViewModel with ChangeNotifier {
     }
 
     _state = _state.copyWith(isValidEmail: true);
-    // setValidationState();
+    return null;
   }
 
   String? validatePassword(String? value) {
@@ -163,7 +161,7 @@ class AuthScreenViewModel with ChangeNotifier {
     }
 
     _state = _state.copyWith(isValidPassword: true);
-    // setValidationState();
+    return null;
   }
 
   String? validateConfirmPassword(String? value) {
@@ -183,6 +181,6 @@ class AuthScreenViewModel with ChangeNotifier {
     }
 
     _state = _state.copyWith(isValidConfirmPassword: true);
-    // setValidationState();
+    return null;
   }
 }
