@@ -34,6 +34,8 @@ migrate_working_dir/
 
 # Web related
 lib/generated_plugin_registrant.dart
+lib/firebase_options.dart
+# api key
 
 # Symbolication related
 app.*.symbols
