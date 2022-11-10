@@ -2,28 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/presentation/game_screen/ai_player.dart';
 import 'package:text_project/presentation/game_screen/game_screen_state.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GameScreenViewModel with ChangeNotifier {
-  AIPlayer? _aiPlayer;
-  GameScreenViewModel({AIPlayer? aiPlayer}) : _aiPlayer = aiPlayer;
+  final AIPlayer _aiPlayer;
+  GameScreenViewModel({required AIPlayer aiPlayer}) : _aiPlayer = aiPlayer;
 
   GameScreenState _state = GameScreenState(messages: []);
   GameScreenState get state => _state;
 
-  bool sendMessage(String content) {
-    if (_validateMessage(content)) {
+  bool sendMessage(String word) {
+    if (_validateWord(word)) {
       _state = _state.copyWith(
         messages: [
           ..._state.messages,
           Message(
-            content: content,
+            content: word,
             isMe: true,
             createdAt: DateTime.now().microsecondsSinceEpoch,
           ),
         ],
       );
       notifyListeners();
-
+      _aiPlayer.calculateNextMove(word);
       return true;
     }
 
@@ -31,7 +32,7 @@ class GameScreenViewModel with ChangeNotifier {
   }
 
   Future<void> startGame() async {
-    await _aiPlayer!.startGame();
+    await _aiPlayer.startGame();
   }
 
   void resetState() {
@@ -39,8 +40,8 @@ class GameScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _validateMessage(String content) {
-    if (content != null && content.isNotEmpty) {
+  bool _validateWord(String word) {
+    if (word != null && word.isNotEmpty) {
       return true;
     }
 

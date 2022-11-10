@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDvHCKV2jXUm5PTNIsngrT7Da_EoelMX1o',
-    appId: '1:244425073491:android:63bb85ffd438ccf5fdb7a6',
-    messagingSenderId: '244425073491',
-    projectId: 'word-relay-game',
-    storageBucket: 'word-relay-game.appspot.com',
+    apiKey: 'AIzaSyCGikVRrFdZgswRJtJs5JWyEPMPuzMCDtQ',
+    appId: '1:916107842176:android:54198ed427947a01158c65',
+    messagingSenderId: '916107842176',
+    projectId: 'word-relay-game-8a474',
+    storageBucket: 'word-relay-game-8a474.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAURZ7kDW9pSD_Bxh-kgABfOs3wVLTxaAo',
-    appId: '1:244425073491:ios:533f11a56aec8fe9fdb7a6',
-    messagingSenderId: '244425073491',
-    projectId: 'word-relay-game',
-    storageBucket: 'word-relay-game.appspot.com',
-    iosClientId: '244425073491-vskm3rqr23se15saeo3ra2hbuk2mk9r8.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCD3kGPRlBYdEwQtm5czLXw-lgIkyp9fXU',
+    appId: '1:916107842176:ios:f8433ea99b5b19a1158c65',
+    messagingSenderId: '916107842176',
+    projectId: 'word-relay-game-8a474',
+    storageBucket: 'word-relay-game-8a474.appspot.com',
+    iosClientId: '916107842176-9f9ft0otg7hpviosvneti4j6ojogcr0k.apps.googleusercontent.com',
     iosBundleId: 'com.example.textProject',
   );
 }

@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "244425073491",
-    "project_id": "word-relay-game",
-    "storage_bucket": "word-relay-game.appspot.com"
+    "project_number": "916107842176",
+    "project_id": "word-relay-game-8a474",
+    "storage_bucket": "word-relay-game-8a474.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:244425073491:android:63bb85ffd438ccf5fdb7a6",
+        "mobilesdk_app_id": "1:916107842176:android:54198ed427947a01158c65",
         "android_client_info": {
           "package_name": "com.example.text_project"
         }
       },
       "oauth_client": [
         {
-          "client_id": "244425073491-fmubkpub0sik81v9lb1l3d8qulbua109.apps.googleusercontent.com",
+          "client_id": "916107842176-maqt6j328u95tr2auujq84a6pbfv52c7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvHCKV2jXUm5PTNIsngrT7Da_EoelMX1o"
+          "current_key": "AIzaSyCGikVRrFdZgswRJtJs5JWyEPMPuzMCDtQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "244425073491-fmubkpub0sik81v9lb1l3d8qulbua109.apps.googleusercontent.com",
+              "client_id": "916107842176-maqt6j328u95tr2auujq84a6pbfv52c7.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "244425073491-vskm3rqr23se15saeo3ra2hbuk2mk9r8.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.textProject"
-              }
             }
           ]
         }

@@ -3,6 +3,7 @@ import 'package:text_project/presentation/common/asking_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:text_project/presentation/game_screen/components/chat_bubble.dart';
 import 'package:provider/provider.dart';
+import 'package:text_project/presentation/home_screen/home_screen_view.dart';
 
 class GameScreenView extends StatefulWidget {
   const GameScreenView({Key? key}) : super(key: key);
@@ -24,20 +25,31 @@ class _GameScreenViewState extends State<GameScreenView> {
             onPressed: () async {
               final isEnd = await showDialog<bool>(
                 context: context,
-                builder: (context) => const AskingDialog(
-                  message: '게임에서 나가겠습니까?',
-                  agreeText: '네',
-                  disagreeText: '계속하기',
+                builder: (context) => AlertDialog(
+                  content: const Text('게임에서 나가시겠습니까?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                      child: const Text('네'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, false);
+                      },
+                      child: const Text('아니요'),
+                    ),
+                  ],
                 ),
               );
 
               if (isEnd != null && isEnd == true) {
                 if (!mounted) return;
-                viewModel.resetState();
                 Navigator.pop(context);
               }
             },
-            icon: Icon(Icons.exit_to_app)),
+            icon: const Icon(Icons.exit_to_app)),
       ),
       body: Column(
         children: [
@@ -48,7 +60,9 @@ class _GameScreenViewState extends State<GameScreenView> {
                 builder: (context, vm, child) {
                   return ListView(
                     children: vm.state.messages
-                        .map((message) => ChatBubble(content: message.content))
+                        .map(
+                          (message) => ChatBubble(content: message.content),
+                        )
                         .toList(),
                   );
                 },

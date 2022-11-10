@@ -1,47 +1,29 @@
 import 'package:text_project/data/data_source/db_helper.dart';
+import 'package:text_project/data/data_source/firestore_helper.dart';
 import 'package:text_project/domain/repository/ai_repository.dart';
 
 class AIRepositoryImpl implements AIRepository {
-  final DBHelper dbHelper;
-  AIRepositoryImpl(this.dbHelper);
+  final FirestoreHelper firestoreHelper;
+  AIRepositoryImpl(this.firestoreHelper);
 
-  @override
-  Future<Set<int>?> getEdgeByWord(String word) async {
-    return dbHelper.getEdgeByWord(word);
+  Future<Set<String>?> findAdjacentWords(String word) async {
+    return firestoreHelper.findAdjacentWords(word);
   }
+  // @override
+  // Future<Set<int>?> getEdgeByWord(String word) async {}
 
-  @override
-  Future<int?> getIndexByWord(String word) async {
-    return dbHelper.getIndexByWord(word);
-  }
+  // @override
+  // Future<int?> getIndexByWord(String word) async {}
 
-  @override
-  Future<String?> getWordByIndex(int index) async {
-    return dbHelper.getWordByIndex(index);
-  }
+  // @override
+  // Future<String?> getWordByIndex(int index) async {}
 
-  @override
-  Future<Set<String>?> findKillerWords(Set<int> wordIndices) async {
-    return dbHelper.findKillerWords(wordIndices);
-  }
+  // @override
+  // Future<Set<String>?> findKillerWords(Set<int> wordIndices) async {}
 
-  @override
-  Future<List<Set<int>>?> getEdgesByIndices(Set<int> indices) async {
-    return dbHelper.getEdgesByIndices(indices);
-  }
+  // @override
+  // Future<List<Set<int>>?> getEdgesByIndices(Set<int> indices) async {}
 
-  @override
-  Future<List<Map>?> getWordInfosByIndice(Set<int> indices) async {
-    return dbHelper.getWordInfosByIndice(indices);
-  }
-
-  @override
-  Future<Set<int>> loadAllKillerWordIndice() async {
-    return dbHelper.loadAllKillerWordIndice();
-  }
-
-  @override
-  Future<void> closeDB() async {
-    return dbHelper.closeDB();
-  }
+  // @override
+  // Future<List<Map>?> getWordInfosByIndice(Set<int> indices) async {}
 }
