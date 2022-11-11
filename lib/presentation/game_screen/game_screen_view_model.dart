@@ -8,11 +8,12 @@ class GameScreenViewModel with ChangeNotifier {
   final AIPlayer _aiPlayer;
   GameScreenViewModel({required AIPlayer aiPlayer}) : _aiPlayer = aiPlayer;
 
-  GameScreenState _state = GameScreenState(messages: []);
+  GameScreenState _state = GameScreenState(messages: [], isLoading: false);
   GameScreenState get state => _state;
 
-  bool sendMessage(String word) {
-    if (_validateWord(word)) {
+  Future<void> sendMessage(String word) async {
+    // 단어가 올바르지 않은 경우
+    if (!_validateWord(word)) {
       _state = _state.copyWith(
         messages: [
           ..._state.messages,
@@ -22,13 +23,28 @@ class GameScreenViewModel with ChangeNotifier {
             createdAt: DateTime.now().microsecondsSinceEpoch,
           ),
         ],
+        isLoading: false,
       );
       notifyListeners();
-      _aiPlayer.calculateNextMove(word);
-      return true;
+      return;
     }
 
-    return false;
+    final nextMove = await _aiPlayer.calculateNextMove(word);
+
+    if (nextMove.word != null) {}
+
+    _state = _state.copyWith(
+      messages: [
+        ..._state.messages,
+        Message(
+          content: word,
+          isMe: true,
+          createdAt: DateTime.now().microsecondsSinceEpoch,
+        ),
+      ],
+      isLoading: true,
+    );
+    notifyListeners();
   }
 
   Future<void> startGame() async {
@@ -36,7 +52,7 @@ class GameScreenViewModel with ChangeNotifier {
   }
 
   void resetState() {
-    _state = GameScreenState(messages: []);
+    _state = GameScreenState(messages: [], isLoading: false);
     notifyListeners();
   }
 

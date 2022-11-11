@@ -21,6 +21,7 @@ GameScreenState _$GameScreenStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$GameScreenState {
   List<Message> get messages => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,7 @@ abstract class $GameScreenStateCopyWith<$Res> {
   factory $GameScreenStateCopyWith(
           GameScreenState value, $Res Function(GameScreenState) then) =
       _$GameScreenStateCopyWithImpl<$Res>;
-  $Res call({List<Message> messages});
+  $Res call({List<Message> messages, bool isLoading});
 }
 
 /// @nodoc
@@ -48,12 +49,17 @@ class _$GameScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = freezed,
+    Object? isLoading = freezed,
   }) {
     return _then(_value.copyWith(
       messages: messages == freezed
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -65,7 +71,7 @@ abstract class _$$_GameScreenStateCopyWith<$Res>
           _$_GameScreenState value, $Res Function(_$_GameScreenState) then) =
       __$$_GameScreenStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<Message> messages});
+  $Res call({List<Message> messages, bool isLoading});
 }
 
 /// @nodoc
@@ -82,12 +88,17 @@ class __$$_GameScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = freezed,
+    Object? isLoading = freezed,
   }) {
     return _then(_$_GameScreenState(
       messages: messages == freezed
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -95,7 +106,8 @@ class __$$_GameScreenStateCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_GameScreenState implements _GameScreenState {
-  _$_GameScreenState({required final List<Message> messages})
+  _$_GameScreenState(
+      {required final List<Message> messages, required this.isLoading})
       : _messages = messages;
 
   factory _$_GameScreenState.fromJson(Map<String, dynamic> json) =>
@@ -109,8 +121,11 @@ class _$_GameScreenState implements _GameScreenState {
   }
 
   @override
+  final bool isLoading;
+
+  @override
   String toString() {
-    return 'GameScreenState(messages: $messages)';
+    return 'GameScreenState(messages: $messages, isLoading: $isLoading)';
   }
 
   @override
@@ -118,13 +133,16 @@ class _$_GameScreenState implements _GameScreenState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_GameScreenState &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_messages));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_messages),
+      const DeepCollectionEquality().hash(isLoading));
 
   @JsonKey(ignore: true)
   @override
@@ -140,14 +158,17 @@ class _$_GameScreenState implements _GameScreenState {
 }
 
 abstract class _GameScreenState implements GameScreenState {
-  factory _GameScreenState({required final List<Message> messages}) =
-      _$_GameScreenState;
+  factory _GameScreenState(
+      {required final List<Message> messages,
+      required final bool isLoading}) = _$_GameScreenState;
 
   factory _GameScreenState.fromJson(Map<String, dynamic> json) =
       _$_GameScreenState.fromJson;
 
   @override
   List<Message> get messages;
+  @override
+  bool get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$_GameScreenStateCopyWith<_$_GameScreenState> get copyWith =>

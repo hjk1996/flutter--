@@ -10,6 +10,7 @@ import 'package:text_project/di/provider_setting.dart';
 
 import 'package:text_project/presentation/common/asking_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
+import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_mode.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
@@ -32,12 +33,13 @@ class _HomeScreenViewState extends State<HomeScreenView> {
         _streamSubscription = viewModel.eventStream.listen(
           (event) {
             event.when(
-              onGameStart: () {
+              onGameStart: () async {
+                if (!mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return ChangeNotifierProvider(
+                      return ChangeNotifierProvider<GameScreenViewModel>(
                         create: (context) => makeGameScreenViewModel(),
                         child: const GameScreenView(),
                       );
@@ -130,15 +132,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             child: ElevatedButton(
               onPressed: viewModel.onGameStart,
               child: const Text('Game Start'),
-            ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                var words = await rootBundle.loadString('assets/words.json');
-                words = jsonDecode(words);
-              },
-              child: const Text('load words'),
             ),
           ),
         ],

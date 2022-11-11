@@ -16,6 +16,5 @@ GameScreenViewModel makeGameScreenViewModel() {
   final firestoreHelper = FirestoreHelper();
   AIRepository aiRepository = AIRepositoryImpl(firestoreHelper);
   AIPlayer aiPlayer = AIPlayer(aiRepository: aiRepository);
-  aiPlayer.startGame();
   return GameScreenViewModel(aiPlayer: aiPlayer);
 }

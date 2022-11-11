@@ -11,9 +11,11 @@ _$_GameScreenState _$$_GameScreenStateFromJson(Map<String, dynamic> json) =>
       messages: (json['messages'] as List<dynamic>)
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isLoading: json['isLoading'] as bool,
     );
 
 Map<String, dynamic> _$$_GameScreenStateToJson(_$_GameScreenState instance) =>
     <String, dynamic>{
       'messages': instance.messages,
+      'isLoading': instance.isLoading,
     };

@@ -1,26 +1,92 @@
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:text_project/domain/repository/ai_repository.dart';
 
-enum AIStatus { playing, givingUp, warning }
+enum GameStatus { win, play, giveUp, notExists, usedWord, invalidWord, error }
 
 class NextMove {
   String? word;
-  final AIStatus aiStatus;
-  NextMove({required this.aiStatus, this.word});
+  final GameStatus gameStatus;
+  NextMove({required this.gameStatus, this.word});
 }
 
 class AIPlayer {
   final AIRepository aiRepository;
   AIPlayer({required this.aiRepository});
 
-  // Set<int>? killerWordIndice;
+  final _usedWordsSet = Set();
+  late Set<String> _killerWords;
 
-  Future<void> startGame() async {}
+  Future<void> startGame() async {
+    await _loadKillerWords();
+    await _test();
+  }
 
-  Future<void> calculateNextMove(String word) async {
-    final adjWords = await aiRepository.findAdjacentWords(word);
-    print(adjWords);
+  Future<void> _loadKillerWords() async {
+    _killerWords = await aiRepository.loadKillerWords();
+  }
+
+  Future _test() async {
+    // final result = await aiRepository.test({'가결안', '가결의'});
+    // print(result.docs);
+  }
+
+  Future<NextMove> calculateNextMove(String? word) async {
+    try {
+      final isValid = _validateWord(word);
+      if (isValid != null) {
+        return NextMove(gameStatus: GameStatus.invalidWord, word: isValid);
+      }
+
+      final adjWords = await aiRepository.findAdjacentWords(word!);
+
+      // 유저가 잘못된 단어를 입력한 경우 경고를 보냄.
+      if (adjWords == null) {
+        return NextMove(
+            gameStatus: GameStatus.notExists, word: '존재하지 않는 단어입니다.');
+      }
+
+      // 유저가 이미 사용한 단어를 입력한 경우 경고를 보냄.
+      if (_usedWordsSet.contains(word)) {
+        return NextMove(gameStatus: GameStatus.usedWord, word: '이미 사용한 단어입니다.');
+      }
+
+      // 잘못된 단어도 아니고 사용한 단어도 아니면 일단 사용한 단어 리스트에 추가.
+      _usedWordsSet.add(word);
+
+      // 인접 단어의 집합에서 사용한 단어의 집합을 빼서 사용할 수 있는 단어의 집합을 구함.
+      final Set<String> availableWords = adjWords.difference(_usedWordsSet);
+
+      // 만약에 사용할 수 있는 다음 단어가 없다면
+      if (availableWords.isEmpty) {
+        // 게임 패배
+        return NextMove(gameStatus: GameStatus.giveUp);
+      }
+
+      // 한방 단어와 사용할 수 있는 단어의 교집합을 통해 사용할 수 있는 한방 단어를 구함.
+      final Set<String> availableKillerWords =
+          _killerWords.intersection(availableWords);
+
+      // 사용할 수 있는 한방 단어가 존재하는 경우 그 중에서 하나를 사용함.
+      if (availableKillerWords.isNotEmpty) {
+        return NextMove(
+            gameStatus: GameStatus.win, word: availableKillerWords.first);
+      }
+
+      // 사용할 수 있는 한방 단어가 존재하지 않는 경우 안전한 단어를 사용함.
+      // 안전한 단어 = 상대방이 내 단어를 이어받아서 한방 단어를 말할 수 없는 단어.
+      // =
+      final lastWordInfo = await aiRepository.getLastWordInfo(word[-1]);
+      
+      // 안전한 단어가 없다면 아무 단어나 반환함.
+
+      return NextMove(gameStatus: GameStatus.play);
+    } on FirebaseException catch (err) {
+      return NextMove(gameStatus: GameStatus.error, word: err.message);
+    } on Exception catch (err) {
+      return NextMove(gameStatus: GameStatus.error, word: err.toString());
+    }
   }
 
   // Future<NextMove> takeNextMove(String word, Set<int> prevWords) async {
@@ -96,4 +162,16 @@ class AIPlayer {
   // Future<void> quitGame() async {
   //   killerWordIndice = null;
   // }
+
+  String? _validateWord(String? word) {
+    if (word == null || word.isEmpty) {
+      return "단어를 입력하세요";
+    }
+
+    if (word.length != 3) {
+      return "세글자인 단어만 입력할 수 있습니다";
+    }
+
+    return null;
+  }
 }

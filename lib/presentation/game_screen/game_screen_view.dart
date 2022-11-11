@@ -16,6 +16,13 @@ class _GameScreenViewState extends State<GameScreenView> {
   final _controller = TextEditingController();
 
   @override
+  Future<void> didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    await context.read<GameScreenViewModel>().startGame();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final viewModel = context.read<GameScreenViewModel>();
 
@@ -79,13 +86,10 @@ class _GameScreenViewState extends State<GameScreenView> {
                     controller: _controller,
                   )),
                   IconButton(
-                      onPressed: () {
-                        final isSended =
-                            viewModel.sendMessage(_controller.text);
-
-                        if (isSended) {
-                          _controller.text = '';
-                        }
+                      onPressed: () async {
+                        final String message = _controller.text;
+                        _controller.text = '';
+                        await viewModel.sendMessage(message);
                       },
                       icon: const Icon(Icons.send)),
                 ],
