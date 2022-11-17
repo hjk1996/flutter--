@@ -8,9 +8,9 @@ part 'game_screen_state.g.dart';
 class GameScreenState with _$GameScreenState {
   factory GameScreenState(
       {required List<Message> messages,
-      String? lastWord,
+      Message? lastValidMessage,
       required bool isLoading,
-      required bool isGameFinished}) = _GameScreenState;
+      required bool isPlaying}) = _GameScreenState;
   factory GameScreenState.fromJson(Map<String, dynamic> json) =>
       _$GameScreenStateFromJson(json);
 }

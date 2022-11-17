@@ -1,70 +1,58 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:text_project/domain/model/last_word.dart';
 import 'package:text_project/domain/model/word.dart';
+import 'dart:math';
 
 class FirestoreHelper {
   Future<Set<String>?> findAdjacentWords(String word) async {
-    try {
-      final wordInfo =
-          await FirebaseFirestore.instance.collection('words').doc(word).get();
+    final wordInfo =
+        await FirebaseFirestore.instance.collection('words').doc(word).get();
 
-      // 단어가 존재하지 않는 경우 null을 반환
-      if (!wordInfo.exists) {
-        return null;
+    // 단어가 존재하지 않는 경우 null을 반환
+    if (!wordInfo.exists) {
+      return null;
+    }
+
+    final Word wordData = Word.fromJson(wordInfo.data()!);
+
+    // 단어가 존재하지만 인접 단어가 없는 경우 빈 set를 반환
+    if (wordData.adjacentWords.isEmpty) {
+      return Set();
+    }
+
+    return Set.from(wordData.adjacentWords);
+  }
+
+  Future<String> getRandomNonKillerWord() async {
+    while (true) {
+      var randomIdx = Random().nextInt(87590);
+      var wordInfo = await FirebaseFirestore.instance
+          .collection('words')
+          .where('killer', isEqualTo: false)
+          .where('id', isEqualTo: randomIdx)
+          .get();
+
+      if (wordInfo.docs.isNotEmpty) {
+        return wordInfo.docs.first.id;
       }
-
-      final Word wordData = Word.fromJson(wordInfo.data()!);
-
-      // 단어가 존재하지만 인접 단어가 없는 경우 빈 set를 반환
-      if (wordData.adjacentWords.isEmpty) {
-        return Set();
-      }
-
-      return Set.from(wordData.adjacentWords);
-    } on FirebaseException catch (err) {
-      rethrow;
-    } on Exception catch (err) {
-      rethrow;
     }
   }
 
   Future<LastWord> getLastWordInfo(String lastWord) async {
-    try {
-      final lastWordInfo = await FirebaseFirestore.instance
-          .collection('last_words')
-          .doc(lastWord)
-          .get();
-
-      // if (!lastWordInfo.exists) {
-      //   return null;
-      // }
-
-      return LastWord.fromJson(lastWordInfo.data()!);
-    } on FirebaseException catch (err) {
-      rethrow;
-    }
-  }
-
-  Future test(Set<String> words) async {
-    print(List.from(words));
-    await FirebaseFirestore.instance
-        .collection('words')
-        .where('id', whereIn: List.from(words))
+    final lastWordInfo = await FirebaseFirestore.instance
+        .collection('last_words')
+        .doc(lastWord)
         .get();
+
+    return LastWord.fromJson(lastWordInfo.data()!);
   }
 
   Future<Set<String>> loadKillerWords() async {
-    try {
-      final data = await FirebaseFirestore.instance
-          .collection('words')
-          .doc('killers')
-          .get();
+    final data = await FirebaseFirestore.instance
+        .collection('killers')
+        .doc('killers')
+        .get();
 
-      return Set.from(data.data()!['list']);
-    } on FirebaseException catch (err) {
-      rethrow;
-    } on Exception catch (err) {
-      rethrow;
-    }
+    return Set.from(data.data()!['words']);
   }
 }

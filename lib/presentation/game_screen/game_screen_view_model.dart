@@ -12,114 +12,106 @@ class GameScreenViewModel with ChangeNotifier {
   GameScreenViewModel({required AIPlayer aiPlayer}) : _aiPlayer = aiPlayer;
 
   GameScreenState _state =
-      GameScreenState(messages: [], isLoading: false, isGameFinished: false);
+      GameScreenState(messages: [], isLoading: false, isPlaying: false);
   GameScreenState get state => _state;
 
+  final Stopwatch _stopwatch = Stopwatch();
+  int get elapsed => _stopwatch.elapsedTicks;
   Timer? timer;
 
-  final watch = Stopwatch();
   final _eventController = StreamController<GameScreenEvent>();
   Stream<GameScreenEvent> get eventStream => _eventController.stream;
 
+  // TODO: 타이머 기능 구현하기;
   void setTimer() {
-    timer = Timer(const Duration(seconds: 5), () {});
+    _stopwatch.start();
+    var duration = _stopwatch.elapsed;
+    timer = Timer(const Duration(seconds: 7), () {});
   }
 
   Future<void> sendMessage(String word) async {
-    bool isFinished = false;
-
-    isFinished = _wordValidation(word);
-    if (isFinished) return;
-
+    _updateMessage(
+        id: FirebaseAuth.instance.currentUser!.uid,
+        content: word,
+        isErrorMessage: false,
+        updateLastWord: false);
     await _calculateNextMove(word);
   }
 
-  void _updateMessage(
-      {required String id,
-      required String message,
-      required bool isErrorMessage,
-      bool updateLastWord = false,
-      bool isLoading = false}) {
+  void _startLoading() {
+    _state = _state.copyWith(isLoading: true);
+    notifyListeners();
+  }
+
+  void _endLoading() {
+    _state = _state.copyWith(isLoading: false);
+    notifyListeners();
+  }
+
+  void _updateMessage({
+    required String id,
+    required String content,
+    required bool isErrorMessage,
+    bool updateLastWord = false,
+  }) {
+    final message = Message(
+        id: id,
+        content: content,
+        createdAt: DateTime.now().microsecondsSinceEpoch,
+        isErrorMessage: isErrorMessage);
     _state = _state.copyWith(
-      messages: [
-        Message(
-            id: id,
-            content: message,
-            createdAt: DateTime.now().microsecondsSinceEpoch,
-            isErrorMessage: isErrorMessage),
-        ..._state.messages
-      ],
-      isLoading: isLoading,
-      lastWord: updateLastWord ? message : _state.lastWord,
+      messages: [message, ..._state.messages],
+      lastValidMessage: updateLastWord ? message : _state.lastValidMessage,
     );
+    notifyListeners();
   }
 
-  bool _wordValidation(String word) {
-    final errorMessage = _validateWord(word);
-
-    if (errorMessage == null) {
-      _updateMessage(
-          id: FirebaseAuth.instance.currentUser!.uid,
-          message: word,
-          isErrorMessage: false,
-          updateLastWord: false);
-      notifyListeners();
-      return false;
-    } else {
-      _updateMessage(
-          id: FirebaseAuth.instance.currentUser!.uid,
-          message: word,
-          isErrorMessage: false,
-          updateLastWord: false);
-      _updateMessage(
-          id: _aiPlayer.id,
-          message: errorMessage,
-          isErrorMessage: true,
-          updateLastWord: false);
-      notifyListeners();
-      return true;
-    }
-  }
-
-  void _whenPlaying(NextMove nextMove) {
+  void _whenPlaying(Move nextMove) {
     _updateMessage(
         id: _aiPlayer.id,
-        message: nextMove.word,
+        content: nextMove.word,
         isErrorMessage: false,
         updateLastWord: true);
   }
 
-  void _whenPlayerWin(NextMove nextMove) {
+  void _whenPlayerWin() {
     _state = _state.copyWith(
-      isGameFinished: true,
-      isLoading: false,
+      isPlaying: false,
     );
     _eventController.add(const GameScreenEvent.onPlayerWin());
   }
 
-  void _whenWordError(NextMove nextMove) {
+  void _whenPlayerLose() {
+    _state = _state.copyWith(
+      isPlaying: false,
+    );
+    _eventController.add(const GameScreenEvent.onPlayerLose());
+  }
+
+  void _whenWordError(Move nextMove) {
     _updateMessage(
         id: _aiPlayer.id,
-        message: nextMove.word,
+        content: nextMove.word,
         isErrorMessage: true,
         updateLastWord: false);
   }
 
-  void _whenError(NextMove nextMove) {
-    _state = _state.copyWith(isLoading: false);
+  void _whenError(Move nextMove) {
     _eventController.add(GameScreenEvent.onError(nextMove.word));
   }
 
   Future<void> _calculateNextMove(String word) async {
-    _state = _state.copyWith(isLoading: true);
-    notifyListeners();
-    final NextMove nextMove = await _aiPlayer.calculateNextMove(word);
+    _startLoading();
+    final Move nextMove = await _aiPlayer.calculateNextMove(word);
     switch (nextMove.gameStatus) {
       case GameStatus.playing:
         _whenPlaying(nextMove);
         break;
       case GameStatus.playerWin:
-        _whenPlayerWin(nextMove);
+        _whenPlayerWin();
+        break;
+      case GameStatus.playerLose:
+        _whenPlayerLose();
         break;
       case GameStatus.wordError:
         _whenWordError(nextMove);
@@ -129,28 +121,24 @@ class GameScreenViewModel with ChangeNotifier {
         break;
       default:
     }
-    notifyListeners();
+    _endLoading();
   }
 
-  Future<void> startGame() async {
+  Future<void> initGame() async {
     await _aiPlayer.initGame();
   }
 
-  String? _validateWord(String? word) {
-    if (word == null || word.isEmpty) {
-      return "단어를 입력하세요";
-    }
-
-    if (word.length != 3) {
-      return "세글자인 단어만 입력할 수 있습니다";
-    }
-
-    return null;
-  }
-
-  void resetState() {
-    _state =
-        GameScreenState(messages: [], isLoading: false, isGameFinished: false);
+  Future<void> startGame(bool playerFirst) async {
+    _state = GameScreenState(messages: [], isLoading: false, isPlaying: true);
     notifyListeners();
+    if (!playerFirst) {
+      final Move move = await _aiPlayer.pickRandomStarter();
+      _updateMessage(
+        id: _aiPlayer.id,
+        content: move.word,
+        isErrorMessage: false,
+        updateLastWord: true,
+      );
+    }
   }
 }

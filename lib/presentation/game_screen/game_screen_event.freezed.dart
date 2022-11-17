@@ -21,7 +21,7 @@ mixin _$GameScreenEvent {
     required TResult Function() onPlaying,
     required TResult Function(String message) onError,
     required TResult Function() onPlayerWin,
-    required TResult Function() onAIWin,
+    required TResult Function() onPlayerLose,
     required TResult Function() onFinishStep,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,7 +30,7 @@ mixin _$GameScreenEvent {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
   }) =>
       throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ mixin _$GameScreenEvent {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
     required TResult orElse(),
   }) =>
@@ -49,7 +49,7 @@ mixin _$GameScreenEvent {
     required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
     required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnAIWin value) onAIWin,
+    required TResult Function(OnPlayerLose value) onPlayerLose,
     required TResult Function(OnFinishStep value) onFinishStep,
   }) =>
       throw _privateConstructorUsedError;
@@ -58,7 +58,7 @@ mixin _$GameScreenEvent {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
   }) =>
       throw _privateConstructorUsedError;
@@ -67,7 +67,7 @@ mixin _$GameScreenEvent {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
     required TResult orElse(),
   }) =>
@@ -135,7 +135,7 @@ class _$OnPlaying implements OnPlaying {
     required TResult Function() onPlaying,
     required TResult Function(String message) onError,
     required TResult Function() onPlayerWin,
-    required TResult Function() onAIWin,
+    required TResult Function() onPlayerLose,
     required TResult Function() onFinishStep,
   }) {
     return onPlaying();
@@ -147,7 +147,7 @@ class _$OnPlaying implements OnPlaying {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
   }) {
     return onPlaying?.call();
@@ -159,7 +159,7 @@ class _$OnPlaying implements OnPlaying {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
     required TResult orElse(),
   }) {
@@ -175,7 +175,7 @@ class _$OnPlaying implements OnPlaying {
     required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
     required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnAIWin value) onAIWin,
+    required TResult Function(OnPlayerLose value) onPlayerLose,
     required TResult Function(OnFinishStep value) onFinishStep,
   }) {
     return onPlaying(this);
@@ -187,7 +187,7 @@ class _$OnPlaying implements OnPlaying {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
   }) {
     return onPlaying?.call(this);
@@ -199,7 +199,7 @@ class _$OnPlaying implements OnPlaying {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
     required TResult orElse(),
   }) {
@@ -279,7 +279,7 @@ class _$OnError implements OnError {
     required TResult Function() onPlaying,
     required TResult Function(String message) onError,
     required TResult Function() onPlayerWin,
-    required TResult Function() onAIWin,
+    required TResult Function() onPlayerLose,
     required TResult Function() onFinishStep,
   }) {
     return onError(message);
@@ -291,7 +291,7 @@ class _$OnError implements OnError {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
   }) {
     return onError?.call(message);
@@ -303,7 +303,7 @@ class _$OnError implements OnError {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
     required TResult orElse(),
   }) {
@@ -319,7 +319,7 @@ class _$OnError implements OnError {
     required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
     required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnAIWin value) onAIWin,
+    required TResult Function(OnPlayerLose value) onPlayerLose,
     required TResult Function(OnFinishStep value) onFinishStep,
   }) {
     return onError(this);
@@ -331,7 +331,7 @@ class _$OnError implements OnError {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
   }) {
     return onError?.call(this);
@@ -343,7 +343,7 @@ class _$OnError implements OnError {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
     required TResult orElse(),
   }) {
@@ -407,7 +407,7 @@ class _$OnPlayerWin implements OnPlayerWin {
     required TResult Function() onPlaying,
     required TResult Function(String message) onError,
     required TResult Function() onPlayerWin,
-    required TResult Function() onAIWin,
+    required TResult Function() onPlayerLose,
     required TResult Function() onFinishStep,
   }) {
     return onPlayerWin();
@@ -419,7 +419,7 @@ class _$OnPlayerWin implements OnPlayerWin {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
   }) {
     return onPlayerWin?.call();
@@ -431,7 +431,7 @@ class _$OnPlayerWin implements OnPlayerWin {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
     required TResult orElse(),
   }) {
@@ -447,7 +447,7 @@ class _$OnPlayerWin implements OnPlayerWin {
     required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
     required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnAIWin value) onAIWin,
+    required TResult Function(OnPlayerLose value) onPlayerLose,
     required TResult Function(OnFinishStep value) onFinishStep,
   }) {
     return onPlayerWin(this);
@@ -459,7 +459,7 @@ class _$OnPlayerWin implements OnPlayerWin {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
   }) {
     return onPlayerWin?.call(this);
@@ -471,7 +471,7 @@ class _$OnPlayerWin implements OnPlayerWin {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
     required TResult orElse(),
   }) {
@@ -487,35 +487,38 @@ abstract class OnPlayerWin implements GameScreenEvent {
 }
 
 /// @nodoc
-abstract class _$$OnAIWinCopyWith<$Res> {
-  factory _$$OnAIWinCopyWith(_$OnAIWin value, $Res Function(_$OnAIWin) then) =
-      __$$OnAIWinCopyWithImpl<$Res>;
+abstract class _$$OnPlayerLoseCopyWith<$Res> {
+  factory _$$OnPlayerLoseCopyWith(
+          _$OnPlayerLose value, $Res Function(_$OnPlayerLose) then) =
+      __$$OnPlayerLoseCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$OnAIWinCopyWithImpl<$Res> extends _$GameScreenEventCopyWithImpl<$Res>
-    implements _$$OnAIWinCopyWith<$Res> {
-  __$$OnAIWinCopyWithImpl(_$OnAIWin _value, $Res Function(_$OnAIWin) _then)
-      : super(_value, (v) => _then(v as _$OnAIWin));
+class __$$OnPlayerLoseCopyWithImpl<$Res>
+    extends _$GameScreenEventCopyWithImpl<$Res>
+    implements _$$OnPlayerLoseCopyWith<$Res> {
+  __$$OnPlayerLoseCopyWithImpl(
+      _$OnPlayerLose _value, $Res Function(_$OnPlayerLose) _then)
+      : super(_value, (v) => _then(v as _$OnPlayerLose));
 
   @override
-  _$OnAIWin get _value => super._value as _$OnAIWin;
+  _$OnPlayerLose get _value => super._value as _$OnPlayerLose;
 }
 
 /// @nodoc
 
-class _$OnAIWin implements OnAIWin {
-  const _$OnAIWin();
+class _$OnPlayerLose implements OnPlayerLose {
+  const _$OnPlayerLose();
 
   @override
   String toString() {
-    return 'GameScreenEvent.onAIWin()';
+    return 'GameScreenEvent.onPlayerLose()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$OnAIWin);
+        (other.runtimeType == runtimeType && other is _$OnPlayerLose);
   }
 
   @override
@@ -527,10 +530,10 @@ class _$OnAIWin implements OnAIWin {
     required TResult Function() onPlaying,
     required TResult Function(String message) onError,
     required TResult Function() onPlayerWin,
-    required TResult Function() onAIWin,
+    required TResult Function() onPlayerLose,
     required TResult Function() onFinishStep,
   }) {
-    return onAIWin();
+    return onPlayerLose();
   }
 
   @override
@@ -539,10 +542,10 @@ class _$OnAIWin implements OnAIWin {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
   }) {
-    return onAIWin?.call();
+    return onPlayerLose?.call();
   }
 
   @override
@@ -551,12 +554,12 @@ class _$OnAIWin implements OnAIWin {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
     required TResult orElse(),
   }) {
-    if (onAIWin != null) {
-      return onAIWin();
+    if (onPlayerLose != null) {
+      return onPlayerLose();
     }
     return orElse();
   }
@@ -567,10 +570,10 @@ class _$OnAIWin implements OnAIWin {
     required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
     required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnAIWin value) onAIWin,
+    required TResult Function(OnPlayerLose value) onPlayerLose,
     required TResult Function(OnFinishStep value) onFinishStep,
   }) {
-    return onAIWin(this);
+    return onPlayerLose(this);
   }
 
   @override
@@ -579,10 +582,10 @@ class _$OnAIWin implements OnAIWin {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
   }) {
-    return onAIWin?.call(this);
+    return onPlayerLose?.call(this);
   }
 
   @override
@@ -591,19 +594,19 @@ class _$OnAIWin implements OnAIWin {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
     required TResult orElse(),
   }) {
-    if (onAIWin != null) {
-      return onAIWin(this);
+    if (onPlayerLose != null) {
+      return onPlayerLose(this);
     }
     return orElse();
   }
 }
 
-abstract class OnAIWin implements GameScreenEvent {
-  const factory OnAIWin() = _$OnAIWin;
+abstract class OnPlayerLose implements GameScreenEvent {
+  const factory OnPlayerLose() = _$OnPlayerLose;
 }
 
 /// @nodoc
@@ -650,7 +653,7 @@ class _$OnFinishStep implements OnFinishStep {
     required TResult Function() onPlaying,
     required TResult Function(String message) onError,
     required TResult Function() onPlayerWin,
-    required TResult Function() onAIWin,
+    required TResult Function() onPlayerLose,
     required TResult Function() onFinishStep,
   }) {
     return onFinishStep();
@@ -662,7 +665,7 @@ class _$OnFinishStep implements OnFinishStep {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
   }) {
     return onFinishStep?.call();
@@ -674,7 +677,7 @@ class _$OnFinishStep implements OnFinishStep {
     TResult Function()? onPlaying,
     TResult Function(String message)? onError,
     TResult Function()? onPlayerWin,
-    TResult Function()? onAIWin,
+    TResult Function()? onPlayerLose,
     TResult Function()? onFinishStep,
     required TResult orElse(),
   }) {
@@ -690,7 +693,7 @@ class _$OnFinishStep implements OnFinishStep {
     required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
     required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnAIWin value) onAIWin,
+    required TResult Function(OnPlayerLose value) onPlayerLose,
     required TResult Function(OnFinishStep value) onFinishStep,
   }) {
     return onFinishStep(this);
@@ -702,7 +705,7 @@ class _$OnFinishStep implements OnFinishStep {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
   }) {
     return onFinishStep?.call(this);
@@ -714,7 +717,7 @@ class _$OnFinishStep implements OnFinishStep {
     TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
     TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnAIWin value)? onAIWin,
+    TResult Function(OnPlayerLose value)? onPlayerLose,
     TResult Function(OnFinishStep value)? onFinishStep,
     required TResult orElse(),
   }) {

@@ -8,7 +8,6 @@ import 'package:text_project/presentation/game_screen/components/my_chat_bubble.
 import 'package:text_project/presentation/game_screen/components/your_chat_bubble.dart';
 import 'package:text_project/presentation/game_screen/game_screen_event.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
-import 'package:text_project/presentation/game_screen/components/chat_bubble.dart';
 import 'package:provider/provider.dart';
 
 class GameScreenView extends StatefulWidget {
@@ -72,7 +71,7 @@ class _GameScreenViewState extends State<GameScreenView> {
                   ),
                 );
               },
-              onAIWin: () {},
+              onPlayerLose: () {},
             );
           },
         );
@@ -83,7 +82,7 @@ class _GameScreenViewState extends State<GameScreenView> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    await context.read<GameScreenViewModel>().startGame();
+    await context.read<GameScreenViewModel>().initGame();
   }
 
   @override
@@ -95,11 +94,9 @@ class _GameScreenViewState extends State<GameScreenView> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.read<GameScreenViewModel>();
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: GameScreenAppBar(),
+      appBar: const GameScreenAppBar(),
       body: SafeArea(
         child: Column(
           children: [
@@ -141,14 +138,21 @@ class _GameScreenViewState extends State<GameScreenView> {
                 ),
               ),
             ),
-            ChatInputBox(
-              controller: _controller,
-              onSendPressed: () async {
-                final String message = _controller.text;
-                _controller.clear();
-                await viewModel.sendMessage(message);
+            Consumer<GameScreenViewModel>(
+              builder: (context, vm, child) {
+                return Visibility(
+                  visible: vm.state.isPlaying,
+                  child: ChatInputBox(
+                    controller: _controller,
+                    onSendPressed: () async {
+                      final String message = _controller.text;
+                      _controller.clear();
+                      await vm.sendMessage(message);
+                    },
+                  ),
+                );
               },
-            ),
+            )
           ],
         ),
       ),
