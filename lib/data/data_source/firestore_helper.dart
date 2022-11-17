@@ -28,19 +28,21 @@ class FirestoreHelper {
     }
   }
 
-  Future<LastWord?> getLastWordInfo(String lastWord) async {
+  Future<LastWord> getLastWordInfo(String lastWord) async {
     try {
       final lastWordInfo = await FirebaseFirestore.instance
           .collection('last_words')
           .doc(lastWord)
           .get();
 
-      if (!lastWordInfo.exists) {
-        return null;
-      }
+      // if (!lastWordInfo.exists) {
+      //   return null;
+      // }
 
       return LastWord.fromJson(lastWordInfo.data()!);
-    } on FirebaseException catch (err) {}
+    } on FirebaseException catch (err) {
+      rethrow;
+    }
   }
 
   Future test(Set<String> words) async {

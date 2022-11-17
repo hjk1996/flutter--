@@ -7,14 +7,16 @@ part of 'message.dart';
 // **************************************************************************
 
 _$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
+      id: json['id'] as String,
       content: json['content'] as String,
-      isMe: json['isMe'] as bool,
       createdAt: json['createdAt'] as int,
+      isErrorMessage: json['isErrorMessage'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'content': instance.content,
-      'isMe': instance.isMe,
       'createdAt': instance.createdAt,
+      'isErrorMessage': instance.isErrorMessage,
     };

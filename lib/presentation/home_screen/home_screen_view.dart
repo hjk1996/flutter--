@@ -11,6 +11,7 @@ import 'package:text_project/di/provider_setting.dart';
 import 'package:text_project/presentation/common/asking_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
+import 'package:text_project/presentation/home_screen/components/game_menu_card.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_mode.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
@@ -114,9 +115,8 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               ],
               accountName: const Text('test'),
               accountEmail: const Text('test@dot.com'),
-              decoration: BoxDecoration(
-                color: Colors.blue[300],
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40),
                 ),
@@ -128,12 +128,8 @@ class _HomeScreenViewState extends State<HomeScreenView> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: viewModel.onGameStart,
-              child: const Text('Game Start'),
-            ),
-          ),
+          GameMenuCard(content: 'AI와 플레이', onTap: viewModel.onGameStart),
+          GameMenuCard(content: '사람과 플레이', onTap: () {})
         ],
       ),
     );

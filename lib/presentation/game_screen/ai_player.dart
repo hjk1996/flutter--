@@ -1,42 +1,45 @@
-import 'dart:convert';
-
+import 'dart:math';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:text_project/domain/repository/ai_repository.dart';
 
-enum GameStatus { win, play, giveUp, notExists, usedWord, invalidWord, error }
+enum GameStatus { playerWin, playing, wordError, error }
 
 class NextMove {
-  String? word;
+  final String word;
   final GameStatus gameStatus;
-  NextMove({required this.gameStatus, this.word});
+  NextMove({required this.gameStatus, required this.word});
 }
 
 class AIPlayer {
   final AIRepository aiRepository;
   AIPlayer({required this.aiRepository});
 
-  final _usedWordsSet = Set();
+  final String _id = 'AI EXPERT';
+  String get id => _id;
+
+  final Set<String> _usedWordsSet = Set();
+  Set<String> get usedWordSet => _usedWordsSet;
   late Set<String> _killerWords;
 
-  Future<void> startGame() async {
+  Future<void> initGame() async {
     await _loadKillerWords();
-    await _test();
+  }
+
+
+
+  Future<void> pickRandomStarter() async {
+
   }
 
   Future<void> _loadKillerWords() async {
     _killerWords = await aiRepository.loadKillerWords();
   }
 
-  Future _test() async {
-    // final result = await aiRepository.test({'가결안', '가결의'});
-    // print(result.docs);
-  }
-
   Future<NextMove> calculateNextMove(String? word) async {
     try {
       final isValid = _validateWord(word);
       if (isValid != null) {
-        return NextMove(gameStatus: GameStatus.invalidWord, word: isValid);
+        return NextMove(gameStatus: GameStatus.wordError, word: isValid);
       }
 
       final adjWords = await aiRepository.findAdjacentWords(word!);
@@ -44,12 +47,13 @@ class AIPlayer {
       // 유저가 잘못된 단어를 입력한 경우 경고를 보냄.
       if (adjWords == null) {
         return NextMove(
-            gameStatus: GameStatus.notExists, word: '존재하지 않는 단어입니다.');
+            gameStatus: GameStatus.wordError, word: '존재하지 않는 단어입니다.');
       }
 
       // 유저가 이미 사용한 단어를 입력한 경우 경고를 보냄.
       if (_usedWordsSet.contains(word)) {
-        return NextMove(gameStatus: GameStatus.usedWord, word: '이미 사용한 단어입니다.');
+        return NextMove(
+            gameStatus: GameStatus.wordError, word: '이미 사용한 단어입니다.');
       }
 
       // 잘못된 단어도 아니고 사용한 단어도 아니면 일단 사용한 단어 리스트에 추가.
@@ -60,8 +64,8 @@ class AIPlayer {
 
       // 만약에 사용할 수 있는 다음 단어가 없다면
       if (availableWords.isEmpty) {
-        // 게임 패배
-        return NextMove(gameStatus: GameStatus.giveUp);
+        // 플레이어 승리
+        return NextMove(gameStatus: GameStatus.playerWin, word: '승리하셨습니다.');
       }
 
       // 한방 단어와 사용할 수 있는 단어의 교집합을 통해 사용할 수 있는 한방 단어를 구함.
@@ -70,98 +74,44 @@ class AIPlayer {
 
       // 사용할 수 있는 한방 단어가 존재하는 경우 그 중에서 하나를 사용함.
       if (availableKillerWords.isNotEmpty) {
-        return NextMove(
-            gameStatus: GameStatus.win, word: availableKillerWords.first);
+        final String randomKiller =
+            _pickRandomWordFromSet(availableKillerWords);
+        _usedWordsSet.add(randomKiller);
+        return NextMove(gameStatus: GameStatus.playing, word: randomKiller);
       }
 
       // 사용할 수 있는 한방 단어가 존재하지 않는 경우 안전한 단어를 사용함.
       // 안전한 단어 = 상대방이 내 단어를 이어받아서 한방 단어를 말할 수 없는 단어.
-      // =
-      final lastWordInfo = await aiRepository.getLastWordInfo(word[-1]);
-      
-      // 안전한 단어가 없다면 아무 단어나 반환함.
+      for (var word in availableWords.toList()..shuffle()) {
+        final bool isSafe = await _isSafeWord(word);
+        if (isSafe) {
+          return NextMove(gameStatus: GameStatus.playing, word: word);
+        }
+      }
 
-      return NextMove(gameStatus: GameStatus.play);
+      return NextMove(
+        gameStatus: GameStatus.playing,
+        word: _pickRandomWordFromSet(availableWords),
+      );
     } on FirebaseException catch (err) {
-      return NextMove(gameStatus: GameStatus.error, word: err.message);
+      return NextMove(
+          gameStatus: GameStatus.error,
+          word: err.message ?? '파이어베이스 에러가 발생했습니다.');
     } on Exception catch (err) {
       return NextMove(gameStatus: GameStatus.error, word: err.toString());
     }
   }
 
-  // Future<NextMove> takeNextMove(String word, Set<int> prevWords) async {
-  //   final edge = await aiRepository.getEdgeByWord(word);
-  //   if (edge == null) {
-  //     // 단어가 등록되어있지 않음
-  //     // 플레이어에게 제대로 된 단어를 입력하라고 메시지 보내야함.
-  //     return NextMove(aiStatus: AIStatus.warning);
-  //   }
+  String _pickRandomWordFromSet(Set<String> words) {
+    return words.toList()[Random().nextInt(words.length)];
+  }
 
-  //   // 다음 스텝 계산을 위해 반환받은 엣지와 이미 사용한 단어의 차집합을 구함.
-  //   final possibleWordIndice = edge.difference(prevWords);
+  Future<bool> _isSafeWord(String word) async {
+    final lastWordInfo =
+        await aiRepository.getLastWordInfo(word.substring(word.length - 1));
 
-  //   // 차집합이 공집합이라면
-  //   if (possibleWordIndice.isEmpty) {
-  //     // AI가 게임에서 짐
-  //     return NextMove(aiStatus: AIStatus.givingUp);
-  //   }
-
-  //   // 차집합이 공집합이 아니라면 사용할 수 있는 단어 중 한방 단어를 찾음
-  //   final killerWords =
-  //       await aiRepository.findKillerWords(possibleWordIndice).then(
-  //             (set) => set?.toList()?..shuffle(),
-  //           );
-
-  //   // 한방 단어가 없을 때 행동을 취함
-  //   if (killerWords == null) {
-  //     return _moveWhenNoKillerWords(possibleWordIndice, prevWords);
-  //   }
-
-  //   // 한방 단어가 있다면 한방 단어를 사용함
-  //   return NextMove(aiStatus: AIStatus.playing, word: killerWords.first);
-  // }
-
-  // // 한방 단어가 없을 때의 행동
-  // Future<NextMove> _moveWhenNoKillerWords(
-  //     Set<int> indice, Set<int> usedWordIndice) async {
-  //   // 사용가능한 단어 중에서 한방 단어로 이어지지 않을 단어 중 하나를 반환해야함
-  //   final safeWord = await _findSafeWord(indice, usedWordIndice);
-  //   // 안전한 단어가 없다면
-  //   if (safeWord == null) {
-  //     final wordIndexList = indice.toList()..shuffle();
-  //     // 갈 수 있는 단어 중 아무 단어나 반환함
-  //     final nextWord = await aiRepository.getWordByIndex(wordIndexList.first);
-  //     return NextMove(aiStatus: AIStatus.playing, word: nextWord);
-  //   }
-  //   // 안전한 단어가 있다면 안전한 단어를 반환함.
-  //   return NextMove(aiStatus: AIStatus.playing, word: safeWord);
-  // }
-
-  // // 한방 단어로 이어지지 않을 안전한 단어를 탐색함
-  // Future<String?> _findSafeWord(
-  //     Set<int> wordIndice, Set<int> usedWordIndices) async {
-  //   final wordInfos = await aiRepository.getWordInfosByIndice(wordIndice);
-  //   if (wordInfos == null) return null;
-  //   wordInfos.shuffle();
-  //   for (Map info in wordInfos) {
-  //     final Set<int> edge = Set.from(jsonDecode(info['edge'] as String));
-  //     // 안전한 단어를 찾았다면
-  //     if (edge
-  //         .difference(usedWordIndices)
-  //         .difference({info['word_index']})
-  //         .intersection(killerWordIndice!)
-  //         .isEmpty) {
-  //       // 안전한 단어를 반환함
-  //       return info['word'];
-  //     }
-  //   }
-  //   // 안전한 단어를 찾지못하면 null을 반환함
-  //   return null;
-  // }
-
-  // Future<void> quitGame() async {
-  //   killerWordIndice = null;
-  // }
+    return !lastWordInfo.followingWords.any((element) => element.killer);
+  }
 
   String? _validateWord(String? word) {
     if (word == null || word.isEmpty) {

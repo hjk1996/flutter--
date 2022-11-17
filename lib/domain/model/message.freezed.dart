@@ -20,9 +20,10 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Message {
+  String get id => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  bool get isMe => throw _privateConstructorUsedError;
   int get createdAt => throw _privateConstructorUsedError;
+  bool get isErrorMessage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,7 @@ mixin _$Message {
 abstract class $MessageCopyWith<$Res> {
   factory $MessageCopyWith(Message value, $Res Function(Message) then) =
       _$MessageCopyWithImpl<$Res>;
-  $Res call({String content, bool isMe, int createdAt});
+  $Res call({String id, String content, int createdAt, bool isErrorMessage});
 }
 
 /// @nodoc
@@ -46,23 +47,28 @@ class _$MessageCopyWithImpl<$Res> implements $MessageCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? content = freezed,
-    Object? isMe = freezed,
     Object? createdAt = freezed,
+    Object? isErrorMessage = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       content: content == freezed
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      isMe: isMe == freezed
-          ? _value.isMe
-          : isMe // ignore: cast_nullable_to_non_nullable
-              as bool,
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
+      isErrorMessage: isErrorMessage == freezed
+          ? _value.isErrorMessage
+          : isErrorMessage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -73,7 +79,7 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
           _$_Message value, $Res Function(_$_Message) then) =
       __$$_MessageCopyWithImpl<$Res>;
   @override
-  $Res call({String content, bool isMe, int createdAt});
+  $Res call({String id, String content, int createdAt, bool isErrorMessage});
 }
 
 /// @nodoc
@@ -87,23 +93,28 @@ class __$$_MessageCopyWithImpl<$Res> extends _$MessageCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? content = freezed,
-    Object? isMe = freezed,
     Object? createdAt = freezed,
+    Object? isErrorMessage = freezed,
   }) {
     return _then(_$_Message(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       content: content == freezed
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      isMe: isMe == freezed
-          ? _value.isMe
-          : isMe // ignore: cast_nullable_to_non_nullable
-              as bool,
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
+      isErrorMessage: isErrorMessage == freezed
+          ? _value.isErrorMessage
+          : isErrorMessage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -112,21 +123,27 @@ class __$$_MessageCopyWithImpl<$Res> extends _$MessageCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Message implements _Message {
   _$_Message(
-      {required this.content, required this.isMe, required this.createdAt});
+      {required this.id,
+      required this.content,
+      required this.createdAt,
+      this.isErrorMessage = false});
 
   factory _$_Message.fromJson(Map<String, dynamic> json) =>
       _$$_MessageFromJson(json);
 
   @override
+  final String id;
+  @override
   final String content;
   @override
-  final bool isMe;
-  @override
   final int createdAt;
+  @override
+  @JsonKey()
+  final bool isErrorMessage;
 
   @override
   String toString() {
-    return 'Message(content: $content, isMe: $isMe, createdAt: $createdAt)';
+    return 'Message(id: $id, content: $content, createdAt: $createdAt, isErrorMessage: $isErrorMessage)';
   }
 
   @override
@@ -134,18 +151,21 @@ class _$_Message implements _Message {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Message &&
+            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.content, content) &&
-            const DeepCollectionEquality().equals(other.isMe, isMe) &&
-            const DeepCollectionEquality().equals(other.createdAt, createdAt));
+            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other.isErrorMessage, isErrorMessage));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(content),
-      const DeepCollectionEquality().hash(isMe),
-      const DeepCollectionEquality().hash(createdAt));
+      const DeepCollectionEquality().hash(createdAt),
+      const DeepCollectionEquality().hash(isErrorMessage));
 
   @JsonKey(ignore: true)
   @override
@@ -162,18 +182,21 @@ class _$_Message implements _Message {
 
 abstract class _Message implements Message {
   factory _Message(
-      {required final String content,
-      required final bool isMe,
-      required final int createdAt}) = _$_Message;
+      {required final String id,
+      required final String content,
+      required final int createdAt,
+      final bool isErrorMessage}) = _$_Message;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$_Message.fromJson;
 
   @override
+  String get id;
+  @override
   String get content;
   @override
-  bool get isMe;
-  @override
   int get createdAt;
+  @override
+  bool get isErrorMessage;
   @override
   @JsonKey(ignore: true)
   _$$_MessageCopyWith<_$_Message> get copyWith =>

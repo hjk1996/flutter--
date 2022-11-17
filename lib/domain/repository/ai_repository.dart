@@ -6,7 +6,7 @@ abstract class AIRepository {
 
   Future<Set<String>> loadKillerWords();
 
-  Future<LastWord?> getLastWordInfo(String lastWord);
+  Future<LastWord> getLastWordInfo(String lastWord);
 
   Future test(Set<String> words);
 

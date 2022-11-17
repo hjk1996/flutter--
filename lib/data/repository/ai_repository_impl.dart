@@ -24,7 +24,7 @@ class AIRepositoryImpl implements AIRepository {
   }
 
   @override
-  Future<LastWord?> getLastWordInfo(String lastWord) async {
+  Future<LastWord> getLastWordInfo(String lastWord) async {
     return firestoreHelper.getLastWordInfo(lastWord);
   }
   // @override

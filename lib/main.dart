@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
+import 'package:text_project/presentation/common/theme.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_mode.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 import 'firebase_options.dart';
@@ -31,19 +32,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: TextTheme(
-            bodyMedium: TextStyle(fontSize: 24),
-          ),
-          // TODO: elevated button theme과 text button theme 만들기
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(),
-          ),
-          textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(),
-          )),
+      title: 'Word Relay App',
+      theme: AppTheme().dark,
       home: const InitialScreenView(),
     );
   }

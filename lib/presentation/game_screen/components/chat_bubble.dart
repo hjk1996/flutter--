@@ -8,14 +8,12 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: BubbleSpecialThree(
-        text: content,
-        tail: false,
-        color: Colors.blue,
-        textStyle: Theme.of(context).textTheme.bodyMedium!,
-      ),
+    return BubbleSpecialThree(
+      text: content,
+      tail: false,
+      color: Colors.blue,
+      textStyle: Theme.of(context).textTheme.bodyMedium!,
+      
     );
   }
 }

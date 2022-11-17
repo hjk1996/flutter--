@@ -271,8 +271,7 @@ class __$$_FollowingWordCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$_FollowingWord implements _FollowingWord {
   _$_FollowingWord({required this.word, required this.killer});
 

@@ -18,7 +18,7 @@ class LastWord with _$LastWord {
 
 @freezed
 class FollowingWord with _$FollowingWord {
-  @JsonSerializable(explicitToJson: true)
+  // @JsonSerializable(explicitToJson: true)
   factory FollowingWord({required String word, required bool killer}) =
       _FollowingWord;
 
