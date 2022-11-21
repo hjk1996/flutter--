@@ -1,16 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/auth_screen/components/sign_in_form.dart';
 import 'package:text_project/presentation/auth_screen/components/sign_up_form.dart';
-import 'package:text_project/presentation/home_screen/home_screen_view.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
-// TODO: 로그인 화면 만들기
 class AuthScreenView extends StatefulWidget {
   const AuthScreenView({Key? key}) : super(key: key);
 
@@ -45,7 +41,6 @@ class _AuthScreenViewState extends State<AuthScreenView> {
                 ),
               );
 
-              print('sign in');
             },
             onSignUpSuccess: () {
               Navigator.of(context).pushReplacement(
@@ -54,7 +49,6 @@ class _AuthScreenViewState extends State<AuthScreenView> {
                 ),
               );
 
-              print('sign up');
             },
           );
         },

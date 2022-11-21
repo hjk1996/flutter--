@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
 import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 
@@ -36,9 +35,7 @@ class _GameScreenAppBarState extends State<GameScreenAppBar> {
         },
         icon: const Icon(Icons.exit_to_app),
       ),
-      title: viewModel.state.lastValidMessage != null
-          ? Text(viewModel.state.lastValidMessage!.content)
-          : null,
+      title: null,
       actions: [
         viewModel.state.isPlaying
             ? IconButton(

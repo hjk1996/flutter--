@@ -1,20 +1,21 @@
-import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:text_project/data/data_source/db_helper.dart';
 import 'package:text_project/data/data_source/firestore_helper.dart';
-import 'package:text_project/data/exceptions.dart';
-import 'package:text_project/data/repository/ai_repository_impl.dart';
-import 'package:text_project/domain/repository/ai_repository.dart';
-import 'package:text_project/presentation/game_screen/ai_player.dart';
-import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:text_project/utils.dart';
+import 'package:text_project/data/repository/words_firestore_repo_impl.dart';
+import 'package:text_project/domain/repository/words_repo.dart';
+import 'package:text_project/presentation/game_screen/bl/referee.dart';
+import 'package:text_project/presentation/game_screen/bl/robot_expert.dart';
+import 'package:text_project/presentation/game_screen/bl/player_abc.dart';
 
-GameScreenViewModel makeGameScreenViewModel() {
+
+
+
+Referee makeRefree() {
   final firestoreHelper = FirestoreHelper();
-  AIRepository aiRepository = AIRepositoryImpl(firestoreHelper);
-  AIPlayer aiPlayer = AIPlayer(aiRepository: aiRepository);
-  return GameScreenViewModel(aiPlayer: aiPlayer);
+  WordsRepo wordsRepo = WordsFirestoreRepoImpl(firestoreHelper);
+  return Referee(firebaseRepo: wordsRepo);
+}
+
+RobotPlayerABC makeExpertBot(Referee referee) {
+  final firestoreHelper = FirestoreHelper();
+  WordsRepo wordsRepo = WordsFirestoreRepoImpl(firestoreHelper);
+  return RobotExpert(referee: referee, wordsRepo: wordsRepo);
 }

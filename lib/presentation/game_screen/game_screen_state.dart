@@ -6,11 +6,11 @@ part 'game_screen_state.g.dart';
 
 @freezed
 class GameScreenState with _$GameScreenState {
-  factory GameScreenState(
-      {required List<Message> messages,
-      Message? lastValidMessage,
-      required bool isLoading,
-      required bool isPlaying}) = _GameScreenState;
+  factory GameScreenState({
+    required List<Message> messages,
+    required bool isLoading,
+    required bool isPlaying,
+  }) = _GameScreenState;
   factory GameScreenState.fromJson(Map<String, dynamic> json) =>
       _$GameScreenStateFromJson(json);
 }

@@ -8,15 +8,20 @@ part of 'message.dart';
 
 _$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
       id: json['id'] as String,
+      messageType: $enumDecode(_$MessageTypeEnumMap, json['messageType']),
       content: json['content'] as String,
       createdAt: json['createdAt'] as int,
-      isErrorMessage: json['isErrorMessage'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'messageType': _$MessageTypeEnumMap[instance.messageType]!,
       'content': instance.content,
       'createdAt': instance.createdAt,
-      'isErrorMessage': instance.isErrorMessage,
     };
+
+const _$MessageTypeEnumMap = {
+  MessageType.giveUp: 'giveUp',
+  MessageType.playing: 'playing',
+};

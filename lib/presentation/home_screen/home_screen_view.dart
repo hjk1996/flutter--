@@ -1,16 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:text_project/di/provider_setting.dart';
 
-import 'package:text_project/presentation/common/asking_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
-import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:text_project/presentation/home_screen/components/game_menu_card.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_mode.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
@@ -39,12 +33,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) {
-                      return ChangeNotifierProvider<GameScreenViewModel>(
-                        create: (context) => makeGameScreenViewModel(),
-                        child: const GameScreenView(),
-                      );
-                    },
+                    builder: (context) => const GameScreenView(),
                   ),
                 );
               },

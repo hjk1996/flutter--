@@ -16,61 +16,48 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$GameScreenEvent {
+  RefereeResponse get response => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onPlaying,
-    required TResult Function(String message) onError,
-    required TResult Function() onPlayerWin,
-    required TResult Function() onPlayerLose,
-    required TResult Function() onFinishStep,
+    required TResult Function(RefereeResponse response) onError,
+    required TResult Function(RefereeResponse response) onGameEnd,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
+    TResult Function(RefereeResponse response)? onError,
+    TResult Function(RefereeResponse response)? onGameEnd,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
+    TResult Function(RefereeResponse response)? onError,
+    TResult Function(RefereeResponse response)? onGameEnd,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
-    required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnPlayerLose value) onPlayerLose,
-    required TResult Function(OnFinishStep value) onFinishStep,
+    required TResult Function(OnGameEnd value) onGameEnd,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
+    TResult Function(OnGameEnd value)? onGameEnd,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
+    TResult Function(OnGameEnd value)? onGameEnd,
     required TResult orElse(),
   }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $GameScreenEventCopyWith<GameScreenEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -79,6 +66,7 @@ abstract class $GameScreenEventCopyWith<$Res> {
   factory $GameScreenEventCopyWith(
           GameScreenEvent value, $Res Function(GameScreenEvent) then) =
       _$GameScreenEventCopyWithImpl<$Res>;
+  $Res call({RefereeResponse response});
 }
 
 /// @nodoc
@@ -89,136 +77,27 @@ class _$GameScreenEventCopyWithImpl<$Res>
   final GameScreenEvent _value;
   // ignore: unused_field
   final $Res Function(GameScreenEvent) _then;
+
+  @override
+  $Res call({
+    Object? response = freezed,
+  }) {
+    return _then(_value.copyWith(
+      response: response == freezed
+          ? _value.response
+          : response // ignore: cast_nullable_to_non_nullable
+              as RefereeResponse,
+    ));
+  }
 }
 
 /// @nodoc
-abstract class _$$OnPlayingCopyWith<$Res> {
-  factory _$$OnPlayingCopyWith(
-          _$OnPlaying value, $Res Function(_$OnPlaying) then) =
-      __$$OnPlayingCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$OnPlayingCopyWithImpl<$Res>
-    extends _$GameScreenEventCopyWithImpl<$Res>
-    implements _$$OnPlayingCopyWith<$Res> {
-  __$$OnPlayingCopyWithImpl(
-      _$OnPlaying _value, $Res Function(_$OnPlaying) _then)
-      : super(_value, (v) => _then(v as _$OnPlaying));
-
-  @override
-  _$OnPlaying get _value => super._value as _$OnPlaying;
-}
-
-/// @nodoc
-
-class _$OnPlaying implements OnPlaying {
-  const _$OnPlaying();
-
-  @override
-  String toString() {
-    return 'GameScreenEvent.onPlaying()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$OnPlaying);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onPlaying,
-    required TResult Function(String message) onError,
-    required TResult Function() onPlayerWin,
-    required TResult Function() onPlayerLose,
-    required TResult Function() onFinishStep,
-  }) {
-    return onPlaying();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
-  }) {
-    return onPlaying?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
-    required TResult orElse(),
-  }) {
-    if (onPlaying != null) {
-      return onPlaying();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnPlaying value) onPlaying,
-    required TResult Function(OnError value) onError,
-    required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnPlayerLose value) onPlayerLose,
-    required TResult Function(OnFinishStep value) onFinishStep,
-  }) {
-    return onPlaying(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
-    TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
-  }) {
-    return onPlaying?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
-    TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
-    required TResult orElse(),
-  }) {
-    if (onPlaying != null) {
-      return onPlaying(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class OnPlaying implements GameScreenEvent {
-  const factory OnPlaying() = _$OnPlaying;
-}
-
-/// @nodoc
-abstract class _$$OnErrorCopyWith<$Res> {
+abstract class _$$OnErrorCopyWith<$Res>
+    implements $GameScreenEventCopyWith<$Res> {
   factory _$$OnErrorCopyWith(_$OnError value, $Res Function(_$OnError) then) =
       __$$OnErrorCopyWithImpl<$Res>;
-  $Res call({String message});
+  @override
+  $Res call({RefereeResponse response});
 }
 
 /// @nodoc
@@ -232,13 +111,13 @@ class __$$OnErrorCopyWithImpl<$Res> extends _$GameScreenEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? message = freezed,
+    Object? response = freezed,
   }) {
     return _then(_$OnError(
-      message == freezed
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+      response == freezed
+          ? _value.response
+          : response // ignore: cast_nullable_to_non_nullable
+              as RefereeResponse,
     ));
   }
 }
@@ -246,14 +125,14 @@ class __$$OnErrorCopyWithImpl<$Res> extends _$GameScreenEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$OnError implements OnError {
-  const _$OnError(this.message);
+  const _$OnError(this.response);
 
   @override
-  final String message;
+  final RefereeResponse response;
 
   @override
   String toString() {
-    return 'GameScreenEvent.onError(message: $message)';
+    return 'GameScreenEvent.onError(response: $response)';
   }
 
   @override
@@ -261,12 +140,12 @@ class _$OnError implements OnError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OnError &&
-            const DeepCollectionEquality().equals(other.message, message));
+            const DeepCollectionEquality().equals(other.response, response));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(response));
 
   @JsonKey(ignore: true)
   @override
@@ -276,39 +155,30 @@ class _$OnError implements OnError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onPlaying,
-    required TResult Function(String message) onError,
-    required TResult Function() onPlayerWin,
-    required TResult Function() onPlayerLose,
-    required TResult Function() onFinishStep,
+    required TResult Function(RefereeResponse response) onError,
+    required TResult Function(RefereeResponse response) onGameEnd,
   }) {
-    return onError(message);
+    return onError(response);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
+    TResult Function(RefereeResponse response)? onError,
+    TResult Function(RefereeResponse response)? onGameEnd,
   }) {
-    return onError?.call(message);
+    return onError?.call(response);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
+    TResult Function(RefereeResponse response)? onError,
+    TResult Function(RefereeResponse response)? onGameEnd,
     required TResult orElse(),
   }) {
     if (onError != null) {
-      return onError(message);
+      return onError(response);
     }
     return orElse();
   }
@@ -316,11 +186,8 @@ class _$OnError implements OnError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
-    required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnPlayerLose value) onPlayerLose,
-    required TResult Function(OnFinishStep value) onFinishStep,
+    required TResult Function(OnGameEnd value) onGameEnd,
   }) {
     return onError(this);
   }
@@ -328,11 +195,8 @@ class _$OnError implements OnError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
+    TResult Function(OnGameEnd value)? onGameEnd,
   }) {
     return onError?.call(this);
   }
@@ -340,11 +204,8 @@ class _$OnError implements OnError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
+    TResult Function(OnGameEnd value)? onGameEnd,
     required TResult orElse(),
   }) {
     if (onError != null) {
@@ -355,88 +216,107 @@ class _$OnError implements OnError {
 }
 
 abstract class OnError implements GameScreenEvent {
-  const factory OnError(final String message) = _$OnError;
+  const factory OnError(final RefereeResponse response) = _$OnError;
 
-  String get message;
+  @override
+  RefereeResponse get response;
+  @override
   @JsonKey(ignore: true)
   _$$OnErrorCopyWith<_$OnError> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnPlayerWinCopyWith<$Res> {
-  factory _$$OnPlayerWinCopyWith(
-          _$OnPlayerWin value, $Res Function(_$OnPlayerWin) then) =
-      __$$OnPlayerWinCopyWithImpl<$Res>;
+abstract class _$$OnGameEndCopyWith<$Res>
+    implements $GameScreenEventCopyWith<$Res> {
+  factory _$$OnGameEndCopyWith(
+          _$OnGameEnd value, $Res Function(_$OnGameEnd) then) =
+      __$$OnGameEndCopyWithImpl<$Res>;
+  @override
+  $Res call({RefereeResponse response});
 }
 
 /// @nodoc
-class __$$OnPlayerWinCopyWithImpl<$Res>
+class __$$OnGameEndCopyWithImpl<$Res>
     extends _$GameScreenEventCopyWithImpl<$Res>
-    implements _$$OnPlayerWinCopyWith<$Res> {
-  __$$OnPlayerWinCopyWithImpl(
-      _$OnPlayerWin _value, $Res Function(_$OnPlayerWin) _then)
-      : super(_value, (v) => _then(v as _$OnPlayerWin));
+    implements _$$OnGameEndCopyWith<$Res> {
+  __$$OnGameEndCopyWithImpl(
+      _$OnGameEnd _value, $Res Function(_$OnGameEnd) _then)
+      : super(_value, (v) => _then(v as _$OnGameEnd));
 
   @override
-  _$OnPlayerWin get _value => super._value as _$OnPlayerWin;
+  _$OnGameEnd get _value => super._value as _$OnGameEnd;
+
+  @override
+  $Res call({
+    Object? response = freezed,
+  }) {
+    return _then(_$OnGameEnd(
+      response == freezed
+          ? _value.response
+          : response // ignore: cast_nullable_to_non_nullable
+              as RefereeResponse,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$OnPlayerWin implements OnPlayerWin {
-  const _$OnPlayerWin();
+class _$OnGameEnd implements OnGameEnd {
+  const _$OnGameEnd(this.response);
+
+  @override
+  final RefereeResponse response;
 
   @override
   String toString() {
-    return 'GameScreenEvent.onPlayerWin()';
+    return 'GameScreenEvent.onGameEnd(response: $response)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$OnPlayerWin);
+        (other.runtimeType == runtimeType &&
+            other is _$OnGameEnd &&
+            const DeepCollectionEquality().equals(other.response, response));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(response));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$OnGameEndCopyWith<_$OnGameEnd> get copyWith =>
+      __$$OnGameEndCopyWithImpl<_$OnGameEnd>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() onPlaying,
-    required TResult Function(String message) onError,
-    required TResult Function() onPlayerWin,
-    required TResult Function() onPlayerLose,
-    required TResult Function() onFinishStep,
+    required TResult Function(RefereeResponse response) onError,
+    required TResult Function(RefereeResponse response) onGameEnd,
   }) {
-    return onPlayerWin();
+    return onGameEnd(response);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
+    TResult Function(RefereeResponse response)? onError,
+    TResult Function(RefereeResponse response)? onGameEnd,
   }) {
-    return onPlayerWin?.call();
+    return onGameEnd?.call(response);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
+    TResult Function(RefereeResponse response)? onError,
+    TResult Function(RefereeResponse response)? onGameEnd,
     required TResult orElse(),
   }) {
-    if (onPlayerWin != null) {
-      return onPlayerWin();
+    if (onGameEnd != null) {
+      return onGameEnd(response);
     }
     return orElse();
   }
@@ -444,290 +324,42 @@ class _$OnPlayerWin implements OnPlayerWin {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(OnPlaying value) onPlaying,
     required TResult Function(OnError value) onError,
-    required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnPlayerLose value) onPlayerLose,
-    required TResult Function(OnFinishStep value) onFinishStep,
+    required TResult Function(OnGameEnd value) onGameEnd,
   }) {
-    return onPlayerWin(this);
+    return onGameEnd(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
+    TResult Function(OnGameEnd value)? onGameEnd,
   }) {
-    return onPlayerWin?.call(this);
+    return onGameEnd?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
     TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
+    TResult Function(OnGameEnd value)? onGameEnd,
     required TResult orElse(),
   }) {
-    if (onPlayerWin != null) {
-      return onPlayerWin(this);
+    if (onGameEnd != null) {
+      return onGameEnd(this);
     }
     return orElse();
   }
 }
 
-abstract class OnPlayerWin implements GameScreenEvent {
-  const factory OnPlayerWin() = _$OnPlayerWin;
-}
-
-/// @nodoc
-abstract class _$$OnPlayerLoseCopyWith<$Res> {
-  factory _$$OnPlayerLoseCopyWith(
-          _$OnPlayerLose value, $Res Function(_$OnPlayerLose) then) =
-      __$$OnPlayerLoseCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$OnPlayerLoseCopyWithImpl<$Res>
-    extends _$GameScreenEventCopyWithImpl<$Res>
-    implements _$$OnPlayerLoseCopyWith<$Res> {
-  __$$OnPlayerLoseCopyWithImpl(
-      _$OnPlayerLose _value, $Res Function(_$OnPlayerLose) _then)
-      : super(_value, (v) => _then(v as _$OnPlayerLose));
+abstract class OnGameEnd implements GameScreenEvent {
+  const factory OnGameEnd(final RefereeResponse response) = _$OnGameEnd;
 
   @override
-  _$OnPlayerLose get _value => super._value as _$OnPlayerLose;
-}
-
-/// @nodoc
-
-class _$OnPlayerLose implements OnPlayerLose {
-  const _$OnPlayerLose();
-
+  RefereeResponse get response;
   @override
-  String toString() {
-    return 'GameScreenEvent.onPlayerLose()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$OnPlayerLose);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onPlaying,
-    required TResult Function(String message) onError,
-    required TResult Function() onPlayerWin,
-    required TResult Function() onPlayerLose,
-    required TResult Function() onFinishStep,
-  }) {
-    return onPlayerLose();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
-  }) {
-    return onPlayerLose?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
-    required TResult orElse(),
-  }) {
-    if (onPlayerLose != null) {
-      return onPlayerLose();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnPlaying value) onPlaying,
-    required TResult Function(OnError value) onError,
-    required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnPlayerLose value) onPlayerLose,
-    required TResult Function(OnFinishStep value) onFinishStep,
-  }) {
-    return onPlayerLose(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
-    TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
-  }) {
-    return onPlayerLose?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
-    TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
-    required TResult orElse(),
-  }) {
-    if (onPlayerLose != null) {
-      return onPlayerLose(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class OnPlayerLose implements GameScreenEvent {
-  const factory OnPlayerLose() = _$OnPlayerLose;
-}
-
-/// @nodoc
-abstract class _$$OnFinishStepCopyWith<$Res> {
-  factory _$$OnFinishStepCopyWith(
-          _$OnFinishStep value, $Res Function(_$OnFinishStep) then) =
-      __$$OnFinishStepCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$OnFinishStepCopyWithImpl<$Res>
-    extends _$GameScreenEventCopyWithImpl<$Res>
-    implements _$$OnFinishStepCopyWith<$Res> {
-  __$$OnFinishStepCopyWithImpl(
-      _$OnFinishStep _value, $Res Function(_$OnFinishStep) _then)
-      : super(_value, (v) => _then(v as _$OnFinishStep));
-
-  @override
-  _$OnFinishStep get _value => super._value as _$OnFinishStep;
-}
-
-/// @nodoc
-
-class _$OnFinishStep implements OnFinishStep {
-  const _$OnFinishStep();
-
-  @override
-  String toString() {
-    return 'GameScreenEvent.onFinishStep()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$OnFinishStep);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() onPlaying,
-    required TResult Function(String message) onError,
-    required TResult Function() onPlayerWin,
-    required TResult Function() onPlayerLose,
-    required TResult Function() onFinishStep,
-  }) {
-    return onFinishStep();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
-  }) {
-    return onFinishStep?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? onPlaying,
-    TResult Function(String message)? onError,
-    TResult Function()? onPlayerWin,
-    TResult Function()? onPlayerLose,
-    TResult Function()? onFinishStep,
-    required TResult orElse(),
-  }) {
-    if (onFinishStep != null) {
-      return onFinishStep();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnPlaying value) onPlaying,
-    required TResult Function(OnError value) onError,
-    required TResult Function(OnPlayerWin value) onPlayerWin,
-    required TResult Function(OnPlayerLose value) onPlayerLose,
-    required TResult Function(OnFinishStep value) onFinishStep,
-  }) {
-    return onFinishStep(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
-    TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
-  }) {
-    return onFinishStep?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnPlaying value)? onPlaying,
-    TResult Function(OnError value)? onError,
-    TResult Function(OnPlayerWin value)? onPlayerWin,
-    TResult Function(OnPlayerLose value)? onPlayerLose,
-    TResult Function(OnFinishStep value)? onFinishStep,
-    required TResult orElse(),
-  }) {
-    if (onFinishStep != null) {
-      return onFinishStep(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class OnFinishStep implements GameScreenEvent {
-  const factory OnFinishStep() = _$OnFinishStep;
+  @JsonKey(ignore: true)
+  _$$OnGameEndCopyWith<_$OnGameEnd> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -48,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
-            decoration: InputDecoration(hintText: 'e-mail'),
+            decoration: const InputDecoration(hintText: 'e-mail'),
             controller: _emailController,
             validator: viewModel.validateEmail,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -57,7 +57,7 @@ class _SignUpFormState extends State<SignUpForm> {
             height: AUTH_FORM_FILED_GAP,
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'password'),
+            decoration: const InputDecoration(hintText: 'password'),
             controller: _passwordController,
             obscureText: true,
             validator: viewModel.validatePassword,
@@ -67,7 +67,7 @@ class _SignUpFormState extends State<SignUpForm> {
             height: AUTH_FORM_FILED_GAP,
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'confirm password'),
+            decoration: const InputDecoration(hintText: 'confirm password'),
             controller: _confirmPasswordController,
             obscureText: true,
             validator: viewModel.validateConfirmPassword,

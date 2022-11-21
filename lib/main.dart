@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/common/theme.dart';
+import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_mode.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 import 'firebase_options.dart';
@@ -18,7 +19,8 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthScreenViewModel()),
-        ChangeNotifierProvider(create: (context) => HomeScreenViewModel())
+        ChangeNotifierProvider(create: (context) => HomeScreenViewModel()),
+        ChangeNotifierProvider(create: (context) => GameScreenViewModel())
       ],
       builder: (context, child) => const MyApp(),
     ),

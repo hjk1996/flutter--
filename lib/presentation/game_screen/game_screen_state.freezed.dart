@@ -21,7 +21,6 @@ GameScreenState _$GameScreenStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$GameScreenState {
   List<Message> get messages => throw _privateConstructorUsedError;
-  Message? get lastValidMessage => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isPlaying => throw _privateConstructorUsedError;
 
@@ -36,13 +35,7 @@ abstract class $GameScreenStateCopyWith<$Res> {
   factory $GameScreenStateCopyWith(
           GameScreenState value, $Res Function(GameScreenState) then) =
       _$GameScreenStateCopyWithImpl<$Res>;
-  $Res call(
-      {List<Message> messages,
-      Message? lastValidMessage,
-      bool isLoading,
-      bool isPlaying});
-
-  $MessageCopyWith<$Res>? get lastValidMessage;
+  $Res call({List<Message> messages, bool isLoading, bool isPlaying});
 }
 
 /// @nodoc
@@ -57,7 +50,6 @@ class _$GameScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = freezed,
-    Object? lastValidMessage = freezed,
     Object? isLoading = freezed,
     Object? isPlaying = freezed,
   }) {
@@ -66,10 +58,6 @@ class _$GameScreenStateCopyWithImpl<$Res>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
-      lastValidMessage: lastValidMessage == freezed
-          ? _value.lastValidMessage
-          : lastValidMessage // ignore: cast_nullable_to_non_nullable
-              as Message?,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -80,17 +68,6 @@ class _$GameScreenStateCopyWithImpl<$Res>
               as bool,
     ));
   }
-
-  @override
-  $MessageCopyWith<$Res>? get lastValidMessage {
-    if (_value.lastValidMessage == null) {
-      return null;
-    }
-
-    return $MessageCopyWith<$Res>(_value.lastValidMessage!, (value) {
-      return _then(_value.copyWith(lastValidMessage: value));
-    });
-  }
 }
 
 /// @nodoc
@@ -100,14 +77,7 @@ abstract class _$$_GameScreenStateCopyWith<$Res>
           _$_GameScreenState value, $Res Function(_$_GameScreenState) then) =
       __$$_GameScreenStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {List<Message> messages,
-      Message? lastValidMessage,
-      bool isLoading,
-      bool isPlaying});
-
-  @override
-  $MessageCopyWith<$Res>? get lastValidMessage;
+  $Res call({List<Message> messages, bool isLoading, bool isPlaying});
 }
 
 /// @nodoc
@@ -124,7 +94,6 @@ class __$$_GameScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = freezed,
-    Object? lastValidMessage = freezed,
     Object? isLoading = freezed,
     Object? isPlaying = freezed,
   }) {
@@ -133,10 +102,6 @@ class __$$_GameScreenStateCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
-      lastValidMessage: lastValidMessage == freezed
-          ? _value.lastValidMessage
-          : lastValidMessage // ignore: cast_nullable_to_non_nullable
-              as Message?,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -154,7 +119,6 @@ class __$$_GameScreenStateCopyWithImpl<$Res>
 class _$_GameScreenState implements _GameScreenState {
   _$_GameScreenState(
       {required final List<Message> messages,
-      this.lastValidMessage,
       required this.isLoading,
       required this.isPlaying})
       : _messages = messages;
@@ -170,15 +134,13 @@ class _$_GameScreenState implements _GameScreenState {
   }
 
   @override
-  final Message? lastValidMessage;
-  @override
   final bool isLoading;
   @override
   final bool isPlaying;
 
   @override
   String toString() {
-    return 'GameScreenState(messages: $messages, lastValidMessage: $lastValidMessage, isLoading: $isLoading, isPlaying: $isPlaying)';
+    return 'GameScreenState(messages: $messages, isLoading: $isLoading, isPlaying: $isPlaying)';
   }
 
   @override
@@ -187,8 +149,6 @@ class _$_GameScreenState implements _GameScreenState {
         (other.runtimeType == runtimeType &&
             other is _$_GameScreenState &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
-            const DeepCollectionEquality()
-                .equals(other.lastValidMessage, lastValidMessage) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality().equals(other.isPlaying, isPlaying));
   }
@@ -198,7 +158,6 @@ class _$_GameScreenState implements _GameScreenState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_messages),
-      const DeepCollectionEquality().hash(lastValidMessage),
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(isPlaying));
 
@@ -218,7 +177,6 @@ class _$_GameScreenState implements _GameScreenState {
 abstract class _GameScreenState implements GameScreenState {
   factory _GameScreenState(
       {required final List<Message> messages,
-      final Message? lastValidMessage,
       required final bool isLoading,
       required final bool isPlaying}) = _$_GameScreenState;
 
@@ -227,8 +185,6 @@ abstract class _GameScreenState implements GameScreenState {
 
   @override
   List<Message> get messages;
-  @override
-  Message? get lastValidMessage;
   @override
   bool get isLoading;
   @override

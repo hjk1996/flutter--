@@ -18,7 +18,6 @@ class GameScreenView extends StatefulWidget {
 }
 
 class _GameScreenViewState extends State<GameScreenView> {
-  final _controller = TextEditingController();
   StreamSubscription<GameScreenEvent>? _subscription;
 
   @override
@@ -31,47 +30,8 @@ class _GameScreenViewState extends State<GameScreenView> {
         _subscription = viewModel.eventStream.listen(
           (event) {
             event.when(
-              onPlaying: () {},
-              onFinishStep: () {},
-              onError: (message) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: Text(message),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('확인'),
-                      )
-                    ],
-                  ),
-                );
-              },
-              onPlayerWin: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: const Text('승리했습니다!'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('다시 하기'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('나가기'),
-                      )
-                    ],
-                  ),
-                );
-              },
-              onPlayerLose: () {},
+              onError: (response) {},
+              onGameEnd: (response) {},
             );
           },
         );
@@ -87,9 +47,8 @@ class _GameScreenViewState extends State<GameScreenView> {
 
   @override
   void dispose() {
-    super.dispose();
-    _controller.dispose();
     _subscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -125,7 +84,6 @@ class _GameScreenViewState extends State<GameScreenView> {
                                       )
                                     : YourChatBubble(
                                         content: message.content,
-                                        isErrorMessage: message.isErrorMessage,
                                       ),
                               )
                               .toList()
@@ -138,21 +96,7 @@ class _GameScreenViewState extends State<GameScreenView> {
                 ),
               ),
             ),
-            Consumer<GameScreenViewModel>(
-              builder: (context, vm, child) {
-                return Visibility(
-                  visible: vm.state.isPlaying,
-                  child: ChatInputBox(
-                    controller: _controller,
-                    onSendPressed: () async {
-                      final String message = _controller.text;
-                      _controller.clear();
-                      await vm.sendMessage(message);
-                    },
-                  ),
-                );
-              },
-            )
+            const ChatInputBox()
           ],
         ),
       ),

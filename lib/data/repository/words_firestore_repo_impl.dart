@@ -1,10 +1,10 @@
 import 'package:text_project/data/data_source/firestore_helper.dart';
 import 'package:text_project/domain/model/last_word.dart';
-import 'package:text_project/domain/repository/ai_repository.dart';
+import 'package:text_project/domain/repository/words_repo.dart';
 
-class AIRepositoryImpl implements AIRepository {
+class WordsFirestoreRepoImpl implements WordsRepo {
   final FirestoreHelper firestoreHelper;
-  AIRepositoryImpl(this.firestoreHelper);
+  WordsFirestoreRepoImpl(this.firestoreHelper);
 
   @override
   Future<Set<String>?> findAdjacentWords(String word) async {
@@ -17,6 +17,11 @@ class AIRepositoryImpl implements AIRepository {
   }
 
   @override
+  Future<Map<String, dynamic>> loadDooumMap() async {
+    return firestoreHelper.loadDooumMap();
+  }
+
+  @override
   Future<LastWord> getLastWordInfo(String lastWord) async {
     return firestoreHelper.getLastWordInfo(lastWord);
   }
@@ -24,5 +29,10 @@ class AIRepositoryImpl implements AIRepository {
   @override
   Future<String> getRandomNonKillerWord() async {
     return firestoreHelper.getRandomNonKillerWord();
+  }
+
+  @override
+  Future<bool> checkWordExists(String word) async {
+    return firestoreHelper.checkWordExists(word);
   }
 }

@@ -11,9 +11,6 @@ _$_GameScreenState _$$_GameScreenStateFromJson(Map<String, dynamic> json) =>
       messages: (json['messages'] as List<dynamic>)
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lastValidMessage: json['lastValidMessage'] == null
-          ? null
-          : Message.fromJson(json['lastValidMessage'] as Map<String, dynamic>),
       isLoading: json['isLoading'] as bool,
       isPlaying: json['isPlaying'] as bool,
     );
@@ -21,7 +18,6 @@ _$_GameScreenState _$$_GameScreenStateFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_GameScreenStateToJson(_$_GameScreenState instance) =>
     <String, dynamic>{
       'messages': instance.messages,
-      'lastValidMessage': instance.lastValidMessage,
       'isLoading': instance.isLoading,
       'isPlaying': instance.isPlaying,
     };

@@ -1,17 +1,23 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
+import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 
-class ChatInputBox extends StatelessWidget {
-  final TextEditingController _controller;
-  final VoidCallback _onSendPressed;
-  const ChatInputBox({
-    super.key,
-    required TextEditingController controller,
-    required VoidCallback onSendPressed,
-  })  : _controller = controller,
-        _onSendPressed = onSendPressed;
+class ChatInputBox extends StatefulWidget {
+  const ChatInputBox({super.key});
+
+  @override
+  State<ChatInputBox> createState() => _ChatInputBoxState();
+}
+
+class _ChatInputBoxState extends State<ChatInputBox> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +30,19 @@ class ChatInputBox extends StatelessWidget {
               controller: _controller,
             ),
           ),
-          IconButton(
-            onPressed: _onSendPressed,
-            icon: const Icon(Icons.send),
+          Consumer<GameScreenViewModel>(
+            builder: (context, vm, child) {
+              return IconButton(
+                onPressed: vm.referee.playerOnTurn?.id! ==
+                        FirebaseAuth.instance.currentUser!.uid
+                    ? () async {
+                        await vm.sendMessage(_controller.text);
+                        _controller.clear();
+                      }
+                    : null,
+                icon: const Icon(Icons.send),
+              );
+            },
           ),
         ],
       ),

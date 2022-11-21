@@ -49,10 +49,24 @@ class FirestoreHelper {
 
   Future<Set<String>> loadKillerWords() async {
     final data = await FirebaseFirestore.instance
-        .collection('killers')
+        .collection('utils')
         .doc('killers')
         .get();
 
     return Set.from(data.data()!['words']);
+  }
+
+  Future<Map<String, dynamic>> loadDooumMap() async {
+    final data =
+        await FirebaseFirestore.instance.collection('utils').doc('dooum').get();
+
+    return data.data()!['map'];
+  }
+
+  Future<bool> checkWordExists(String word) async {
+    final wordInfo =
+        await FirebaseFirestore.instance.collection('words').doc(word).get();
+
+    return wordInfo.exists ? true : false;
   }
 }

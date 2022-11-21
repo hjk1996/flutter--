@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 class YourChatBubble extends StatelessWidget {
   final String content;
-  final bool isErrorMessage;
-  const YourChatBubble(
-      {super.key, required this.content, required this.isErrorMessage});
+  const YourChatBubble({super.key, required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +21,5 @@ class YourChatBubble extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

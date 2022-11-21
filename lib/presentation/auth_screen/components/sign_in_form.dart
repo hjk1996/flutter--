@@ -44,7 +44,7 @@ class _SignInFormState extends State<SignInForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
-            decoration: InputDecoration(hintText: 'e-mail'),
+            decoration: const InputDecoration(hintText: 'e-mail'),
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             validator: viewModel.validateEmail,
@@ -55,7 +55,7 @@ class _SignInFormState extends State<SignInForm> {
             height: AUTH_FORM_FILED_GAP,
           ),
           TextFormField(
-            decoration: InputDecoration(hintText: 'password'),
+            decoration: const InputDecoration(hintText: 'password'),
             controller: _passwordController,
             validator: viewModel.validatePassword,
             obscureText: true,
