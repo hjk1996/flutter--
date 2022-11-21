@@ -30,7 +30,8 @@ class _GameScreenAppBarState extends State<GameScreenAppBar> {
           _unfocus();
           final answer = await askYesOrNo(context, '게임에서 나가겠습니까?');
           if (answer == true && mounted) {
-            Navigator.pop(context);
+            viewModel.endGame();
+             Navigator.pop(context);
           }
         },
         icon: const Icon(Icons.exit_to_app),

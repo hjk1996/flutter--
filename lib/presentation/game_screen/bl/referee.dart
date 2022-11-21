@@ -35,8 +35,8 @@ class Referee {
 
   Timer? timer;
 
-  PlayerABC? player1;
-  PlayerABC? player2;
+  PlayerABC? _player1;
+  PlayerABC? _player2;
   PlayerABC? playerOnTurn;
 
   Message? _lastValidMessage;
@@ -50,9 +50,15 @@ class Referee {
 
   void registerPlayers(
       {required PlayerABC player1, required PlayerABC player2}) {
-    player1 = player1;
-    player2 = player2;
+    _player1 = player1;
+    _player2 = player2;
     playerOnTurn = player1;
+  }
+
+  void releasePlayers() {
+    _player1 = null;
+    _player2 = null;
+    playerOnTurn = null;
   }
 
   Future<void> receiveMessage(Message message) async {
@@ -75,13 +81,13 @@ class Referee {
     _eventController.add(
       RefereeResponse(
           responseTypes: RefereeResponseTypes.askNextMove,
-          target: playerOnTurn == player1 ? player1!.id! : player2!.id!,
+          target: playerOnTurn == _player1 ? _player1!.id! : _player2!.id!,
           message: message.content),
     );
   }
 
   void _switchTurn() {
-    playerOnTurn = playerOnTurn == player1 ? player2 : player1;
+    playerOnTurn = playerOnTurn == _player1 ? _player2 : _player1;
   }
 
   // Timer 콜백 설정하기;

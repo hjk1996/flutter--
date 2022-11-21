@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:text_project/di/provider_setting.dart';
+import 'package:text_project/di/di.dart';
 import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/presentation/game_screen/bl/player.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
@@ -20,9 +20,9 @@ class GameScreenViewModel with ChangeNotifier {
   late Referee _referee;
   Referee get referee => _referee;
 
-  StreamSubscription? _refereeSubscription;
+  StreamSubscription<RefereeResponse>? _refereeSubscription;
 
-  final _eventController = StreamController<GameScreenEvent>();
+  final _eventController = StreamController<GameScreenEvent>.broadcast();
   Stream<GameScreenEvent> get eventStream => _eventController.stream;
 
   Future<void> sendMessage(String word) async {
@@ -33,7 +33,9 @@ class GameScreenViewModel with ChangeNotifier {
       createdAt: DateTime.now().microsecondsSinceEpoch,
     );
     _updateMessage(message: message);
+    _startLoading();
     await _referee.receiveMessage(message);
+    _endLoading();
   }
 
   void _startLoading() {
@@ -53,7 +55,7 @@ class GameScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initGame() async {
+  Future<void> init() async {
     _referee = makeRefree();
     await _referee.init();
     _refereeSubscription = _referee.eventStream.listen(_handleRefereeResponse);
@@ -102,5 +104,10 @@ class GameScreenViewModel with ChangeNotifier {
             : Player(
                 referee: _referee, id: FirebaseAuth.instance.currentUser!.uid));
     notifyListeners();
+  }
+
+  void endGame() {
+    _state = GameScreenState(messages: [], isLoading: false, isPlaying: false);
+    _referee.releasePlayers();
   }
 }

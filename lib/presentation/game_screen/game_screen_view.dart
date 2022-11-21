@@ -42,7 +42,7 @@ class _GameScreenViewState extends State<GameScreenView> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    await context.read<GameScreenViewModel>().initGame();
+    await context.read<GameScreenViewModel>().init();
   }
 
   @override

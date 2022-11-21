@@ -20,7 +20,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthScreenViewModel()),
         ChangeNotifierProvider(create: (context) => HomeScreenViewModel()),
-        ChangeNotifierProvider(create: (context) => GameScreenViewModel())
+        ChangeNotifierProvider(create: (context) => GameScreenViewModel()),
       ],
       builder: (context, child) => const MyApp(),
     ),
@@ -30,11 +30,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Word Relay App',
+      title: 'Word Relay Game',
       theme: AppTheme().dark,
       home: const InitialScreenView(),
     );

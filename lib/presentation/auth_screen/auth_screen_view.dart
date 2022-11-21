@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:text_project/presentation/auth_screen/auth_screen_event.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/auth_screen/components/sign_in_form.dart';
 import 'package:text_project/presentation/auth_screen/components/sign_up_form.dart';
@@ -15,7 +16,7 @@ class AuthScreenView extends StatefulWidget {
 }
 
 class _AuthScreenViewState extends State<AuthScreenView> {
-  StreamSubscription? _streamSubscription;
+  StreamSubscription<AuthScreenEvent>? _streamSubscription;
 
   @override
   void initState() {
@@ -40,7 +41,6 @@ class _AuthScreenViewState extends State<AuthScreenView> {
                   builder: (context) => const InitialScreenView(),
                 ),
               );
-
             },
             onSignUpSuccess: () {
               Navigator.of(context).pushReplacement(
@@ -48,7 +48,6 @@ class _AuthScreenViewState extends State<AuthScreenView> {
                   builder: (context) => const InitialScreenView(),
                 ),
               );
-
             },
           );
         },
