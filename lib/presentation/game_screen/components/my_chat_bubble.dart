@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
+import 'package:text_project/domain/model/message.dart';
+import 'package:text_project/presentation/common/theme.dart';
 
 class MyChatBubble extends StatelessWidget {
-  final String content;
-  const MyChatBubble({super.key, required this.content});
+  final Message message;
+  const MyChatBubble({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +15,13 @@ class MyChatBubble extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           BubbleSpecialThree(
-            text: content,
+            color: ChatBubbleColors.myBackgroundDark!,
+            text: message.content,
             tail: false,
-            textStyle: Theme.of(context).textTheme.bodyMedium!,
+            textStyle: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: ChatBubbleColors.myTextDark),
           )
         ],
       ),

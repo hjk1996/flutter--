@@ -16,23 +16,25 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$GameScreenEvent {
-  RefereeResponse get response => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(RefereeResponse response) onError,
+    required TResult Function(String message) onError,
     required TResult Function(RefereeResponse response) onGameEnd,
+    required TResult Function(String word) onSaveWord,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(RefereeResponse response)? onError,
+    TResult Function(String message)? onError,
     TResult Function(RefereeResponse response)? onGameEnd,
+    TResult Function(String word)? onSaveWord,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(RefereeResponse response)? onError,
+    TResult Function(String message)? onError,
     TResult Function(RefereeResponse response)? onGameEnd,
+    TResult Function(String word)? onSaveWord,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -40,24 +42,23 @@ mixin _$GameScreenEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(OnError value) onError,
     required TResult Function(OnGameEnd value) onGameEnd,
+    required TResult Function(OnSaveWord value) onSaveWord,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnError value)? onError,
     TResult Function(OnGameEnd value)? onGameEnd,
+    TResult Function(OnSaveWord value)? onSaveWord,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnError value)? onError,
     TResult Function(OnGameEnd value)? onGameEnd,
+    TResult Function(OnSaveWord value)? onSaveWord,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $GameScreenEventCopyWith<GameScreenEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -66,7 +67,6 @@ abstract class $GameScreenEventCopyWith<$Res> {
   factory $GameScreenEventCopyWith(
           GameScreenEvent value, $Res Function(GameScreenEvent) then) =
       _$GameScreenEventCopyWithImpl<$Res>;
-  $Res call({RefereeResponse response});
 }
 
 /// @nodoc
@@ -77,27 +77,13 @@ class _$GameScreenEventCopyWithImpl<$Res>
   final GameScreenEvent _value;
   // ignore: unused_field
   final $Res Function(GameScreenEvent) _then;
-
-  @override
-  $Res call({
-    Object? response = freezed,
-  }) {
-    return _then(_value.copyWith(
-      response: response == freezed
-          ? _value.response
-          : response // ignore: cast_nullable_to_non_nullable
-              as RefereeResponse,
-    ));
-  }
 }
 
 /// @nodoc
-abstract class _$$OnErrorCopyWith<$Res>
-    implements $GameScreenEventCopyWith<$Res> {
+abstract class _$$OnErrorCopyWith<$Res> {
   factory _$$OnErrorCopyWith(_$OnError value, $Res Function(_$OnError) then) =
       __$$OnErrorCopyWithImpl<$Res>;
-  @override
-  $Res call({RefereeResponse response});
+  $Res call({String message});
 }
 
 /// @nodoc
@@ -111,13 +97,13 @@ class __$$OnErrorCopyWithImpl<$Res> extends _$GameScreenEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? response = freezed,
+    Object? message = freezed,
   }) {
     return _then(_$OnError(
-      response == freezed
-          ? _value.response
-          : response // ignore: cast_nullable_to_non_nullable
-              as RefereeResponse,
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -125,14 +111,14 @@ class __$$OnErrorCopyWithImpl<$Res> extends _$GameScreenEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$OnError implements OnError {
-  const _$OnError(this.response);
+  const _$OnError(this.message);
 
   @override
-  final RefereeResponse response;
+  final String message;
 
   @override
   String toString() {
-    return 'GameScreenEvent.onError(response: $response)';
+    return 'GameScreenEvent.onError(message: $message)';
   }
 
   @override
@@ -140,12 +126,12 @@ class _$OnError implements OnError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OnError &&
-            const DeepCollectionEquality().equals(other.response, response));
+            const DeepCollectionEquality().equals(other.message, message));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(response));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
 
   @JsonKey(ignore: true)
   @override
@@ -155,30 +141,33 @@ class _$OnError implements OnError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(RefereeResponse response) onError,
+    required TResult Function(String message) onError,
     required TResult Function(RefereeResponse response) onGameEnd,
+    required TResult Function(String word) onSaveWord,
   }) {
-    return onError(response);
+    return onError(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(RefereeResponse response)? onError,
+    TResult Function(String message)? onError,
     TResult Function(RefereeResponse response)? onGameEnd,
+    TResult Function(String word)? onSaveWord,
   }) {
-    return onError?.call(response);
+    return onError?.call(message);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(RefereeResponse response)? onError,
+    TResult Function(String message)? onError,
     TResult Function(RefereeResponse response)? onGameEnd,
+    TResult Function(String word)? onSaveWord,
     required TResult orElse(),
   }) {
     if (onError != null) {
-      return onError(response);
+      return onError(message);
     }
     return orElse();
   }
@@ -188,6 +177,7 @@ class _$OnError implements OnError {
   TResult map<TResult extends Object?>({
     required TResult Function(OnError value) onError,
     required TResult Function(OnGameEnd value) onGameEnd,
+    required TResult Function(OnSaveWord value) onSaveWord,
   }) {
     return onError(this);
   }
@@ -197,6 +187,7 @@ class _$OnError implements OnError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnError value)? onError,
     TResult Function(OnGameEnd value)? onGameEnd,
+    TResult Function(OnSaveWord value)? onSaveWord,
   }) {
     return onError?.call(this);
   }
@@ -206,6 +197,7 @@ class _$OnError implements OnError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnError value)? onError,
     TResult Function(OnGameEnd value)? onGameEnd,
+    TResult Function(OnSaveWord value)? onSaveWord,
     required TResult orElse(),
   }) {
     if (onError != null) {
@@ -216,23 +208,19 @@ class _$OnError implements OnError {
 }
 
 abstract class OnError implements GameScreenEvent {
-  const factory OnError(final RefereeResponse response) = _$OnError;
+  const factory OnError(final String message) = _$OnError;
 
-  @override
-  RefereeResponse get response;
-  @override
+  String get message;
   @JsonKey(ignore: true)
   _$$OnErrorCopyWith<_$OnError> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OnGameEndCopyWith<$Res>
-    implements $GameScreenEventCopyWith<$Res> {
+abstract class _$$OnGameEndCopyWith<$Res> {
   factory _$$OnGameEndCopyWith(
           _$OnGameEnd value, $Res Function(_$OnGameEnd) then) =
       __$$OnGameEndCopyWithImpl<$Res>;
-  @override
   $Res call({RefereeResponse response});
 }
 
@@ -293,8 +281,9 @@ class _$OnGameEnd implements OnGameEnd {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(RefereeResponse response) onError,
+    required TResult Function(String message) onError,
     required TResult Function(RefereeResponse response) onGameEnd,
+    required TResult Function(String word) onSaveWord,
   }) {
     return onGameEnd(response);
   }
@@ -302,8 +291,9 @@ class _$OnGameEnd implements OnGameEnd {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(RefereeResponse response)? onError,
+    TResult Function(String message)? onError,
     TResult Function(RefereeResponse response)? onGameEnd,
+    TResult Function(String word)? onSaveWord,
   }) {
     return onGameEnd?.call(response);
   }
@@ -311,8 +301,9 @@ class _$OnGameEnd implements OnGameEnd {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(RefereeResponse response)? onError,
+    TResult Function(String message)? onError,
     TResult Function(RefereeResponse response)? onGameEnd,
+    TResult Function(String word)? onSaveWord,
     required TResult orElse(),
   }) {
     if (onGameEnd != null) {
@@ -326,6 +317,7 @@ class _$OnGameEnd implements OnGameEnd {
   TResult map<TResult extends Object?>({
     required TResult Function(OnError value) onError,
     required TResult Function(OnGameEnd value) onGameEnd,
+    required TResult Function(OnSaveWord value) onSaveWord,
   }) {
     return onGameEnd(this);
   }
@@ -335,6 +327,7 @@ class _$OnGameEnd implements OnGameEnd {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(OnError value)? onError,
     TResult Function(OnGameEnd value)? onGameEnd,
+    TResult Function(OnSaveWord value)? onSaveWord,
   }) {
     return onGameEnd?.call(this);
   }
@@ -344,6 +337,7 @@ class _$OnGameEnd implements OnGameEnd {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnError value)? onError,
     TResult Function(OnGameEnd value)? onGameEnd,
+    TResult Function(OnSaveWord value)? onSaveWord,
     required TResult orElse(),
   }) {
     if (onGameEnd != null) {
@@ -356,10 +350,148 @@ class _$OnGameEnd implements OnGameEnd {
 abstract class OnGameEnd implements GameScreenEvent {
   const factory OnGameEnd(final RefereeResponse response) = _$OnGameEnd;
 
-  @override
   RefereeResponse get response;
-  @override
   @JsonKey(ignore: true)
   _$$OnGameEndCopyWith<_$OnGameEnd> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$OnSaveWordCopyWith<$Res> {
+  factory _$$OnSaveWordCopyWith(
+          _$OnSaveWord value, $Res Function(_$OnSaveWord) then) =
+      __$$OnSaveWordCopyWithImpl<$Res>;
+  $Res call({String word});
+}
+
+/// @nodoc
+class __$$OnSaveWordCopyWithImpl<$Res>
+    extends _$GameScreenEventCopyWithImpl<$Res>
+    implements _$$OnSaveWordCopyWith<$Res> {
+  __$$OnSaveWordCopyWithImpl(
+      _$OnSaveWord _value, $Res Function(_$OnSaveWord) _then)
+      : super(_value, (v) => _then(v as _$OnSaveWord));
+
+  @override
+  _$OnSaveWord get _value => super._value as _$OnSaveWord;
+
+  @override
+  $Res call({
+    Object? word = freezed,
+  }) {
+    return _then(_$OnSaveWord(
+      word == freezed
+          ? _value.word
+          : word // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$OnSaveWord implements OnSaveWord {
+  const _$OnSaveWord(this.word);
+
+  @override
+  final String word;
+
+  @override
+  String toString() {
+    return 'GameScreenEvent.onSaveWord(word: $word)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OnSaveWord &&
+            const DeepCollectionEquality().equals(other.word, word));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(word));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$OnSaveWordCopyWith<_$OnSaveWord> get copyWith =>
+      __$$OnSaveWordCopyWithImpl<_$OnSaveWord>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) onError,
+    required TResult Function(RefereeResponse response) onGameEnd,
+    required TResult Function(String word) onSaveWord,
+  }) {
+    return onSaveWord(word);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String message)? onError,
+    TResult Function(RefereeResponse response)? onGameEnd,
+    TResult Function(String word)? onSaveWord,
+  }) {
+    return onSaveWord?.call(word);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? onError,
+    TResult Function(RefereeResponse response)? onGameEnd,
+    TResult Function(String word)? onSaveWord,
+    required TResult orElse(),
+  }) {
+    if (onSaveWord != null) {
+      return onSaveWord(word);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnError value) onError,
+    required TResult Function(OnGameEnd value) onGameEnd,
+    required TResult Function(OnSaveWord value) onSaveWord,
+  }) {
+    return onSaveWord(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
+    TResult Function(OnGameEnd value)? onGameEnd,
+    TResult Function(OnSaveWord value)? onSaveWord,
+  }) {
+    return onSaveWord?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
+    TResult Function(OnGameEnd value)? onGameEnd,
+    TResult Function(OnSaveWord value)? onSaveWord,
+    required TResult orElse(),
+  }) {
+    if (onSaveWord != null) {
+      return onSaveWord(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnSaveWord implements GameScreenEvent {
+  const factory OnSaveWord(final String word) = _$OnSaveWord;
+
+  String get word;
+  @JsonKey(ignore: true)
+  _$$OnSaveWordCopyWith<_$OnSaveWord> get copyWith =>
       throw _privateConstructorUsedError;
 }

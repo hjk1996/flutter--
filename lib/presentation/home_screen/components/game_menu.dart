@@ -1,4 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
+
+class GameMenu extends StatelessWidget {
+  const GameMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GameMenuCard(
+              content: 'AI',
+              onTap: context.read<HomeScreenViewModel>().onGameStart),
+          GameMenuCard(content: 'PvP', onTap: () {})
+        ],
+      ),
+    );
+  }
+}
 
 class GameMenuCard extends StatelessWidget {
   final String content;

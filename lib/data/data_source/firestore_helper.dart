@@ -4,6 +4,12 @@ import 'package:text_project/domain/model/word.dart';
 import 'dart:math';
 
 class FirestoreHelper {
+  Future<Word> getWordInfo(String word) async {
+    final wordInfo =
+        await FirebaseFirestore.instance.collection('words').doc(word).get();
+    return Word.fromJson(wordInfo.data()!);
+  }
+
   Future<Set<String>?> findAdjacentWords(String word) async {
     final wordInfo =
         await FirebaseFirestore.instance.collection('words').doc(word).get();
@@ -68,5 +74,9 @@ class FirestoreHelper {
         await FirebaseFirestore.instance.collection('words').doc(word).get();
 
     return wordInfo.exists ? true : false;
+  }
+
+  Future<void> sendGameLog(Map<String, dynamic> log) async {
+    await FirebaseFirestore.instance.collection('log').add(log);
   }
 }

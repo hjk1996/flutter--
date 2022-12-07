@@ -2,23 +2,25 @@ import 'dart:async';
 
 import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/domain/repository/words_repo.dart';
+import 'package:text_project/presentation/common/constants.dart';
+import 'package:text_project/presentation/game_screen/bl/player.dart';
 import 'package:text_project/presentation/game_screen/bl/player_abc.dart';
 
 enum RefereeResponseTypes {
-  // viewModel 이벤트 & player 이벤트
+  // askRobotToMove,
+  // player에게 반응요구하는 이벤트
   askNextMove,
-  // viewModel 이벤트
+  // 올바른 단어가 아닐때 발생시키는 이벤트
   notValidWord,
-  // viewModel 이벤트
+  // 게임 끝났을 때(둘 중 한명 패배) 발생시키는 이벤트
   gameEnd,
-  // viewModel 이벤트
-  errorOccured,
+  // 오류 발생했을 때 발생시키는 이벤트
 }
 
 class RefereeResponse {
   final RefereeResponseTypes responseTypes;
   final String target;
-  String? message;
+  Message? message;
   RefereeResponse({
     required this.responseTypes,
     required this.target,
@@ -26,84 +28,207 @@ class RefereeResponse {
   });
 }
 
-class Referee {
-  final WordsRepo firebaseRepo;
-  Referee({required this.firebaseRepo});
+class RefereeException implements Exception {
+  final String cause;
+  RefereeException({required this.cause});
+}
 
-  final _eventController = StreamController<RefereeResponse>.broadcast();
-  Stream<RefereeResponse> get eventStream => _eventController.stream;
+class Referee {
+  final WordsRepo wordsRepo;
+  Referee({required this.wordsRepo});
+
+  final id = REFEREE_ID;
+
+  final _refereeResponseController =
+      StreamController<RefereeResponse>.broadcast();
+  Stream<RefereeResponse> get refereeResponseStream =>
+      _refereeResponseController.stream;
 
   Timer? timer;
 
   PlayerABC? _player1;
   PlayerABC? _player2;
-  PlayerABC? playerOnTurn;
+  PlayerABC? _playerOnTurn;
+  PlayerABC? get playerOnTurn => _playerOnTurn;
+  PlayerABC? _winner;
+  PlayerABC? _loser;
+  String? _winType;
 
-  Message? _lastValidMessage;
-  Message? get lastValidMessage => _lastValidMessage;
-  Set<String> _usedWords = Set();
-  Set<String> get usedWords => _usedWords;
+  List<Message> _messages = [];
+  List<Message> get messages => _messages;
+  Message? get lastValidMessage => _messages.isEmpty ? null : _messages.last;
+  Set<String> get usedWords => Set.from(
+        messages.map((message) => message.content),
+      );
 
   Map<String, dynamic>? _dooumMap;
   Set<String>? _killerWords;
   Set<String>? get killerWords => _killerWords;
 
-  void registerPlayers(
-      {required PlayerABC player1, required PlayerABC player2}) {
+  // 게임시작할 때 선수 등록하고 다음 동작 요청함.
+  void startGame({required PlayerABC player1, required PlayerABC player2}) {
+    _messages = [];
     _player1 = player1;
+    _player1!.init();
     _player2 = player2;
-    playerOnTurn = player1;
-  }
+    _player2!.init();
+    _playerOnTurn = player1;
 
-  void releasePlayers() {
-    _player1 = null;
-    _player2 = null;
-    playerOnTurn = null;
-  }
-
-  Future<void> receiveMessage(Message message) async {
-    final errorMessage = await _validateMessage(message);
-    if (errorMessage != null) {
-      return _eventController.add(
-        RefereeResponse(
-          responseTypes: RefereeResponseTypes.notValidWord,
-          target: message.id,
-          message: errorMessage,
-        ),
-      );
-    }
-
-    _offTimer();
-    _setTimer(7);
-    _switchTurn();
-    _lastValidMessage = message;
-    _usedWords.add(message.content);
-    _eventController.add(
+    _refereeResponseController.sink.add(
       RefereeResponse(
-          responseTypes: RefereeResponseTypes.askNextMove,
-          target: playerOnTurn == _player1 ? _player1!.id! : _player2!.id!,
-          message: message.content),
+        responseTypes: RefereeResponseTypes.askNextMove,
+        target: _playerOnTurn!.id!,
+      ),
     );
   }
 
-  void _switchTurn() {
-    playerOnTurn = playerOnTurn == _player1 ? _player2 : _player1;
+  Future<void> sendGameLog() async {
+    try {
+      if (_messages.isNotEmpty) {
+        await wordsRepo.sendGameLog(
+          {
+            'winner': _winner!.id,
+            'loser': _loser!.id,
+            'winType': _winType!,
+            'endAt': DateTime.now().microsecondsSinceEpoch,
+            'log': _messages.map((message) => message.toJson()).toList()
+          },
+        );
+      }
+    } catch (err) {
+      throw RefereeException(cause: '로그 전송 실패');
+    }
   }
 
-  // Timer 콜백 설정하기;
-  void _setTimer(int seconds) {
-    timer = Timer(Duration(seconds: seconds), () {
-      _eventController.add(
+  void endGame() {
+    timer?.cancel();
+    _player1?.dispose();
+    _player2?.dispose();
+    _player1 = null;
+    _player2 = null;
+    _playerOnTurn = null;
+    _winner = null;
+    _loser = null;
+    _winType = null;
+    // _messages = [];
+  }
+
+  Future<void> _whenPlayerPlaying(Message message) async {
+    final errorMessage = await _validateMessage(message);
+
+    if (errorMessage != null) {
+      return _refereeResponseController.sink.add(
         RefereeResponse(
-          responseTypes: RefereeResponseTypes.gameEnd,
-          target: playerOnTurn!.id!,
+          responseTypes: RefereeResponseTypes.notValidWord,
+          target: message.id,
+          message: Message(
+            content: errorMessage,
+            id: id,
+            createdAt: DateTime.now().microsecondsSinceEpoch,
+            messageType: MessageType.error,
+          ),
         ),
       );
-    });
+    } else {
+      _offTimer();
+      _setTimer(TURN_TIME);
+      _messages.add(message);
+      _switchTurn();
+
+      _refereeResponseController.sink.add(
+        RefereeResponse(
+          responseTypes: RefereeResponseTypes.askNextMove,
+          target: playerOnTurn == _player1 ? _player1!.id! : _player2!.id!,
+          message: lastValidMessage,
+        ),
+      );
+    }
+  }
+
+  Future<void> _whenPlayerGiveUp(Message message) async {
+    if (message.id == _player1!.id) {
+      _loser = _player1;
+      _winner = _player2;
+    } else {
+      _loser = _player2;
+      _winner = _player1;
+    }
+
+    _winType = 'giveUp';
+
+    _refereeResponseController.sink.add(
+      RefereeResponse(
+        responseTypes: RefereeResponseTypes.gameEnd,
+        target: message.id,
+      ),
+    );
+
+    await sendGameLog();
+  }
+
+  Future<void> _whenTimeOut(Message message) async {
+    if (message.id == _player1!.id) {
+      _loser = _player1;
+      _winner = _player2;
+    } else {
+      _loser = _player2;
+      _winner = _player1;
+    }
+
+    _winType = 'timeOut';
+
+    _refereeResponseController.sink.add(
+      RefereeResponse(
+        responseTypes: RefereeResponseTypes.gameEnd,
+        target: message.id,
+      ),
+    );
+
+    await sendGameLog();
+  }
+
+  Future<void> receiveMessage(Message message) async {
+    switch (message.messageType) {
+      case MessageType.playing:
+        await _whenPlayerPlaying(message);
+        break;
+      case MessageType.giveUp:
+        await _whenPlayerGiveUp(message);
+        break;
+      case MessageType.timeOut:
+        await _whenTimeOut(message);
+        break;
+      case MessageType.error:
+        break;
+    }
+  }
+
+  void _switchTurn() {
+    _playerOnTurn = _playerOnTurn == _player1 ? _player2 : _player1;
+  }
+
+  void _setTimer(int seconds) {
+    timer = Timer(
+      Duration(seconds: seconds),
+      _timerCallback,
+    );
+  }
+
+  // timeout, giveup
+  void _timerCallback() {
+    receiveMessage(
+      Message(
+        id: playerOnTurn!.id!,
+        messageType: MessageType.timeOut,
+        content: '',
+        createdAt: DateTime.now().microsecondsSinceEpoch,
+      ),
+    );
   }
 
   void _offTimer() {
     timer?.cancel();
+    timer = null;
   }
 
   Future<String?> _validateMessage(Message message) async {
@@ -111,14 +236,14 @@ class Referee {
       return "세글자인 단어만 입력할 수 있습니다";
     }
 
-    if (_usedWords.contains(message.content)) {
+    if (usedWords.contains(message.content)) {
       return "이미 사용한 단어입니다.";
     }
 
     if (lastValidMessage != null) {
       final String firstCharacter = message.content.substring(0, 1);
       final String lastCharacter =
-          _lastValidMessage!.content.substring(message.content.length - 1);
+          lastValidMessage!.content.substring(message.content.length - 1);
       final lastCharacterDooum = _dooumMap![lastCharacter];
 
       if (firstCharacter != lastCharacter &&
@@ -127,28 +252,27 @@ class Referee {
       }
     }
 
-    if (_killerWords!.contains(message.content) && _usedWords.length <= 2) {
+    if (_killerWords!.contains(message.content) && usedWords.length <= 1) {
       return "차례가 한 번씩 돌아간 이후에 한방 단어를 사용할 수 있습니다.";
     }
 
-    final bool wordExists = await firebaseRepo.checkWordExists(message.content);
-
-    if (!wordExists) {
-      return "존재하지 않는 단어입니다.";
+    try {
+      if (!await wordsRepo.checkWordExists(message.content)) {
+        return "존재하지 않는 단어입니다.";
+      }
+    } catch (err) {
+      return '서버에서 단어에 대한 정보를 받아올 수 없습니다. 인터넷 연결 상태를 확인하세요.';
     }
 
     return null;
   }
 
-  void resetGame() {
-    _lastValidMessage = null;
-    _usedWords = Set();
-  }
-
   Future<void> init() async {
-    _killerWords ??= await firebaseRepo.loadKillerWords();
-    _dooumMap ??= await firebaseRepo.loadDooumMap();
+    try {
+      _killerWords ??= await wordsRepo.loadKillerWords();
+      _dooumMap ??= await wordsRepo.loadDooumMap();
+    } catch (err) {
+      throw RefereeException(cause: '데이터를 받아오는 데 실패했습니다.');
+    }
   }
-
-  void dispose() async {}
 }

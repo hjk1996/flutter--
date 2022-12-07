@@ -8,6 +8,7 @@ class Word with _$Word {
   factory Word({
     @JsonKey(name: 'adjacent_words') required List<dynamic> adjacentWords,
     required bool killer,
+    required List<String> meanings
   }) = _Word;
   factory Word.fromJson(Map<String, dynamic> json) => _$WordFromJson(json);
 }

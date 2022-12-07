@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-abstract class AppColors {
+class AppColors {
   static const secondary = Color(0xFF3B76F6);
   static const accent = Color(0xFFD6755B);
   static const textDark = Color(0xFF53585A);
@@ -15,14 +15,23 @@ abstract class AppColors {
   static const cardDark = Color(0xFF303334);
 }
 
-abstract class _LightColors {
+class _LightColors {
   static const background = Colors.white;
   static const card = AppColors.cardLight;
 }
 
-abstract class _DarkColors {
+class _DarkColors {
   static const background = Color(0xFF1B1E1F);
   static const card = AppColors.cardDark;
+}
+
+class ChatBubbleColors {
+  static final myBackgroundDark = Colors.yellow[300];
+  static const myTextDark = AppColors.textDark;
+  static const yourBackgroundDark = Colors.grey;
+  static const yourTextDark = Colors.white;
+  static const refereeBackgroundDark = Colors.red;
+  static const refereeTextDark = AppColors.textDark;
 }
 
 /// Reference to the application theme.

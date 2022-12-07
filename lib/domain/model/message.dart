@@ -4,9 +4,11 @@ part 'message.freezed.dart';
 part 'message.g.dart';
 
 enum MessageType {
-  giveUp, playing
+  giveUp,
+  timeOut,
+  playing,
+  error
 }
-
 
 @freezed
 class Message with _$Message {

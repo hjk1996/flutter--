@@ -23,6 +23,7 @@ mixin _$Word {
   @JsonKey(name: 'adjacent_words')
   List<dynamic> get adjacentWords => throw _privateConstructorUsedError;
   bool get killer => throw _privateConstructorUsedError;
+  List<String> get meanings => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,8 @@ abstract class $WordCopyWith<$Res> {
       _$WordCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(name: 'adjacent_words') List<dynamic> adjacentWords,
-      bool killer});
+      bool killer,
+      List<String> meanings});
 }
 
 /// @nodoc
@@ -50,6 +52,7 @@ class _$WordCopyWithImpl<$Res> implements $WordCopyWith<$Res> {
   $Res call({
     Object? adjacentWords = freezed,
     Object? killer = freezed,
+    Object? meanings = freezed,
   }) {
     return _then(_value.copyWith(
       adjacentWords: adjacentWords == freezed
@@ -60,6 +63,10 @@ class _$WordCopyWithImpl<$Res> implements $WordCopyWith<$Res> {
           ? _value.killer
           : killer // ignore: cast_nullable_to_non_nullable
               as bool,
+      meanings: meanings == freezed
+          ? _value.meanings
+          : meanings // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -71,7 +78,8 @@ abstract class _$$_WordCopyWith<$Res> implements $WordCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(name: 'adjacent_words') List<dynamic> adjacentWords,
-      bool killer});
+      bool killer,
+      List<String> meanings});
 }
 
 /// @nodoc
@@ -87,6 +95,7 @@ class __$$_WordCopyWithImpl<$Res> extends _$WordCopyWithImpl<$Res>
   $Res call({
     Object? adjacentWords = freezed,
     Object? killer = freezed,
+    Object? meanings = freezed,
   }) {
     return _then(_$_Word(
       adjacentWords: adjacentWords == freezed
@@ -97,6 +106,10 @@ class __$$_WordCopyWithImpl<$Res> extends _$WordCopyWithImpl<$Res>
           ? _value.killer
           : killer // ignore: cast_nullable_to_non_nullable
               as bool,
+      meanings: meanings == freezed
+          ? _value._meanings
+          : meanings // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -107,8 +120,10 @@ class _$_Word implements _Word {
   _$_Word(
       {@JsonKey(name: 'adjacent_words')
           required final List<dynamic> adjacentWords,
-      required this.killer})
-      : _adjacentWords = adjacentWords;
+      required this.killer,
+      required final List<String> meanings})
+      : _adjacentWords = adjacentWords,
+        _meanings = meanings;
 
   factory _$_Word.fromJson(Map<String, dynamic> json) => _$$_WordFromJson(json);
 
@@ -122,10 +137,16 @@ class _$_Word implements _Word {
 
   @override
   final bool killer;
+  final List<String> _meanings;
+  @override
+  List<String> get meanings {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_meanings);
+  }
 
   @override
   String toString() {
-    return 'Word(adjacentWords: $adjacentWords, killer: $killer)';
+    return 'Word(adjacentWords: $adjacentWords, killer: $killer, meanings: $meanings)';
   }
 
   @override
@@ -135,7 +156,8 @@ class _$_Word implements _Word {
             other is _$_Word &&
             const DeepCollectionEquality()
                 .equals(other._adjacentWords, _adjacentWords) &&
-            const DeepCollectionEquality().equals(other.killer, killer));
+            const DeepCollectionEquality().equals(other.killer, killer) &&
+            const DeepCollectionEquality().equals(other._meanings, _meanings));
   }
 
   @JsonKey(ignore: true)
@@ -143,7 +165,8 @@ class _$_Word implements _Word {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_adjacentWords),
-      const DeepCollectionEquality().hash(killer));
+      const DeepCollectionEquality().hash(killer),
+      const DeepCollectionEquality().hash(_meanings));
 
   @JsonKey(ignore: true)
   @override
@@ -162,7 +185,8 @@ abstract class _Word implements Word {
   factory _Word(
       {@JsonKey(name: 'adjacent_words')
           required final List<dynamic> adjacentWords,
-      required final bool killer}) = _$_Word;
+      required final bool killer,
+      required final List<String> meanings}) = _$_Word;
 
   factory _Word.fromJson(Map<String, dynamic> json) = _$_Word.fromJson;
 
@@ -171,6 +195,8 @@ abstract class _Word implements Word {
   List<dynamic> get adjacentWords;
   @override
   bool get killer;
+  @override
+  List<String> get meanings;
   @override
   @JsonKey(ignore: true)
   _$$_WordCopyWith<_$_Word> get copyWith => throw _privateConstructorUsedError;

@@ -23,5 +23,7 @@ Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
 
 const _$MessageTypeEnumMap = {
   MessageType.giveUp: 'giveUp',
+  MessageType.timeOut: 'timeOut',
   MessageType.playing: 'playing',
+  MessageType.error: 'error',
 };

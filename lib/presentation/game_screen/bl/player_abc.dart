@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/domain/repository/words_repo.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
 
@@ -14,7 +13,12 @@ abstract class PlayerABC {
 
   StreamSubscription<RefereeResponse>? refereeSubscription;
 
-  void init() {}
+  void init();
+
+  void dispose() {
+    refereeSubscription?.cancel();
+    refereeSubscription = null;
+  }
 
   Future<void> move();
 }
@@ -26,8 +30,7 @@ abstract class HumanPlayerABC extends PlayerABC {
   });
 
   @override
-  StreamSubscription<RefereeResponse>? get refereeSubscription =>
-      super.refereeSubscription;
+  StreamSubscription<RefereeResponse>? refereeSubscription;
 }
 
 abstract class RobotPlayerABC extends PlayerABC {
@@ -39,17 +42,16 @@ abstract class RobotPlayerABC extends PlayerABC {
   });
 
   @override
-  StreamSubscription<RefereeResponse>? get refereeSubscription =>
-      super.refereeSubscription;
+  StreamSubscription<RefereeResponse>? refereeSubscription;
 
-  Future<void> pickRandomStarter() async {
-    final word = await wordsRepo.getRandomNonKillerWord();
-    return referee.receiveMessage(
-      Message(
-          id: id!,
-          messageType: MessageType.playing,
-          content: word,
-          createdAt: DateTime.now().microsecondsSinceEpoch),
-    );
+  Future<String> pickRandomStarter() async {
+    return wordsRepo.getRandomNonKillerWord();
+    // return referee.receiveMessage(
+    //   Message(
+    //       id: id!,
+    //       messageType: MessageType.playing,
+    //       content: word,
+    //       createdAt: DateTime.now().microsecondsSinceEpoch),
+    // );
   }
 }

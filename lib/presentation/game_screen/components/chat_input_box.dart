@@ -33,13 +33,16 @@ class _ChatInputBoxState extends State<ChatInputBox> {
           Consumer<GameScreenViewModel>(
             builder: (context, vm, child) {
               return IconButton(
-                onPressed: vm.referee.playerOnTurn?.id! ==
-                        FirebaseAuth.instance.currentUser!.uid
-                    ? () async {
-                        await vm.sendMessage(_controller.text);
-                        _controller.clear();
-                      }
-                    : null,
+                onPressed: () async {
+                  if (_controller.text.isEmpty) return;
+
+                  if (vm.referee.playerOnTurn?.id ==
+                      FirebaseAuth.instance.currentUser!.uid) {
+                    final messageContent = _controller.text;
+                    _controller.clear();
+                    await vm.sendMessage(messageContent);
+                  }
+                },
                 icon: const Icon(Icons.send),
               );
             },

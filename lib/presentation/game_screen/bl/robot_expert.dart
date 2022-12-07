@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/presentation/game_screen/bl/player_abc.dart';
+import 'package:text_project/presentation/game_screen/bl/referee.dart';
 
 class RobotExpert extends RobotPlayerABC {
   RobotExpert({
@@ -9,15 +10,38 @@ class RobotExpert extends RobotPlayerABC {
     required super.wordsRepo,
   });
 
-  static const String _id = 'ROBOT EXPERT';
-  @override
+  final String _id = 'ROBOT EXPERT';
   String get id => _id;
+
+  @override
+  void init() {
+    refereeSubscription = referee.refereeResponseStream.listen(
+      (response) {
+        if (response.target != id) return;
+        if (response.responseTypes == RefereeResponseTypes.askNextMove) {
+          move();
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    refereeSubscription!.cancel();
+  }
 
   @override
   Future<void> move() async {
     // 처음 시작할 때
     if (referee.lastValidMessage == null) {
-      return pickRandomStarter();
+      final starter = await pickRandomStarter();
+      return referee.receiveMessage(
+        Message(
+            id: id,
+            messageType: MessageType.playing,
+            content: starter,
+            createdAt: DateTime.now().microsecondsSinceEpoch),
+      );
     }
 
     final adjWords =
@@ -28,10 +52,11 @@ class RobotExpert extends RobotPlayerABC {
     if (availableWords.isEmpty) {
       return referee.receiveMessage(
         Message(
-            id: id,
-            messageType: MessageType.giveUp,
-            content: '',
-            createdAt: DateTime.now().microsecondsSinceEpoch),
+          id: id,
+          messageType: MessageType.giveUp,
+          content: '',
+          createdAt: DateTime.now().microsecondsSinceEpoch,
+        ),
       );
     }
 
@@ -40,39 +65,39 @@ class RobotExpert extends RobotPlayerABC {
         referee.killerWords!.intersection(availableWords);
 
     // 사용할 수 있는 한방 단어가 존재하고 차례가 한 번 이상 돌았다면 한방 단어를 사용함.
-    if (availableKillerWords.isNotEmpty && referee.usedWords.length > 2) {
+    if (availableKillerWords.isNotEmpty && referee.usedWords.length >= 2) {
       final String randomKiller = _pickRandomWordFromSet(availableKillerWords);
       return referee.receiveMessage(
         Message(
-            id: id,
-            messageType: MessageType.playing,
-            content: randomKiller,
-            createdAt: DateTime.now().microsecondsSinceEpoch),
+          id: id,
+          messageType: MessageType.playing,
+          content: randomKiller,
+          createdAt: DateTime.now().microsecondsSinceEpoch,
+        ),
       );
     }
 
     // 사용할 수 있는 한방 단어가 존재하지 않는 경우 안전한 단어를 사용함.
     // 안전한 단어 = 상대방이 내 단어를 이어받아서 한방 단어를 말할 수 없는 단어.
     for (var word in availableWords.toList()..shuffle()) {
-      final bool isSafe = await _isSafeWord(word);
-      if (isSafe) {
+      if (await _isSafeWord(word)) {
         return referee.receiveMessage(
           Message(
-              id: id,
-              messageType: MessageType.playing,
-              content: word,
-              createdAt: DateTime.now().microsecondsSinceEpoch),
+            id: id,
+            messageType: MessageType.playing,
+            content: word,
+            createdAt: DateTime.now().microsecondsSinceEpoch,
+          ),
         );
       }
     }
 
     // 안전한 단어가 없으면 그냥 아무 단어나 반환함.
-    final randomWord = _pickRandomWordFromSet(availableKillerWords);
     return referee.receiveMessage(
       Message(
           id: id,
           messageType: MessageType.playing,
-          content: randomWord,
+          content: _pickRandomWordFromSet(availableWords),
           createdAt: DateTime.now().microsecondsSinceEpoch),
     );
   }

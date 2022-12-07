@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
-import 'package:text_project/presentation/home_screen/components/game_menu_card.dart';
-import 'package:text_project/presentation/home_screen/home_screen_view_mode.dart';
+import 'package:text_project/presentation/home_screen/components/drawer.dart';
+import 'package:text_project/presentation/home_screen/components/game_menu.dart';
+import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
 class HomeScreenView extends StatefulWidget {
@@ -18,6 +19,9 @@ class HomeScreenView extends StatefulWidget {
 
 class _HomeScreenViewState extends State<HomeScreenView> {
   StreamSubscription? _streamSubscription;
+
+  final PageController pageController =
+      PageController(initialPage: 0, keepPage: true);
 
   @override
   void initState() {
@@ -80,6 +84,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
   void dispose() {
     _streamSubscription?.cancel();
     _streamSubscription = null;
+    pageController.dispose();
     super.dispose();
   }
 
@@ -88,39 +93,51 @@ class _HomeScreenViewState extends State<HomeScreenView> {
     final viewModel = context.read<HomeScreenViewModel>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-              currentAccountPicture: CircleAvatar(
-                child: const Icon(Icons.person),
-              ),
-              otherAccountsPictures: [
-                IconButton(
-                  onPressed: viewModel.logout,
-                  icon: const Icon(Icons.logout),
-                )
-              ],
-              accountName: const Text('test'),
-              accountEmail: const Text('test@dot.com'),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(40),
-                  bottomRight: Radius.circular(40),
-                ),
-              ),
-            )
-          ],
-        ),
+      drawer: const HomeDrawer(),
+      body: Consumer<HomeScreenViewModel>(
+        builder: (context, vm, child) {
+          return PageView(
+            controller: vm.pageController,
+            onPageChanged: vm.changePage,
+            children: const [
+              GameMenu(),
+              RankPage(),
+            ],
+          );
+        },
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GameMenuCard(content: 'AI와 플레이', onTap: viewModel.onGameStart),
-          GameMenuCard(content: '사람과 플레이', onTap: () {})
-        ],
+      bottomNavigationBar: Consumer<HomeScreenViewModel>(
+        builder: (context, vm, child) {
+          return BottomNavigationBar(
+            currentIndex: vm.pageIndex,
+            onTap: viewModel.pageController.jumpToPage,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.gamepad),
+                label: '게임하기',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.workspace_premium_rounded),
+                label: '랭킹보기',
+              ),
+            ],
+          );
+        },
       ),
+    );
+  }
+}
+
+class RankPage extends StatelessWidget {
+  const RankPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [Container()],
     );
   }
 }

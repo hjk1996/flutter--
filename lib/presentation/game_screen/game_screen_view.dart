@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:text_project/presentation/game_screen/components/app_bar.dart';
 import 'package:text_project/presentation/game_screen/components/chat_input_box.dart';
 import 'package:text_project/presentation/game_screen/components/my_chat_bubble.dart';
-import 'package:text_project/presentation/game_screen/components/your_chat_bubble.dart';
+import 'package:text_project/presentation/game_screen/components/opponent_chat_bubble.dart';
+import 'package:text_project/presentation/game_screen/components/slidable_chaut_bubble.dart';
 import 'package:text_project/presentation/game_screen/game_screen_event.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,7 @@ class GameScreenView extends StatefulWidget {
 }
 
 class _GameScreenViewState extends State<GameScreenView> {
-  StreamSubscription<GameScreenEvent>? _subscription;
+  StreamSubscription<GameScreenEvent>? _gameScreenEventsubscription;
 
   @override
   void initState() {
@@ -27,11 +28,34 @@ class _GameScreenViewState extends State<GameScreenView> {
     Future.microtask(
       () {
         final viewModel = context.read<GameScreenViewModel>();
-        _subscription = viewModel.eventStream.listen(
+        viewModel.init();
+        _gameScreenEventsubscription = viewModel.eventStream.listen(
           (event) {
             event.when(
-              onError: (response) {},
-              onGameEnd: (response) {},
+              onError: (message) {},
+              onSaveWord: (word) {},
+              onGameEnd: (response) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text(
+                        response.target ==
+                                FirebaseAuth.instance.currentUser!.uid
+                            ? '패배했습니다.'
+                            : '승리했습니다.',
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('확인'))
+                      ],
+                    );
+                  },
+                );
+              },
             );
           },
         );
@@ -40,14 +64,9 @@ class _GameScreenViewState extends State<GameScreenView> {
   }
 
   @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-    await context.read<GameScreenViewModel>().init();
-  }
-
-  @override
   void dispose() {
-    _subscription?.cancel();
+    _gameScreenEventsubscription?.cancel();
+
     super.dispose();
   }
 
@@ -80,11 +99,15 @@ class _GameScreenViewState extends State<GameScreenView> {
                                 (message) => message.id ==
                                         FirebaseAuth.instance.currentUser!.uid
                                     ? MyChatBubble(
-                                        content: message.content,
+                                        message: message,
                                       )
-                                    : YourChatBubble(
-                                        content: message.content,
-                                      ),
+                                    : vm.state.isPlaying
+                                        ? OpponentChatBubble(
+                                            message: message,
+                                          )
+                                        : SlidableChatBubble(
+                                            message: message,
+                                          ),
                               )
                               .toList()
                               .reversed
