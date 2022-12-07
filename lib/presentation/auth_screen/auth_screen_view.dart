@@ -25,7 +25,7 @@ class _AuthScreenViewState extends State<AuthScreenView> {
     Future.microtask(() {
       final viewModel = context.read<AuthScreenViewModel>();
 
-      _streamSubscription = viewModel.eventStream.listen(
+      _streamSubscription ??= viewModel.eventStream.listen(
         (event) {
           event.when(
             onAuthError: (String message) {
@@ -58,6 +58,7 @@ class _AuthScreenViewState extends State<AuthScreenView> {
   @override
   void dispose() {
     _streamSubscription?.cancel();
+    _streamSubscription = null;
     super.dispose();
   }
 

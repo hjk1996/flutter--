@@ -268,11 +268,7 @@ class Referee {
   }
 
   Future<void> init() async {
-    try {
-      _killerWords ??= await wordsRepo.loadKillerWords();
-      _dooumMap ??= await wordsRepo.loadDooumMap();
-    } catch (err) {
-      throw RefereeException(cause: '데이터를 받아오는 데 실패했습니다.');
-    }
+    _killerWords ??= await wordsRepo.loadKillerWords();
+    _dooumMap ??= await wordsRepo.loadDooumMap();
   }
 }

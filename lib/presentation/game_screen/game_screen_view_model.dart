@@ -31,16 +31,23 @@ class GameScreenViewModel with ChangeNotifier {
   // 유저가 viewModel에 message를 보냄
   // viewModel은 다시 referee에게 message를 전달함.
   Future<void> sendMessage(String word) async {
-    final message = Message(
-      id: FirebaseAuth.instance.currentUser!.uid,
-      messageType: MessageType.playing,
-      content: word,
-      createdAt: DateTime.now().microsecondsSinceEpoch,
-    );
-    _updateMessage(message: message);
-    _startLoading();
-    await _referee.receiveMessage(message);
-    _endLoading();
+    try {
+      final message = Message(
+        id: FirebaseAuth.instance.currentUser!.uid,
+        messageType: MessageType.playing,
+        content: word,
+        createdAt: DateTime.now().microsecondsSinceEpoch,
+      );
+      _updateMessage(message: message);
+      _startLoading();
+      await _referee.receiveMessage(message);
+    } on RefereeException catch (err) {
+      _eventController.add(GameScreenEvent.onError(err.cause));
+    } catch (err) {
+      _eventController.add(const GameScreenEvent.onError('알 수 없는 에러가 발생했습니다.'));
+    } finally {
+      _endLoading();
+    }
   }
 
   void _startLoading() {
@@ -61,9 +68,17 @@ class GameScreenViewModel with ChangeNotifier {
   }
 
   Future<void> init() async {
-    await _referee.init();
-    _refereeSubscription ??=
-        _referee.refereeResponseStream.listen(_handleRefereeResponse);
+    try {
+      await _referee.init();
+      _refereeSubscription ??=
+          _referee.refereeResponseStream.listen(_handleRefereeResponse);
+    } on FirebaseException catch (err) {
+      _eventController
+          .add(const GameScreenEvent.onError('서버에서 데이터를 불러오는데 실패했습니다.'));
+    } catch (err) {
+      _eventController.add(
+          const GameScreenEvent.onError('서버에서 데이터를 불러오는 중 알 수 없는 에러가 발생했습니다.'));
+    }
   }
 
   // referee가 상대의 단어를 확인하고 올바른 경우 다음 차례의 플레이어에게 행동을 요구할 때 발동
@@ -92,7 +107,7 @@ class GameScreenViewModel with ChangeNotifier {
   }
 
   // referee의 noti를 처리해주는 함수
-  Future<void> _handleRefereeResponse(RefereeResponse response) async {
+  void _handleRefereeResponse(RefereeResponse response) {
     switch (response.responseTypes) {
       case RefereeResponseTypes.askNextMove:
         _whenAskNextMove();
@@ -109,7 +124,7 @@ class GameScreenViewModel with ChangeNotifier {
   }
 
   // 게임 시작할 때 선수를 등록함.
-  Future<void> startGame(bool playerFirst) async {
+  void startGame(bool playerFirst) {
     // endGame();
     _state = GameScreenState(
       messages: [],
@@ -150,17 +165,25 @@ class GameScreenViewModel with ChangeNotifier {
       final repo = GetIt.instance<WordsRepo>();
       final wordInfo = await repo.getWordInfo(word);
       final prefs = await SharedPreferences.getInstance();
-      var oldData = prefs.getString('note');
-      Map<String, dynamic> newData = oldData == null ? {} : jsonDecode(oldData);
-      newData[word] = {'meanings': wordInfo.meanings};
-      await prefs.setString(word, jsonEncode(newData));
+      var dataString = prefs.getString('notes');
+      List<dynamic> data = dataString == null ? [] : jsonDecode(dataString);
+      data = [
+        ...data,
+        {
+          'word': word,
+          "meanings": wordInfo.meanings,
+        }
+      ];
+      print(data);
+      await prefs.setString('notes', jsonEncode(data));
+      _eventController.add(GameScreenEvent.onSaveWord(word));
     } on FirebaseException catch (err) {
       _eventController.add(
         const GameScreenEvent.onError('서버에서 단어에 대한 정보를 받아오지 못했습니다.'),
       );
     } catch (err) {
       _eventController.add(
-        const GameScreenEvent.onError('단어를 저장하는 중 알 수 없는 에러가 발생했습니다.'),
+        const GameScreenEvent.onError('단어를 노트에 저장하는 중 알 수 없는 에러가 발생했습니다.'),
       );
     }
   }

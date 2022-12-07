@@ -29,7 +29,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
     Future.microtask(
       () {
         final viewModel = context.read<HomeScreenViewModel>();
-        _streamSubscription = viewModel.eventStream.listen(
+        _streamSubscription ??= viewModel.eventStream.listen(
           (event) {
             event.when(
               onGameStart: () async {

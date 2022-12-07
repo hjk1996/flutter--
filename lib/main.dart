@@ -9,6 +9,7 @@ import 'package:text_project/presentation/game_screen/bl/referee.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
+import 'package:text_project/presentation/note_screen/note_screen_view_model.dart';
 import 'firebase_options.dart';
 import 'package:get_it/get_it.dart';
 
@@ -24,8 +25,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthScreenViewModel()),
         ChangeNotifierProvider(create: (context) => HomeScreenViewModel()),
+        ChangeNotifierProvider(create: (context) => NoteScreenViewModel()),
         ChangeNotifierProvider(
-          create: (context) => GameScreenViewModel(
+        create: (context) => GameScreenViewModel(
             referee: GetIt.instance<Referee>(),
           ),
         ),

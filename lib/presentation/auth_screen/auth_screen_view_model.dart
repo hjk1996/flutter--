@@ -16,7 +16,7 @@ class AuthScreenViewModel with ChangeNotifier {
       isValidConfirmPassword: false);
   AuthScreenState get state => _state;
 
-  final _eventController = StreamController<AuthScreenEvent>();
+  final _eventController = StreamController<AuthScreenEvent>.broadcast();
   Stream<AuthScreenEvent> get eventStream => _eventController.stream;
 
   void toggleAuthMode() {

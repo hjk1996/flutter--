@@ -32,15 +32,7 @@ class _SlidableChatBubbleState extends State<SlidableChatBubble> {
                 await context
                     .read<GameScreenViewModel>()
                     .saveWord(widget.message.content);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    duration: const Duration(seconds: 1),
-                    content: Text(
-                      '단어장에 "${widget.message.content}"를 저장했습니다',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
+                
               },
               icon: Icons.bookmark,
               foregroundColor: Colors.white,

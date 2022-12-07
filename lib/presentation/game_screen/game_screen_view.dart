@@ -32,8 +32,28 @@ class _GameScreenViewState extends State<GameScreenView> {
         _gameScreenEventsubscription = viewModel.eventStream.listen(
           (event) {
             event.when(
-              onError: (message) {},
-              onSaveWord: (word) {},
+              onError: (message) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 3),
+                    content: Text(
+                      message,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              },
+              onSaveWord: (word) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 1),
+                    content: Text(
+                      '단어장에 "$word"를 저장했습니다',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              },
               onGameEnd: (response) {
                 showDialog(
                   context: context,
