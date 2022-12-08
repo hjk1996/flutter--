@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:text_project/presentation/home_screen/home_screen_event.dart';
 
 class HomeScreenViewModel with ChangeNotifier {
-  final StreamController<HomeScreenEvent> _eventController = StreamController();
+  final StreamController<HomeScreenEvent> _eventController =
+      StreamController<HomeScreenEvent>.broadcast();
   Stream<HomeScreenEvent> get eventStream => _eventController.stream;
   int _pageIndex = 0;
   int get pageIndex => _pageIndex;
@@ -15,10 +17,14 @@ class HomeScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> logout() async {
+  void onLogOutPressed() {
     _eventController.sink.add(
       const HomeScreenEvent.onLogoutPressed(),
     );
+  }
+
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
   }
 
   Future<void> onGameStart() async {

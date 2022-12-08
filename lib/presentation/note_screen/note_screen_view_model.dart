@@ -12,7 +12,7 @@ class NoteScreenViewModel with ChangeNotifier {
   Future<void> refresh() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? dataString = prefs.getString('notes');
-    final List<Map<String, dynamic>> data = jsonDecode(dataString ?? '[]');
+    final List<dynamic> data = jsonDecode(dataString!);
     _notes = data.map((e) => NoteItem.fromJson(e)).toList();
     notifyListeners();
   }

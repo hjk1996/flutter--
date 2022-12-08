@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
+import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
 import 'package:text_project/presentation/home_screen/components/drawer.dart';
 import 'package:text_project/presentation/home_screen/components/game_menu.dart';
+import 'package:text_project/presentation/home_screen/home_screen_event.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
@@ -18,7 +21,7 @@ class HomeScreenView extends StatefulWidget {
 }
 
 class _HomeScreenViewState extends State<HomeScreenView> {
-  StreamSubscription? _streamSubscription;
+  StreamSubscription<HomeScreenEvent>? _streamSubscription;
 
   final PageController pageController =
       PageController(initialPage: 0, keepPage: true);
@@ -28,6 +31,8 @@ class _HomeScreenViewState extends State<HomeScreenView> {
     super.initState();
     Future.microtask(
       () {
+        // auth page로 나갈 때 initState가 call 되는 문제가 발생함.
+
         final viewModel = context.read<HomeScreenViewModel>();
         _streamSubscription ??= viewModel.eventStream.listen(
           (event) {
@@ -42,33 +47,15 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                 );
               },
               onLogoutPressed: () async {
-                final res = await showDialog<bool>(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: const Text('로그아웃 하시겠습니까?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          FirebaseAuth.instance.signOut();
-                          Navigator.of(context).pop<bool>(true);
-                        },
-                        child: const Text('네'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop<bool>(false);
-                        },
-                        child: const Text('아니오'),
-                      )
-                    ],
-                  ),
-                );
-
+                final res =
+                    await askYesOrNo(context: context, content: "로그아웃 하시겠습니까?");
+                // eventStream이 중복으로 구독되는 문제 해결해야함
                 if (res == true) {
+                  await viewModel.logout();
                   if (!mounted) return;
-                  Navigator.of(context).push(
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => const InitialScreenView(),
+                      builder: (context) => const AuthScreenView(),
                     ),
                   );
                 }
@@ -76,13 +63,21 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             );
           },
         );
+
+        // // TODO: 이벤트 스트림이 중복으로 구독되는 문제 해결해야함
       },
     );
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
-    _streamSubscription?.cancel();
+    print('dispose');
+    _streamSubscription!.cancel();
     _streamSubscription = null;
     pageController.dispose();
     super.dispose();

@@ -10,7 +10,6 @@ class NoteScreen extends StatefulWidget {
 }
 
 class _NoteScreenState extends State<NoteScreen> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -23,9 +22,36 @@ class _NoteScreenState extends State<NoteScreen> {
                 builder: (context, viewModel, child) {
                   return Column(
                       children: viewModel.notes
-                          .map((note) => ListTile(
-                                title: Text(note.word),
-                                subtitle: Text(note.meanings.toString()),
+                          .map((note) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 4, vertical: 5),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Card(
+                                      child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          note.word,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline4,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        ...note.meanings.map(
+                                          (m) => Text(
+                                            m,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                                ),
                               ))
                           .toList());
                 },

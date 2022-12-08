@@ -17,7 +17,7 @@ class HomeDrawer extends StatelessWidget {
             ),
             otherAccountsPictures: [
               IconButton(
-                onPressed: context.read<HomeScreenViewModel>().logout,
+                onPressed: context.read<HomeScreenViewModel>().onLogOutPressed,
                 icon: const Icon(Icons.logout),
               )
             ],
@@ -39,6 +39,9 @@ class HomeDrawer extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             onTap: () {
+              // drawer 닫기
+              Navigator.pop(context);
+              // 단어장으로 보내기
               Navigator.push(
                   context,
                   MaterialPageRoute(
