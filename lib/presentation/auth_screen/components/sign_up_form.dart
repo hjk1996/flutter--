@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
@@ -48,33 +49,34 @@ class _SignUpFormState extends State<SignUpForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
-            decoration: const InputDecoration(hintText: 'e-mail'),
+            decoration: const InputDecoration(hintText: '이메일'),
             controller: _emailController,
             validator: viewModel.validateEmail,
             autovalidateMode: AutovalidateMode.onUserInteraction,
+            keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(
-            height: AUTH_FORM_FILED_GAP,
+            height: AUTH_FORM_FIELD_GAP,
           ),
           TextFormField(
-            decoration: const InputDecoration(hintText: 'password'),
+            decoration: const InputDecoration(hintText: '비밀번호'),
             controller: _passwordController,
             obscureText: true,
             validator: viewModel.validatePassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(
-            height: AUTH_FORM_FILED_GAP,
+            height: AUTH_FORM_FIELD_GAP,
           ),
           TextFormField(
-            decoration: const InputDecoration(hintText: 'confirm password'),
+            decoration: const InputDecoration(hintText: '비밀번호 확인'),
             controller: _confirmPasswordController,
             obscureText: true,
             validator: viewModel.validateConfirmPassword,
             autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(
-            height: AUTH_FORM_FILED_GAP,
+            height: AUTH_FORM_FIELD_GAP,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

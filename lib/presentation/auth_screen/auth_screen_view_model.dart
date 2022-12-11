@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_event.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_state.dart';
@@ -88,15 +89,19 @@ class AuthScreenViewModel with ChangeNotifier {
     }
   }
 
+  // sign up with email and password. send the validation email to the user email.
+  signUp() async {}
+
   Future<void> _signUp() async {
     try {
       final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: state.email, password: state.password);
 
+      await userCredential.user!.sendEmailVerification();
       _eventController.sink.add(const AuthScreenEvent.onSignUpSuccess());
     } on FirebaseAuthException catch (error) {
-      switch (error.message) {
+      switch (error.code) {
         case 'email-already-in-use':
           _eventController.sink
               .add(const AuthScreenEvent.onAuthError('이미 사용중인 이메일입니다.'));

@@ -1,13 +1,16 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
+import 'package:get_it/get_it.dart';
 
 class GameScreenAppBar extends StatefulWidget with PreferredSizeWidget {
   const GameScreenAppBar({super.key});
@@ -114,6 +117,27 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                     cancelDialog: true,
                   );
                   if (answer == null) return;
+                  // check whether internet is connected before starting game
+                  final connectionStatus = await GetIt.instance
+                      .get<Connectivity>()
+                      .checkConnectivity();
+
+                  if (connectionStatus == ConnectivityResult.none) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('인터넷 연결이 되어있지 않습니다.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('확인'),
+                          ),
+                        ],
+                      ),
+                    );
+                    return;
+                  }
+
                   viewModel.startGame(answer);
                 }
               },

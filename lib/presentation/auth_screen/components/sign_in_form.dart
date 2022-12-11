@@ -52,7 +52,7 @@ class _SignInFormState extends State<SignInForm> {
             onChanged: (value) {},
           ),
           const SizedBox(
-            height: AUTH_FORM_FILED_GAP,
+            height: AUTH_FORM_FIELD_GAP,
           ),
           TextFormField(
             decoration: const InputDecoration(hintText: 'password'),
@@ -62,7 +62,7 @@ class _SignInFormState extends State<SignInForm> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(
-            height: AUTH_FORM_FILED_GAP,
+            height: AUTH_FORM_FIELD_GAP,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -74,7 +74,7 @@ class _SignInFormState extends State<SignInForm> {
             ],
           ),
           const SizedBox(
-            height: AUTH_FORM_FILED_GAP,
+            height: AUTH_FORM_FIELD_GAP,
           ),
           Consumer<AuthScreenViewModel>(
             builder: (context, vm, child) {

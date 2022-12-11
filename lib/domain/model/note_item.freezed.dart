@@ -21,6 +21,7 @@ NoteItem _$NoteItemFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$NoteItem {
   String get word => throw _privateConstructorUsedError;
+  bool get isFavorite => throw _privateConstructorUsedError;
   List<String> get meanings => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -33,7 +34,7 @@ mixin _$NoteItem {
 abstract class $NoteItemCopyWith<$Res> {
   factory $NoteItemCopyWith(NoteItem value, $Res Function(NoteItem) then) =
       _$NoteItemCopyWithImpl<$Res>;
-  $Res call({String word, List<String> meanings});
+  $Res call({String word, bool isFavorite, List<String> meanings});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$NoteItemCopyWithImpl<$Res> implements $NoteItemCopyWith<$Res> {
   @override
   $Res call({
     Object? word = freezed,
+    Object? isFavorite = freezed,
     Object? meanings = freezed,
   }) {
     return _then(_value.copyWith(
@@ -54,6 +56,10 @@ class _$NoteItemCopyWithImpl<$Res> implements $NoteItemCopyWith<$Res> {
           ? _value.word
           : word // ignore: cast_nullable_to_non_nullable
               as String,
+      isFavorite: isFavorite == freezed
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
       meanings: meanings == freezed
           ? _value.meanings
           : meanings // ignore: cast_nullable_to_non_nullable
@@ -68,7 +74,7 @@ abstract class _$$_NoteItemCopyWith<$Res> implements $NoteItemCopyWith<$Res> {
           _$_NoteItem value, $Res Function(_$_NoteItem) then) =
       __$$_NoteItemCopyWithImpl<$Res>;
   @override
-  $Res call({String word, List<String> meanings});
+  $Res call({String word, bool isFavorite, List<String> meanings});
 }
 
 /// @nodoc
@@ -84,6 +90,7 @@ class __$$_NoteItemCopyWithImpl<$Res> extends _$NoteItemCopyWithImpl<$Res>
   @override
   $Res call({
     Object? word = freezed,
+    Object? isFavorite = freezed,
     Object? meanings = freezed,
   }) {
     return _then(_$_NoteItem(
@@ -91,6 +98,10 @@ class __$$_NoteItemCopyWithImpl<$Res> extends _$NoteItemCopyWithImpl<$Res>
           ? _value.word
           : word // ignore: cast_nullable_to_non_nullable
               as String,
+      isFavorite: isFavorite == freezed
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
       meanings: meanings == freezed
           ? _value._meanings
           : meanings // ignore: cast_nullable_to_non_nullable
@@ -102,7 +113,10 @@ class __$$_NoteItemCopyWithImpl<$Res> extends _$NoteItemCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_NoteItem implements _NoteItem {
-  _$_NoteItem({required this.word, required final List<String> meanings})
+  _$_NoteItem(
+      {required this.word,
+      required this.isFavorite,
+      required final List<String> meanings})
       : _meanings = meanings;
 
   factory _$_NoteItem.fromJson(Map<String, dynamic> json) =>
@@ -110,6 +124,8 @@ class _$_NoteItem implements _NoteItem {
 
   @override
   final String word;
+  @override
+  final bool isFavorite;
   final List<String> _meanings;
   @override
   List<String> get meanings {
@@ -119,7 +135,7 @@ class _$_NoteItem implements _NoteItem {
 
   @override
   String toString() {
-    return 'NoteItem(word: $word, meanings: $meanings)';
+    return 'NoteItem(word: $word, isFavorite: $isFavorite, meanings: $meanings)';
   }
 
   @override
@@ -128,6 +144,8 @@ class _$_NoteItem implements _NoteItem {
         (other.runtimeType == runtimeType &&
             other is _$_NoteItem &&
             const DeepCollectionEquality().equals(other.word, word) &&
+            const DeepCollectionEquality()
+                .equals(other.isFavorite, isFavorite) &&
             const DeepCollectionEquality().equals(other._meanings, _meanings));
   }
 
@@ -136,6 +154,7 @@ class _$_NoteItem implements _NoteItem {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(word),
+      const DeepCollectionEquality().hash(isFavorite),
       const DeepCollectionEquality().hash(_meanings));
 
   @JsonKey(ignore: true)
@@ -154,12 +173,15 @@ class _$_NoteItem implements _NoteItem {
 abstract class _NoteItem implements NoteItem {
   factory _NoteItem(
       {required final String word,
+      required final bool isFavorite,
       required final List<String> meanings}) = _$_NoteItem;
 
   factory _NoteItem.fromJson(Map<String, dynamic> json) = _$_NoteItem.fromJson;
 
   @override
   String get word;
+  @override
+  bool get isFavorite;
   @override
   List<String> get meanings;
   @override

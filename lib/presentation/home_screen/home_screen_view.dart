@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
@@ -39,6 +40,30 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             event.when(
               onGameStart: () async {
                 if (!mounted) return;
+                await FirebaseAuth.instance.currentUser!.reload();
+                if (!FirebaseAuth.instance.currentUser!.emailVerified) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text(
+                          "이메일 인증이 필요합니다.\n인증을 마친 후 이용해주세요.",
+                          textAlign: TextAlign.center,
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("확인"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  return;
+                }
+                if (!mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -76,7 +101,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
 
   @override
   void dispose() {
-    print('dispose');
     _streamSubscription!.cancel();
     _streamSubscription = null;
     pageController.dispose();

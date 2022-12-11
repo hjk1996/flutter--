@@ -171,10 +171,10 @@ class GameScreenViewModel with ChangeNotifier {
         ...data,
         {
           'word': word,
+          "isFavorite": false,
           "meanings": wordInfo.meanings,
         }
       ];
-      print(data);
       await prefs.setString('notes', jsonEncode(data));
       _eventController.add(GameScreenEvent.onSaveWord(word));
     } on FirebaseException catch (err) {

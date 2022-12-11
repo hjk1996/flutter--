@@ -8,6 +8,7 @@ part of 'note_item.dart';
 
 _$_NoteItem _$$_NoteItemFromJson(Map<String, dynamic> json) => _$_NoteItem(
       word: json['word'] as String,
+      isFavorite: json['isFavorite'] as bool,
       meanings:
           (json['meanings'] as List<dynamic>).map((e) => e as String).toList(),
     );
@@ -15,5 +16,6 @@ _$_NoteItem _$$_NoteItemFromJson(Map<String, dynamic> json) => _$_NoteItem(
 Map<String, dynamic> _$$_NoteItemToJson(_$_NoteItem instance) =>
     <String, dynamic>{
       'word': instance.word,
+      'isFavorite': instance.isFavorite,
       'meanings': instance.meanings,
     };
