@@ -53,7 +53,7 @@ class FirestoreHelper {
     return LastWord.fromJson(lastWordInfo.data()!);
   }
 
-  Future<Set<String>> loadKillerWords() async {
+   Future<Set<String>> loadKillerWords() async {
     final data = await FirebaseFirestore.instance
         .collection('utils')
         .doc('killers')
@@ -62,7 +62,7 @@ class FirestoreHelper {
     return Set.from(data.data()!['words']);
   }
 
-  Future<Map<String, dynamic>> loadDooumMap() async {
+   Future<Map<String, dynamic>> loadDooumMap() async {
     final data =
         await FirebaseFirestore.instance.collection('utils').doc('dooum').get();
 
