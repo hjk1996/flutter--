@@ -18,4 +18,9 @@ class FirebaseStorageRepoImpl implements FirebaseStorageRepo {
   Future<String> getDownloadUrl(String path) async {
     return _helper.getDownloadUrl(path);
   }
+
+  @override
+  Future<void> deleteFile(String path) async {
+    return _helper.deleteFile(path);
+  }
 }

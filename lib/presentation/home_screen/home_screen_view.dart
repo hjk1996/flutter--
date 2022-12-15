@@ -89,7 +89,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
           },
         );
 
-        // // TODO: 이벤트 스트림이 중복으로 구독되는 문제 해결해야함
       },
     );
   }

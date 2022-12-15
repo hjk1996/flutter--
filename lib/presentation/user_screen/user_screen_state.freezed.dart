@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserScreenState {
   User? get user => throw _privateConstructorUsedError;
+  Uint8List? get profileImage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserScreenStateCopyWith<UserScreenState> get copyWith =>
@@ -28,7 +29,7 @@ abstract class $UserScreenStateCopyWith<$Res> {
   factory $UserScreenStateCopyWith(
           UserScreenState value, $Res Function(UserScreenState) then) =
       _$UserScreenStateCopyWithImpl<$Res>;
-  $Res call({User? user});
+  $Res call({User? user, Uint8List? profileImage});
 }
 
 /// @nodoc
@@ -43,12 +44,17 @@ class _$UserScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
+    Object? profileImage = freezed,
   }) {
     return _then(_value.copyWith(
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      profileImage: profileImage == freezed
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
     ));
   }
 }
@@ -60,7 +66,7 @@ abstract class _$$_UserScreenStateCopyWith<$Res>
           _$_UserScreenState value, $Res Function(_$_UserScreenState) then) =
       __$$_UserScreenStateCopyWithImpl<$Res>;
   @override
-  $Res call({User? user});
+  $Res call({User? user, Uint8List? profileImage});
 }
 
 /// @nodoc
@@ -77,12 +83,17 @@ class __$$_UserScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
+    Object? profileImage = freezed,
   }) {
     return _then(_$_UserScreenState(
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      profileImage: profileImage == freezed
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
     ));
   }
 }
@@ -90,14 +101,16 @@ class __$$_UserScreenStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_UserScreenState implements _UserScreenState {
-  _$_UserScreenState({required this.user});
+  _$_UserScreenState({required this.user, required this.profileImage});
 
   @override
   final User? user;
+  @override
+  final Uint8List? profileImage;
 
   @override
   String toString() {
-    return 'UserScreenState(user: $user)';
+    return 'UserScreenState(user: $user, profileImage: $profileImage)';
   }
 
   @override
@@ -105,12 +118,16 @@ class _$_UserScreenState implements _UserScreenState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserScreenState &&
-            const DeepCollectionEquality().equals(other.user, user));
+            const DeepCollectionEquality().equals(other.user, user) &&
+            const DeepCollectionEquality()
+                .equals(other.profileImage, profileImage));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(user));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(user),
+      const DeepCollectionEquality().hash(profileImage));
 
   @JsonKey(ignore: true)
   @override
@@ -119,10 +136,14 @@ class _$_UserScreenState implements _UserScreenState {
 }
 
 abstract class _UserScreenState implements UserScreenState {
-  factory _UserScreenState({required final User? user}) = _$_UserScreenState;
+  factory _UserScreenState(
+      {required final User? user,
+      required final Uint8List? profileImage}) = _$_UserScreenState;
 
   @override
   User? get user;
+  @override
+  Uint8List? get profileImage;
   @override
   @JsonKey(ignore: true)
   _$$_UserScreenStateCopyWith<_$_UserScreenState> get copyWith =>

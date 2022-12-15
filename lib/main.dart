@@ -8,6 +8,7 @@ import 'package:text_project/di/di.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/common/theme.dart';
+import 'package:text_project/presentation/edit_screen/edit_screen_view_model.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
@@ -36,9 +37,22 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
-            create: (context) => UserScreenViewModel(
-                  repo: GetIt.instance<FirebaseStorageRepo>(),
-                )),
+          create: (context) => UserScreenViewModel(
+            repo: GetIt.instance<FirebaseStorageRepo>(),
+          ),
+        ),
+        ChangeNotifierProxyProvider<UserScreenViewModel, EditScreenViewModel>(
+          create: (context) => EditScreenViewModel(
+            uvm: UserScreenViewModel(
+              repo: GetIt.instance<FirebaseStorageRepo>(),
+            ),
+          ),
+          update: (context, value, previous) {
+            return EditScreenViewModel(
+              uvm: value,
+            );
+          },
+        )
       ],
       builder: (context, child) => const MyApp(),
     ),

@@ -1,11 +1,8 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import 'package:text_project/presentation/user_screen/components/edit_page.dart';
+import 'package:text_project/presentation/edit_screen/edit_screen.dart';
 import 'package:text_project/presentation/user_screen/user_screen_event.dart';
 import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
 
@@ -19,17 +16,24 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   late StreamSubscription<UserScreenEvent> _eventSubscription;
 
+  // TODO: edit screen에서 팝업되서 나오면 유저 정보 업데이트 해야함
+
+
   @override
   void initState() {
     super.initState();
 
     Future.microtask(() {
-      _eventSubscription =
-          context.read<UserScreenViewModel>().eventStream.listen((event) {
+      final viewModel = context.read<UserScreenViewModel>();
+      _eventSubscription = viewModel.eventStream.listen((event) {
         event.when(
-          onEditPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const EditPage()));
+          onEditPressed: () async {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EditScreen(),
+              ),
+            );
           },
         );
       });
@@ -38,7 +42,6 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   void dispose() {
-    _eventSubscription.pause();
     _eventSubscription.cancel();
     super.dispose();
   }

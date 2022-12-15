@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:text_project/presentation/edit_screen/edit_screen_view_model.dart';
+import 'package:provider/provider.dart';
 
 class NameInputBox extends StatefulWidget {
-  final String name;
-  const NameInputBox({required this.name, super.key});
-
   @override
   State<NameInputBox> createState() => _NameInputBoxState();
 }
@@ -15,7 +14,11 @@ class _NameInputBoxState extends State<NameInputBox> {
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.name;
+    final viewModel = context.read<EditScreenViewModel>();
+    _controller.text = viewModel.state.name ?? '';
+    _controller.addListener(() {
+      viewModel.name = _controller.text;
+    });
   }
 
   @override
@@ -26,24 +29,25 @@ class _NameInputBoxState extends State<NameInputBox> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.read<EditScreenViewModel>();
+
     return SizedBox(
       width: 300,
-      height: 50,
-      child: TextField(
+      child: TextFormField(
         controller: _controller,
+        autovalidateMode: AutovalidateMode.always,
         onTap: () {
           setState(() {
             _isEditing = true;
           });
         },
+        validator: viewModel.validateName,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
           suffixIcon: _isEditing
               ? IconButton(
                   icon: const Icon(Icons.cancel),
-                  onPressed: () {
-                    _controller.clear();
-                  },
+                  onPressed: _controller.clear,
                 )
               : null,
         ),

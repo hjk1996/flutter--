@@ -7,9 +7,7 @@ class WordsFirestoreRepoImpl implements WordsRepo {
   final FirestoreHelper firestoreHelper;
   WordsFirestoreRepoImpl(this.firestoreHelper);
 
-  // TODO: 
-  // 이거 어떻게 싱글톤으로 만들건지 고민
-  // 단어 저장할 때 firebase에 접근해야함.
+
   @override
   Future<Word> getWordInfo(String word) async {
     return firestoreHelper.getWordInfo(word);
