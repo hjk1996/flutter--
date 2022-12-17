@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:text_project/domain/model/last_word.dart';
 import 'package:text_project/domain/model/word.dart';
 import 'dart:math';
@@ -53,7 +54,7 @@ class FirestoreHelper {
     return LastWord.fromJson(lastWordInfo.data()!);
   }
 
-   Future<Set<String>> loadKillerWords() async {
+  Future<Set<String>> loadKillerWords() async {
     final data = await FirebaseFirestore.instance
         .collection('utils')
         .doc('killers')
@@ -62,7 +63,7 @@ class FirestoreHelper {
     return Set.from(data.data()!['words']);
   }
 
-   Future<Map<String, dynamic>> loadDooumMap() async {
+  Future<Map<String, dynamic>> loadDooumMap() async {
     final data =
         await FirebaseFirestore.instance.collection('utils').doc('dooum').get();
 
@@ -78,5 +79,14 @@ class FirestoreHelper {
 
   Future<void> sendGameLog(Map<String, dynamic> log) async {
     await FirebaseFirestore.instance.collection('log').add(log);
+  }
+
+  Future<void> sendFeedback(String title, String content) async {
+    await FirebaseFirestore.instance.collection('feedback').add({
+      'createdAt': DateTime.now().microsecondsSinceEpoch,
+      'uid': FirebaseAuth.instance.currentUser!.uid,
+      'title': title,
+      'content': content
+    });
   }
 }

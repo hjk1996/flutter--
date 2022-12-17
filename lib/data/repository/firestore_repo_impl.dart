@@ -1,12 +1,11 @@
 import 'package:text_project/data/data_source/firestore_helper.dart';
 import 'package:text_project/domain/model/last_word.dart';
 import 'package:text_project/domain/model/word.dart';
-import 'package:text_project/domain/repository/words_repo.dart';
+import 'package:text_project/domain/repository/firestore_repo.dart';
 
-class WordsFirestoreRepoImpl implements WordsRepo {
+class FirestoreRepoImpl implements FirestoreRepo {
   final FirestoreHelper firestoreHelper;
-  WordsFirestoreRepoImpl(this.firestoreHelper);
-
+  FirestoreRepoImpl(this.firestoreHelper);
 
   @override
   Future<Word> getWordInfo(String word) async {
@@ -46,5 +45,10 @@ class WordsFirestoreRepoImpl implements WordsRepo {
   @override
   Future<void> sendGameLog(Map<String, dynamic> log) {
     return firestoreHelper.sendGameLog(log);
+  }
+
+  @override
+  Future<void> sendFeedback(String title, String content) async {
+    return firestoreHelper.sendFeedback(title, content);
   }
 }

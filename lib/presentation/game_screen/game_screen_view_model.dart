@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:text_project/di/di.dart';
 import 'package:text_project/domain/model/message.dart';
-import 'package:text_project/domain/repository/words_repo.dart';
+import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/game_screen/bl/player.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
 import 'package:text_project/presentation/game_screen/game_screen_event.dart';
@@ -162,7 +162,7 @@ class GameScreenViewModel with ChangeNotifier {
 
   Future<void> saveWord(String word) async {
     try {
-      final repo = GetIt.instance<WordsRepo>();
+      final repo = GetIt.instance<FirestoreRepo>();
       final wordInfo = await repo.getWordInfo(word);
       final prefs = await SharedPreferences.getInstance();
       var dataString = prefs.getString('notes');

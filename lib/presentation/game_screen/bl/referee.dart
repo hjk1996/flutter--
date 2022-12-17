@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:text_project/domain/model/message.dart';
-import 'package:text_project/domain/repository/words_repo.dart';
+import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/game_screen/bl/player.dart';
 import 'package:text_project/presentation/game_screen/bl/player_abc.dart';
@@ -34,7 +34,7 @@ class RefereeException implements Exception {
 }
 
 class Referee {
-  final WordsRepo wordsRepo;
+  final FirestoreRepo wordsRepo;
   Referee({required this.wordsRepo});
 
   final id = REFEREE_ID;

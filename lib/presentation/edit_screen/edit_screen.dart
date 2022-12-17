@@ -4,10 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/edit_screen/components/profile_dialog.dart';
-import 'package:text_project/presentation/edit_screen/edit_screen_event.dart';
-import 'package:text_project/presentation/edit_screen/edit_screen_view_model.dart';
 import 'package:text_project/presentation/edit_screen/components/name_input_box.dart';
 import 'package:provider/provider.dart';
+import 'package:text_project/presentation/user_screen/user_screen_event.dart';
 import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -20,15 +19,16 @@ class EditScreen extends StatefulWidget {
 
 // TODO: 내일 프로필 이미지 조지기
 class _EditScreenState extends State<EditScreen> {
-  late StreamSubscription<EditScreenEvent> _eventSubscription;
+  late StreamSubscription<UserScreenEvent> _eventSubscription;
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      final viewModel = context.read<EditScreenViewModel>();
+      final viewModel = context.read<UserScreenViewModel>();
       _eventSubscription = viewModel.eventStream.listen((event) {
         event.when(
+          onEditPressed: () {},
           onSave: () {
             if (!mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(
@@ -58,7 +58,7 @@ class _EditScreenState extends State<EditScreen> {
               );
               if (image != null) {
                 final imageBytes = await image.readAsBytes();
-                viewModel.photo = imageBytes;
+                viewModel.edittedPhoto = imageBytes;
               }
             } else if (action == ProfileAction.GALLERY) {
               final image = await ImagePicker().pickImage(
@@ -68,10 +68,10 @@ class _EditScreenState extends State<EditScreen> {
               if (image != null) {
                 final imageBytes = await image.readAsBytes();
 
-                viewModel.photo = imageBytes;
+                viewModel.edittedPhoto = imageBytes;
               }
             } else if (action == ProfileAction.REMOVE) {
-              viewModel.photo = null;
+              viewModel.edittedPhoto = null;
             }
           },
         );
@@ -80,20 +80,34 @@ class _EditScreenState extends State<EditScreen> {
   }
 
   @override
+  void dispose() {
+    _eventSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final viewModel = context.read<EditScreenViewModel>();
+    final viewModel = context.read<UserScreenViewModel>();
 
     return Scaffold(
         appBar: AppBar(
           title: const Text('내 정보 수정'),
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context, true),
+              icon: const Icon(Icons.arrow_back)),
           actions: [
-            Consumer<EditScreenViewModel>(
+            Consumer<UserScreenViewModel>(
               builder: (context, value, child) {
-                return TextButton(
-                    onPressed: viewModel.state.name!.length < 2
-                        ? null
-                        : viewModel.save,
-                    child: const Text('저장'));
+                return value.state.isLoading
+                    ? const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    : TextButton(
+                        onPressed: viewModel.state.edittedName!.length < 2
+                            ? null
+                            : viewModel.saveChanges,
+                        child: const Text('저장'));
               },
             ),
           ],
@@ -106,7 +120,7 @@ class _EditScreenState extends State<EditScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Consumer<EditScreenViewModel>(
+                  Consumer<UserScreenViewModel>(
                       builder: (context, value, child) {
                     return GestureDetector(
                       onTap: viewModel.onProfileTap,
@@ -118,9 +132,12 @@ class _EditScreenState extends State<EditScreen> {
                               width: 100,
                               height: 100,
                               child: CircleAvatar(
-                                backgroundImage: viewModel.state.photo != null
-                                    ? Image.memory(viewModel.state.photo!).image
-                                    : null,
+                                backgroundImage:
+                                    viewModel.state.edittedPhoto != null
+                                        ? Image.memory(
+                                                viewModel.state.edittedPhoto!)
+                                            .image
+                                        : null,
                               ),
                             ),
                             Positioned(
@@ -143,7 +160,7 @@ class _EditScreenState extends State<EditScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              Text(viewModel.uvm.state.user!.email!),
+              Text(viewModel.state.user!.email!),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

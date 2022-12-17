@@ -17,7 +17,13 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserScreenState {
   User? get user => throw _privateConstructorUsedError;
-  Uint8List? get profileImage => throw _privateConstructorUsedError;
+  Uint8List? get realPhoto => throw _privateConstructorUsedError;
+  String? get realName => throw _privateConstructorUsedError;
+  Uint8List? get edittedPhoto => throw _privateConstructorUsedError;
+  String? get edittedName => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isNameChanged => throw _privateConstructorUsedError;
+  bool get isPhotoChanged => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserScreenStateCopyWith<UserScreenState> get copyWith =>
@@ -29,7 +35,15 @@ abstract class $UserScreenStateCopyWith<$Res> {
   factory $UserScreenStateCopyWith(
           UserScreenState value, $Res Function(UserScreenState) then) =
       _$UserScreenStateCopyWithImpl<$Res>;
-  $Res call({User? user, Uint8List? profileImage});
+  $Res call(
+      {User? user,
+      Uint8List? realPhoto,
+      String? realName,
+      Uint8List? edittedPhoto,
+      String? edittedName,
+      bool isLoading,
+      bool isNameChanged,
+      bool isPhotoChanged});
 }
 
 /// @nodoc
@@ -44,17 +58,47 @@ class _$UserScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
-    Object? profileImage = freezed,
+    Object? realPhoto = freezed,
+    Object? realName = freezed,
+    Object? edittedPhoto = freezed,
+    Object? edittedName = freezed,
+    Object? isLoading = freezed,
+    Object? isNameChanged = freezed,
+    Object? isPhotoChanged = freezed,
   }) {
     return _then(_value.copyWith(
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      profileImage: profileImage == freezed
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
+      realPhoto: realPhoto == freezed
+          ? _value.realPhoto
+          : realPhoto // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
+      realName: realName == freezed
+          ? _value.realName
+          : realName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      edittedPhoto: edittedPhoto == freezed
+          ? _value.edittedPhoto
+          : edittedPhoto // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
+      edittedName: edittedName == freezed
+          ? _value.edittedName
+          : edittedName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isNameChanged: isNameChanged == freezed
+          ? _value.isNameChanged
+          : isNameChanged // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPhotoChanged: isPhotoChanged == freezed
+          ? _value.isPhotoChanged
+          : isPhotoChanged // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -66,7 +110,15 @@ abstract class _$$_UserScreenStateCopyWith<$Res>
           _$_UserScreenState value, $Res Function(_$_UserScreenState) then) =
       __$$_UserScreenStateCopyWithImpl<$Res>;
   @override
-  $Res call({User? user, Uint8List? profileImage});
+  $Res call(
+      {User? user,
+      Uint8List? realPhoto,
+      String? realName,
+      Uint8List? edittedPhoto,
+      String? edittedName,
+      bool isLoading,
+      bool isNameChanged,
+      bool isPhotoChanged});
 }
 
 /// @nodoc
@@ -83,17 +135,47 @@ class __$$_UserScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
-    Object? profileImage = freezed,
+    Object? realPhoto = freezed,
+    Object? realName = freezed,
+    Object? edittedPhoto = freezed,
+    Object? edittedName = freezed,
+    Object? isLoading = freezed,
+    Object? isNameChanged = freezed,
+    Object? isPhotoChanged = freezed,
   }) {
     return _then(_$_UserScreenState(
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      profileImage: profileImage == freezed
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
+      realPhoto: realPhoto == freezed
+          ? _value.realPhoto
+          : realPhoto // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
+      realName: realName == freezed
+          ? _value.realName
+          : realName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      edittedPhoto: edittedPhoto == freezed
+          ? _value.edittedPhoto
+          : edittedPhoto // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
+      edittedName: edittedName == freezed
+          ? _value.edittedName
+          : edittedName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isNameChanged: isNameChanged == freezed
+          ? _value.isNameChanged
+          : isNameChanged // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPhotoChanged: isPhotoChanged == freezed
+          ? _value.isPhotoChanged
+          : isPhotoChanged // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -101,16 +183,36 @@ class __$$_UserScreenStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_UserScreenState implements _UserScreenState {
-  _$_UserScreenState({required this.user, required this.profileImage});
+  _$_UserScreenState(
+      {required this.user,
+      required this.realPhoto,
+      required this.realName,
+      required this.edittedPhoto,
+      required this.edittedName,
+      required this.isLoading,
+      required this.isNameChanged,
+      required this.isPhotoChanged});
 
   @override
   final User? user;
   @override
-  final Uint8List? profileImage;
+  final Uint8List? realPhoto;
+  @override
+  final String? realName;
+  @override
+  final Uint8List? edittedPhoto;
+  @override
+  final String? edittedName;
+  @override
+  final bool isLoading;
+  @override
+  final bool isNameChanged;
+  @override
+  final bool isPhotoChanged;
 
   @override
   String toString() {
-    return 'UserScreenState(user: $user, profileImage: $profileImage)';
+    return 'UserScreenState(user: $user, realPhoto: $realPhoto, realName: $realName, edittedPhoto: $edittedPhoto, edittedName: $edittedName, isLoading: $isLoading, isNameChanged: $isNameChanged, isPhotoChanged: $isPhotoChanged)';
   }
 
   @override
@@ -119,15 +221,30 @@ class _$_UserScreenState implements _UserScreenState {
         (other.runtimeType == runtimeType &&
             other is _$_UserScreenState &&
             const DeepCollectionEquality().equals(other.user, user) &&
+            const DeepCollectionEquality().equals(other.realPhoto, realPhoto) &&
+            const DeepCollectionEquality().equals(other.realName, realName) &&
             const DeepCollectionEquality()
-                .equals(other.profileImage, profileImage));
+                .equals(other.edittedPhoto, edittedPhoto) &&
+            const DeepCollectionEquality()
+                .equals(other.edittedName, edittedName) &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
+            const DeepCollectionEquality()
+                .equals(other.isNameChanged, isNameChanged) &&
+            const DeepCollectionEquality()
+                .equals(other.isPhotoChanged, isPhotoChanged));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(user),
-      const DeepCollectionEquality().hash(profileImage));
+      const DeepCollectionEquality().hash(realPhoto),
+      const DeepCollectionEquality().hash(realName),
+      const DeepCollectionEquality().hash(edittedPhoto),
+      const DeepCollectionEquality().hash(edittedName),
+      const DeepCollectionEquality().hash(isLoading),
+      const DeepCollectionEquality().hash(isNameChanged),
+      const DeepCollectionEquality().hash(isPhotoChanged));
 
   @JsonKey(ignore: true)
   @override
@@ -138,12 +255,30 @@ class _$_UserScreenState implements _UserScreenState {
 abstract class _UserScreenState implements UserScreenState {
   factory _UserScreenState(
       {required final User? user,
-      required final Uint8List? profileImage}) = _$_UserScreenState;
+      required final Uint8List? realPhoto,
+      required final String? realName,
+      required final Uint8List? edittedPhoto,
+      required final String? edittedName,
+      required final bool isLoading,
+      required final bool isNameChanged,
+      required final bool isPhotoChanged}) = _$_UserScreenState;
 
   @override
   User? get user;
   @override
-  Uint8List? get profileImage;
+  Uint8List? get realPhoto;
+  @override
+  String? get realName;
+  @override
+  Uint8List? get edittedPhoto;
+  @override
+  String? get edittedName;
+  @override
+  bool get isLoading;
+  @override
+  bool get isNameChanged;
+  @override
+  bool get isPhotoChanged;
   @override
   @JsonKey(ignore: true)
   _$$_UserScreenStateCopyWith<_$_UserScreenState> get copyWith =>

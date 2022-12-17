@@ -13,20 +13,43 @@ import 'package:http/http.dart' as http;
 
 class UserScreenViewModel with ChangeNotifier {
   final FirebaseStorageRepo _repo;
-  UserScreenState _state = UserScreenState(user: null, profileImage: null);
+  UserScreenState _state = UserScreenState(
+    user: null,
+    realPhoto: null,
+    realName: null,
+    edittedPhoto: null,
+    edittedName: null,
+    isLoading: false,
+    isNameChanged: false,
+    isPhotoChanged: false,
+  );
   UserScreenState get state => _state;
-  StreamController<UserScreenEvent> _eventController =
+  final StreamController<UserScreenEvent> _eventController =
       StreamController<UserScreenEvent>.broadcast();
   Stream<UserScreenEvent> get eventStream => _eventController.stream;
   UserScreenViewModel({required FirebaseStorageRepo repo}) : _repo = repo;
 
+  set edittedPhoto(Uint8List? value) {
+    _state = _state.copyWith(edittedPhoto: value, isPhotoChanged: true);
+    notifyListeners();
+  }
+
+  set edittedName(String? value) {
+    _state = _state.copyWith(edittedName: value, isNameChanged: true);
+    notifyListeners();
+  }
+
   Future<void> getUserInfo() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
       _state = _state.copyWith(user: user);
       final photo = await _getUserPhoto();
       _state = _state.copyWith(
-        profileImage: photo,
+        realPhoto: photo,
+        realName: user.displayName,
+        edittedPhoto: photo,
+        edittedName: user.displayName,
       );
     } catch (e) {
       print("failed to get user info");
@@ -34,14 +57,38 @@ class UserScreenViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> saveChanges({String? name, Uint8List? photo}) async {
-    if (name != null) await _updateDisplayName(name);
-    if (photo == null) {
-      await _deleteUserPhoto();
-    } else {
-      await _updateUserPhoto(photo);
+  Future<void> saveChanges() async {
+    try {
+      _state = _state.copyWith(isLoading: true);
+      notifyListeners();
+      if (_state.isNameChanged &&
+          _state.edittedName != null &&
+          _state.edittedName!.length >= 2) {
+        await _updateDisplayName(_state.edittedName!);
+        _state = _state.copyWith(realName: _state.edittedName);
+      }
+
+      if (_state.isPhotoChanged) {
+        if (_state.edittedPhoto == null) {
+          await _deleteUserPhoto();
+        } else {
+          print('hi');
+          await _updateUserPhoto(_state.edittedPhoto!);
+        }
+        _state = _state.copyWith(realPhoto: _state.edittedPhoto);
+      }
+
+      _state = _state.copyWith(isPhotoChanged: false, isNameChanged: false);
+
+      _eventController.sink.add(const UserScreenEvent.onSave());
+    } on FirebaseException catch (err) {
+      _eventController.sink.add(UserScreenEvent.onError(err.code));
+    } catch (err) {
+      _eventController.sink.add(UserScreenEvent.onError(err.toString()));
+    } finally {
+      _state = _state.copyWith(isLoading: false);
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   Future<void> _updateUserPhoto(Uint8List photo) async {
@@ -116,9 +163,27 @@ class UserScreenViewModel with ChangeNotifier {
       print("failed to update photo");
       print(e);
     }
+    return null;
   }
 
   void onEditPressed() {
     _eventController.sink.add(const OnEditPressed());
+  }
+
+  // validate user display name.
+  // user name should be at least 2 characters long and unique
+  // check if the name is unique by checking the firebase
+  // if the name is unique, return null
+  // if the name is not unique, return error string message
+  String? validateName(String? value) {
+    if (value == null || value.length < 2) {
+      return '별명은 2자 이상이어야 합니다.';
+    }
+
+    return null;
+  }
+
+  void onProfileTap() {
+    _eventController.sink.add(const UserScreenEvent.onProfileTap());
   }
 }

@@ -10,5 +10,14 @@ part 'user_screen_state.freezed.dart';
 
 @freezed
 class UserScreenState with _$UserScreenState {
-  factory UserScreenState({required User? user, required Uint8List? profileImage}) = _UserScreenState;
+  factory UserScreenState({
+    required User? user,
+    required Uint8List? realPhoto,
+    required String? realName,
+    required Uint8List? edittedPhoto,
+    required String? edittedName,
+    required bool isLoading,
+    required bool isNameChanged,
+    required bool isPhotoChanged,
+  }) = _UserScreenState;
 }

@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:text_project/presentation/feedback_screen/feedback_screen.dart';
+import 'package:text_project/presentation/home_screen/components/game_rule_dialog.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:text_project/presentation/note_screen/note_screen_view.dart';
 import 'package:text_project/presentation/user_screen/user_screen.dart';
@@ -10,27 +13,11 @@ class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      width: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          UserAccountsDrawerHeader(
-            currentAccountPicture: CircleAvatar(
-              child: const Icon(Icons.person),
-            ),
-            otherAccountsPictures: [
-              IconButton(
-                onPressed: context.read<HomeScreenViewModel>().onLogOutPressed,
-                icon: const Icon(Icons.logout),
-              )
-            ],
-            accountName: const Text('test'),
-            accountEmail: const Text('test@dot.com'),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
-            ),
-          ),
+          const Divider(),
           ListTile(
             style: ListTileStyle.drawer,
             shape: ListTileTheme.of(context).shape,
@@ -50,6 +37,7 @@ class HomeDrawer extends StatelessWidget {
               );
             },
           ),
+          const Divider(),
           ListTile(
             style: ListTileStyle.drawer,
             shape: ListTileTheme.of(context).shape,
@@ -69,6 +57,53 @@ class HomeDrawer extends StatelessWidget {
                   ));
             },
           ),
+          const Divider(),
+          ListTile(
+            style: ListTileStyle.drawer,
+            shape: ListTileTheme.of(context).shape,
+            leading: const Icon(Icons.rule),
+            title: Text(
+              '게임 규칙',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const GameRuleDialog();
+                },
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            style: ListTileStyle.drawer,
+            shape: ListTileTheme.of(context).shape,
+            leading: const Icon(Icons.message),
+            title: Text(
+              '의견 보내기',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FeedbackScreen(),
+                  ));
+            },
+          ),
+          const Divider(),
+          ListTile(
+            style: ListTileStyle.drawer,
+            shape: ListTileTheme.of(context).shape,
+            leading: const Icon(Icons.exit_to_app),
+            title: Text(
+              '로그아웃',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            onTap: context.read<HomeScreenViewModel>().onLogOutPressed,
+          ),
+          const Divider(),
         ],
       ),
     );

@@ -18,7 +18,6 @@ class _UserScreenState extends State<UserScreen> {
 
   // TODO: edit screen에서 팝업되서 나오면 유저 정보 업데이트 해야함
 
-
   @override
   void initState() {
     super.initState();
@@ -27,7 +26,7 @@ class _UserScreenState extends State<UserScreen> {
       final viewModel = context.read<UserScreenViewModel>();
       _eventSubscription = viewModel.eventStream.listen((event) {
         event.when(
-          onEditPressed: () async {
+          onEditPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -35,6 +34,9 @@ class _UserScreenState extends State<UserScreen> {
               ),
             );
           },
+          onError: (message) {},
+          onProfileTap: () {},
+          onSave: () {},
         );
       });
     });
@@ -78,7 +80,10 @@ class _UserScreenState extends State<UserScreen> {
                                   children: [
                                     CircleAvatar(
                                       radius: 50,
-                                      child: Icon(Icons.person),
+                                      backgroundImage: vm.state.realPhoto ==
+                                              null
+                                          ? null
+                                          : MemoryImage(vm.state.realPhoto!),
                                     ),
                                     const SizedBox(
                                       width: 30,
@@ -88,7 +93,7 @@ class _UserScreenState extends State<UserScreen> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(
-                                          vm.state.user!.displayName!,
+                                          vm.state.realName ?? '',
                                           style: Theme.of(context)
                                               .textTheme
                                               .headlineMedium,

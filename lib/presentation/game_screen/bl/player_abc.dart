@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:text_project/domain/repository/words_repo.dart';
+import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
 
 abstract class PlayerABC {
@@ -34,7 +34,7 @@ abstract class HumanPlayerABC extends PlayerABC {
 }
 
 abstract class RobotPlayerABC extends PlayerABC {
-  final WordsRepo wordsRepo;
+  final FirestoreRepo wordsRepo;
   RobotPlayerABC({
     required super.referee,
     super.id,

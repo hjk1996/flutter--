@@ -53,15 +53,23 @@ class _NoteScreenState extends State<NoteScreen> {
         future: context.read<NoteScreenViewModel>().refresh(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return SingleChildScrollView(
-              child: Consumer<NoteScreenViewModel>(
-                builder: (context, viewModel, child) {
-                  return Column(
-                      children: viewModel.notes
-                          .map((noteItem) => NoteCard(noteItem: noteItem))
-                          .toList());
-                },
-              ),
+            return Consumer<NoteScreenViewModel>(
+              builder: (context, viewModel, child) {
+                return viewModel.notes.isEmpty
+                    ? Center(
+                        child: Text(
+                          '단어장에 단어가 없습니다.',
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: viewModel.notes
+                              .map((noteItem) => NoteCard(noteItem: noteItem))
+                              .toList(),
+                        ),
+                      );
+              },
             );
           } else {
             return const Center(

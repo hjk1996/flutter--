@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:text_project/presentation/edit_screen/edit_screen_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
 
 class NameInputBox extends StatefulWidget {
   @override
@@ -14,10 +14,10 @@ class _NameInputBoxState extends State<NameInputBox> {
   @override
   void initState() {
     super.initState();
-    final viewModel = context.read<EditScreenViewModel>();
-    _controller.text = viewModel.state.name ?? '';
+    final viewModel = context.read<UserScreenViewModel>();
+    _controller.text = viewModel.state.edittedName ?? '';
     _controller.addListener(() {
-      viewModel.name = _controller.text;
+      viewModel.edittedName = _controller.text;
     });
   }
 
@@ -29,7 +29,7 @@ class _NameInputBoxState extends State<NameInputBox> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.read<EditScreenViewModel>();
+    final viewModel = context.read<UserScreenViewModel>();
 
     return SizedBox(
       width: 300,

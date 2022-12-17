@@ -2,9 +2,9 @@ import 'package:provider/provider.dart';
 import 'package:text_project/data/data_source/firestore_helper.dart';
 import 'package:text_project/data/data_source/storage_helper.dart';
 import 'package:text_project/data/repository/storage_repo_impl.dart';
-import 'package:text_project/data/repository/words_firestore_repo_impl.dart';
+import 'package:text_project/data/repository/firestore_repo_impl.dart';
 import 'package:text_project/domain/repository/storage_repo.dart';
-import 'package:text_project/domain/repository/words_repo.dart';
+import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
 import 'package:text_project/presentation/game_screen/bl/robot_expert.dart';
@@ -18,16 +18,17 @@ import 'package:text_project/presentation/user_screen/user_screen_view_model.dar
 
 void initialSetUp() {
   final getIt = GetIt.instance;
-  getIt.registerSingleton<WordsRepo>(WordsFirestoreRepoImpl(FirestoreHelper()));
+  getIt.registerSingleton<FirestoreRepo>(FirestoreRepoImpl(FirestoreHelper()));
   getIt.registerSingleton<FirebaseStorageRepo>(
       FirebaseStorageRepoImpl(helper: FirebaseStorageHelper()));
-  getIt.registerSingleton(Referee(wordsRepo: getIt<WordsRepo>()));
+  getIt.registerSingleton(Referee(wordsRepo: getIt<FirestoreRepo>()));
   getIt.registerSingleton(Connectivity());
 }
 
 RobotPlayerABC makeExpertBot(Referee referee) {
   final getIt = GetIt.instance;
-  return RobotExpert(referee: getIt<Referee>(), wordsRepo: getIt<WordsRepo>());
+  return RobotExpert(
+      referee: getIt<Referee>(), wordsRepo: getIt<FirestoreRepo>());
 }
 
 List<ChangeNotifierProvider> getProviders() {
