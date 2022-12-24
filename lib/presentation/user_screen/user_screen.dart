@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
+import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/edit_screen/edit_screen.dart';
 import 'package:text_project/presentation/user_screen/user_screen_event.dart';
 import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
@@ -16,8 +18,6 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   late StreamSubscription<UserScreenEvent> _eventSubscription;
 
-  // TODO: edit screen에서 팝업되서 나오면 유저 정보 업데이트 해야함
-
   @override
   void initState() {
     super.initState();
@@ -26,6 +26,39 @@ class _UserScreenState extends State<UserScreen> {
       final viewModel = context.read<UserScreenViewModel>();
       _eventSubscription = viewModel.eventStream.listen((event) {
         event.when(
+          onDeleteAccountTap: () async {
+            final res =
+                await askYesOrNo(context: context, content: '정말로 탈퇴하시겠습니까?');
+            if (res != null && res) {
+              await viewModel.deleteUserAccount();
+              if (!mounted) return;
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AuthScreenView(),
+                ),
+              );
+            }
+          },
+          onVerifyEmailTap: (verified) async {
+            if (verified) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('이미 인증된 이메일입니다.'),
+                ),
+              );
+            } else {
+              final email = await viewModel.verifyEmail();
+              if (email == null) return;
+              if (!mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('$email에 인증 이메일을 보냈습니다.'),
+                ),
+              );
+            }
+          },
           onEditPressed: () {
             Navigator.push(
               context,
@@ -119,28 +152,38 @@ class _UserScreenState extends State<UserScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 70,
-                            child: Card(
-                              child: ListTile(
-                                leading: const Icon(Icons.history),
-                                title: Text('최근 게임'),
-                                trailing: const Icon(
-                                    Icons.arrow_forward_ios_outlined),
+                          GestureDetector(
+                            onTap: context
+                                .read<UserScreenViewModel>()
+                                .onVerifyEmailTap,
+                            child: const SizedBox(
+                              width: double.infinity,
+                              height: 70,
+                              child: Card(
+                                child: ListTile(
+                                  title: Text(
+                                    '이메일 인증',
+                                  ),
+                                  trailing: Icon(Icons.verified),
+                                ),
                               ),
                             ),
                           ),
                           const Divider(),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 70,
-                            child: Card(
-                              child: ListTile(
-                                leading: const Icon(Icons.history),
-                                title: Text('최근 게임'),
-                                trailing: const Icon(
-                                    Icons.arrow_forward_ios_outlined),
+                          GestureDetector(
+                            onTap: context
+                                .read<UserScreenViewModel>()
+                                .onDeleteAccountTap,
+                            child: const SizedBox(
+                              width: double.infinity,
+                              height: 70,
+                              child: Card(
+                                child: ListTile(
+                                  title: Text(
+                                    '회원 탈퇴',
+                                  ),
+                                  trailing: Icon(Icons.delete),
+                                ),
                               ),
                             ),
                           ),
@@ -148,18 +191,6 @@ class _UserScreenState extends State<UserScreen> {
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            '회원 탈퇴',
-                            style: TextStyle(color: Colors.red),
-                            textAlign: TextAlign.end,
-                          )),
-                    ],
-                  )
                 ],
               ),
             );

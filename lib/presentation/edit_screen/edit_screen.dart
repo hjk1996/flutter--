@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
-import 'package:text_project/presentation/edit_screen/components/profile_dialog.dart';
+import 'package:text_project/presentation/common/set_photo_dialog.dart';
 import 'package:text_project/presentation/edit_screen/components/name_input_box.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/user_screen/user_screen_event.dart';
@@ -17,7 +17,6 @@ class EditScreen extends StatefulWidget {
   State<EditScreen> createState() => _EditScreenState();
 }
 
-// TODO: 내일 프로필 이미지 조지기
 class _EditScreenState extends State<EditScreen> {
   late StreamSubscription<UserScreenEvent> _eventSubscription;
 
@@ -28,6 +27,8 @@ class _EditScreenState extends State<EditScreen> {
       final viewModel = context.read<UserScreenViewModel>();
       _eventSubscription = viewModel.eventStream.listen((event) {
         event.when(
+          onDeleteAccountTap: () {},
+          onVerifyEmailTap: (_) {},
           onEditPressed: () {},
           onSave: () {
             if (!mounted) return;
@@ -47,11 +48,11 @@ class _EditScreenState extends State<EditScreen> {
           },
           onProfileTap: () async {
             if (!mounted) return;
-            final action = await showDialog<ProfileAction>(
+            final action = await showDialog<SetPhotoAction>(
               context: context,
-              builder: (context) => const ProfileDialog(),
+              builder: (context) => const SetPhotoDialog(),
             );
-            if (action == ProfileAction.CAMERA) {
+            if (action == SetPhotoAction.CAMERA) {
               final image = await ImagePicker().pickImage(
                 source: ImageSource.camera,
                 imageQuality: 50,
@@ -60,7 +61,7 @@ class _EditScreenState extends State<EditScreen> {
                 final imageBytes = await image.readAsBytes();
                 viewModel.edittedPhoto = imageBytes;
               }
-            } else if (action == ProfileAction.GALLERY) {
+            } else if (action == SetPhotoAction.GALLERY) {
               final image = await ImagePicker().pickImage(
                 source: ImageSource.gallery,
                 imageQuality: 50,
@@ -70,7 +71,7 @@ class _EditScreenState extends State<EditScreen> {
 
                 viewModel.edittedPhoto = imageBytes;
               }
-            } else if (action == ProfileAction.REMOVE) {
+            } else if (action == SetPhotoAction.REMOVE) {
               viewModel.edittedPhoto = null;
             }
           },

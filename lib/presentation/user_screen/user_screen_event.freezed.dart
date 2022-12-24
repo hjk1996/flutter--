@@ -21,6 +21,8 @@ mixin _$UserScreenEvent {
     required TResult Function() onEditPressed,
     required TResult Function() onSave,
     required TResult Function() onProfileTap,
+    required TResult Function(bool alreadyVerified) onVerifyEmailTap,
+    required TResult Function() onDeleteAccountTap,
     required TResult Function(String message) onError,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,6 +31,8 @@ mixin _$UserScreenEvent {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,6 +41,8 @@ mixin _$UserScreenEvent {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
     required TResult orElse(),
   }) =>
@@ -46,6 +52,8 @@ mixin _$UserScreenEvent {
     required TResult Function(OnEditPressed value) onEditPressed,
     required TResult Function(OnSave value) onSave,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnVerifyEmailTap value) onVerifyEmailTap,
+    required TResult Function(OnDeleteAccountTap value) onDeleteAccountTap,
     required TResult Function(OnError value) onError,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,6 +62,8 @@ mixin _$UserScreenEvent {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
   }) =>
       throw _privateConstructorUsedError;
@@ -62,6 +72,8 @@ mixin _$UserScreenEvent {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
     required TResult orElse(),
   }) =>
@@ -129,6 +141,8 @@ class _$OnEditPressed implements OnEditPressed {
     required TResult Function() onEditPressed,
     required TResult Function() onSave,
     required TResult Function() onProfileTap,
+    required TResult Function(bool alreadyVerified) onVerifyEmailTap,
+    required TResult Function() onDeleteAccountTap,
     required TResult Function(String message) onError,
   }) {
     return onEditPressed();
@@ -140,6 +154,8 @@ class _$OnEditPressed implements OnEditPressed {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
   }) {
     return onEditPressed?.call();
@@ -151,6 +167,8 @@ class _$OnEditPressed implements OnEditPressed {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
     required TResult orElse(),
   }) {
@@ -166,6 +184,8 @@ class _$OnEditPressed implements OnEditPressed {
     required TResult Function(OnEditPressed value) onEditPressed,
     required TResult Function(OnSave value) onSave,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnVerifyEmailTap value) onVerifyEmailTap,
+    required TResult Function(OnDeleteAccountTap value) onDeleteAccountTap,
     required TResult Function(OnError value) onError,
   }) {
     return onEditPressed(this);
@@ -177,6 +197,8 @@ class _$OnEditPressed implements OnEditPressed {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
   }) {
     return onEditPressed?.call(this);
@@ -188,6 +210,8 @@ class _$OnEditPressed implements OnEditPressed {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
     required TResult orElse(),
   }) {
@@ -243,6 +267,8 @@ class _$OnSave implements OnSave {
     required TResult Function() onEditPressed,
     required TResult Function() onSave,
     required TResult Function() onProfileTap,
+    required TResult Function(bool alreadyVerified) onVerifyEmailTap,
+    required TResult Function() onDeleteAccountTap,
     required TResult Function(String message) onError,
   }) {
     return onSave();
@@ -254,6 +280,8 @@ class _$OnSave implements OnSave {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
   }) {
     return onSave?.call();
@@ -265,6 +293,8 @@ class _$OnSave implements OnSave {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
     required TResult orElse(),
   }) {
@@ -280,6 +310,8 @@ class _$OnSave implements OnSave {
     required TResult Function(OnEditPressed value) onEditPressed,
     required TResult Function(OnSave value) onSave,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnVerifyEmailTap value) onVerifyEmailTap,
+    required TResult Function(OnDeleteAccountTap value) onDeleteAccountTap,
     required TResult Function(OnError value) onError,
   }) {
     return onSave(this);
@@ -291,6 +323,8 @@ class _$OnSave implements OnSave {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
   }) {
     return onSave?.call(this);
@@ -302,6 +336,8 @@ class _$OnSave implements OnSave {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
     required TResult orElse(),
   }) {
@@ -360,6 +396,8 @@ class _$OnProfileTap implements OnProfileTap {
     required TResult Function() onEditPressed,
     required TResult Function() onSave,
     required TResult Function() onProfileTap,
+    required TResult Function(bool alreadyVerified) onVerifyEmailTap,
+    required TResult Function() onDeleteAccountTap,
     required TResult Function(String message) onError,
   }) {
     return onProfileTap();
@@ -371,6 +409,8 @@ class _$OnProfileTap implements OnProfileTap {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
   }) {
     return onProfileTap?.call();
@@ -382,6 +422,8 @@ class _$OnProfileTap implements OnProfileTap {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
     required TResult orElse(),
   }) {
@@ -397,6 +439,8 @@ class _$OnProfileTap implements OnProfileTap {
     required TResult Function(OnEditPressed value) onEditPressed,
     required TResult Function(OnSave value) onSave,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnVerifyEmailTap value) onVerifyEmailTap,
+    required TResult Function(OnDeleteAccountTap value) onDeleteAccountTap,
     required TResult Function(OnError value) onError,
   }) {
     return onProfileTap(this);
@@ -408,6 +452,8 @@ class _$OnProfileTap implements OnProfileTap {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
   }) {
     return onProfileTap?.call(this);
@@ -419,6 +465,8 @@ class _$OnProfileTap implements OnProfileTap {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
     required TResult orElse(),
   }) {
@@ -431,6 +479,295 @@ class _$OnProfileTap implements OnProfileTap {
 
 abstract class OnProfileTap implements UserScreenEvent {
   const factory OnProfileTap() = _$OnProfileTap;
+}
+
+/// @nodoc
+abstract class _$$OnVerifyEmailTapCopyWith<$Res> {
+  factory _$$OnVerifyEmailTapCopyWith(
+          _$OnVerifyEmailTap value, $Res Function(_$OnVerifyEmailTap) then) =
+      __$$OnVerifyEmailTapCopyWithImpl<$Res>;
+  $Res call({bool alreadyVerified});
+}
+
+/// @nodoc
+class __$$OnVerifyEmailTapCopyWithImpl<$Res>
+    extends _$UserScreenEventCopyWithImpl<$Res>
+    implements _$$OnVerifyEmailTapCopyWith<$Res> {
+  __$$OnVerifyEmailTapCopyWithImpl(
+      _$OnVerifyEmailTap _value, $Res Function(_$OnVerifyEmailTap) _then)
+      : super(_value, (v) => _then(v as _$OnVerifyEmailTap));
+
+  @override
+  _$OnVerifyEmailTap get _value => super._value as _$OnVerifyEmailTap;
+
+  @override
+  $Res call({
+    Object? alreadyVerified = freezed,
+  }) {
+    return _then(_$OnVerifyEmailTap(
+      alreadyVerified == freezed
+          ? _value.alreadyVerified
+          : alreadyVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$OnVerifyEmailTap implements OnVerifyEmailTap {
+  const _$OnVerifyEmailTap(this.alreadyVerified);
+
+  @override
+  final bool alreadyVerified;
+
+  @override
+  String toString() {
+    return 'UserScreenEvent.onVerifyEmailTap(alreadyVerified: $alreadyVerified)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OnVerifyEmailTap &&
+            const DeepCollectionEquality()
+                .equals(other.alreadyVerified, alreadyVerified));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(alreadyVerified));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$OnVerifyEmailTapCopyWith<_$OnVerifyEmailTap> get copyWith =>
+      __$$OnVerifyEmailTapCopyWithImpl<_$OnVerifyEmailTap>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onEditPressed,
+    required TResult Function() onSave,
+    required TResult Function() onProfileTap,
+    required TResult Function(bool alreadyVerified) onVerifyEmailTap,
+    required TResult Function() onDeleteAccountTap,
+    required TResult Function(String message) onError,
+  }) {
+    return onVerifyEmailTap(alreadyVerified);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onEditPressed,
+    TResult Function()? onSave,
+    TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
+    TResult Function(String message)? onError,
+  }) {
+    return onVerifyEmailTap?.call(alreadyVerified);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onEditPressed,
+    TResult Function()? onSave,
+    TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
+    TResult Function(String message)? onError,
+    required TResult orElse(),
+  }) {
+    if (onVerifyEmailTap != null) {
+      return onVerifyEmailTap(alreadyVerified);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnEditPressed value) onEditPressed,
+    required TResult Function(OnSave value) onSave,
+    required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnVerifyEmailTap value) onVerifyEmailTap,
+    required TResult Function(OnDeleteAccountTap value) onDeleteAccountTap,
+    required TResult Function(OnError value) onError,
+  }) {
+    return onVerifyEmailTap(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnEditPressed value)? onEditPressed,
+    TResult Function(OnSave value)? onSave,
+    TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
+    TResult Function(OnError value)? onError,
+  }) {
+    return onVerifyEmailTap?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnEditPressed value)? onEditPressed,
+    TResult Function(OnSave value)? onSave,
+    TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
+    TResult Function(OnError value)? onError,
+    required TResult orElse(),
+  }) {
+    if (onVerifyEmailTap != null) {
+      return onVerifyEmailTap(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnVerifyEmailTap implements UserScreenEvent {
+  const factory OnVerifyEmailTap(final bool alreadyVerified) =
+      _$OnVerifyEmailTap;
+
+  bool get alreadyVerified;
+  @JsonKey(ignore: true)
+  _$$OnVerifyEmailTapCopyWith<_$OnVerifyEmailTap> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$OnDeleteAccountTapCopyWith<$Res> {
+  factory _$$OnDeleteAccountTapCopyWith(_$OnDeleteAccountTap value,
+          $Res Function(_$OnDeleteAccountTap) then) =
+      __$$OnDeleteAccountTapCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$OnDeleteAccountTapCopyWithImpl<$Res>
+    extends _$UserScreenEventCopyWithImpl<$Res>
+    implements _$$OnDeleteAccountTapCopyWith<$Res> {
+  __$$OnDeleteAccountTapCopyWithImpl(
+      _$OnDeleteAccountTap _value, $Res Function(_$OnDeleteAccountTap) _then)
+      : super(_value, (v) => _then(v as _$OnDeleteAccountTap));
+
+  @override
+  _$OnDeleteAccountTap get _value => super._value as _$OnDeleteAccountTap;
+}
+
+/// @nodoc
+
+class _$OnDeleteAccountTap implements OnDeleteAccountTap {
+  const _$OnDeleteAccountTap();
+
+  @override
+  String toString() {
+    return 'UserScreenEvent.onDeleteAccountTap()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$OnDeleteAccountTap);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onEditPressed,
+    required TResult Function() onSave,
+    required TResult Function() onProfileTap,
+    required TResult Function(bool alreadyVerified) onVerifyEmailTap,
+    required TResult Function() onDeleteAccountTap,
+    required TResult Function(String message) onError,
+  }) {
+    return onDeleteAccountTap();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onEditPressed,
+    TResult Function()? onSave,
+    TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
+    TResult Function(String message)? onError,
+  }) {
+    return onDeleteAccountTap?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onEditPressed,
+    TResult Function()? onSave,
+    TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
+    TResult Function(String message)? onError,
+    required TResult orElse(),
+  }) {
+    if (onDeleteAccountTap != null) {
+      return onDeleteAccountTap();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnEditPressed value) onEditPressed,
+    required TResult Function(OnSave value) onSave,
+    required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnVerifyEmailTap value) onVerifyEmailTap,
+    required TResult Function(OnDeleteAccountTap value) onDeleteAccountTap,
+    required TResult Function(OnError value) onError,
+  }) {
+    return onDeleteAccountTap(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnEditPressed value)? onEditPressed,
+    TResult Function(OnSave value)? onSave,
+    TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
+    TResult Function(OnError value)? onError,
+  }) {
+    return onDeleteAccountTap?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnEditPressed value)? onEditPressed,
+    TResult Function(OnSave value)? onSave,
+    TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
+    TResult Function(OnError value)? onError,
+    required TResult orElse(),
+  }) {
+    if (onDeleteAccountTap != null) {
+      return onDeleteAccountTap(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnDeleteAccountTap implements UserScreenEvent {
+  const factory OnDeleteAccountTap() = _$OnDeleteAccountTap;
 }
 
 /// @nodoc
@@ -498,6 +835,8 @@ class _$OnError implements OnError {
     required TResult Function() onEditPressed,
     required TResult Function() onSave,
     required TResult Function() onProfileTap,
+    required TResult Function(bool alreadyVerified) onVerifyEmailTap,
+    required TResult Function() onDeleteAccountTap,
     required TResult Function(String message) onError,
   }) {
     return onError(message);
@@ -509,6 +848,8 @@ class _$OnError implements OnError {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
   }) {
     return onError?.call(message);
@@ -520,6 +861,8 @@ class _$OnError implements OnError {
     TResult Function()? onEditPressed,
     TResult Function()? onSave,
     TResult Function()? onProfileTap,
+    TResult Function(bool alreadyVerified)? onVerifyEmailTap,
+    TResult Function()? onDeleteAccountTap,
     TResult Function(String message)? onError,
     required TResult orElse(),
   }) {
@@ -535,6 +878,8 @@ class _$OnError implements OnError {
     required TResult Function(OnEditPressed value) onEditPressed,
     required TResult Function(OnSave value) onSave,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnVerifyEmailTap value) onVerifyEmailTap,
+    required TResult Function(OnDeleteAccountTap value) onDeleteAccountTap,
     required TResult Function(OnError value) onError,
   }) {
     return onError(this);
@@ -546,6 +891,8 @@ class _$OnError implements OnError {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
   }) {
     return onError?.call(this);
@@ -557,6 +904,8 @@ class _$OnError implements OnError {
     TResult Function(OnEditPressed value)? onEditPressed,
     TResult Function(OnSave value)? onSave,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnVerifyEmailTap value)? onVerifyEmailTap,
+    TResult Function(OnDeleteAccountTap value)? onDeleteAccountTap,
     TResult Function(OnError value)? onError,
     required TResult orElse(),
   }) {

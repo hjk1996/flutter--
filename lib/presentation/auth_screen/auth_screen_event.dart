@@ -9,4 +9,7 @@ abstract class AuthScreenEvent with _$AuthScreenEvent {
   const factory AuthScreenEvent.onAuthError(String message) = OnAuthError;
   const factory AuthScreenEvent.onSignInSuccess() = OnSignInSuccess;
   const factory AuthScreenEvent.onSignUpSuccess() = OnSignUpSuccess;
+  const factory AuthScreenEvent.whenEmailUsable() = WhenEmailUsable;
+  const factory AuthScreenEvent.onProfileTap() = OnProfileTap;
+
 }

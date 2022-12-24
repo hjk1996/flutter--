@@ -20,10 +20,10 @@ class _SignInFormState extends State<SignInForm> {
   void initState() {
     final viewModel = context.read<AuthScreenViewModel>();
     _emailController.addListener(() {
-      viewModel.setEmail = _emailController.text;
+      viewModel.email = _emailController.text;
     });
     _passwordController.addListener(() {
-      viewModel.setPassword = _passwordController.text;
+      viewModel.password = _passwordController.text;
     });
     super.initState();
   }
@@ -44,7 +44,7 @@ class _SignInFormState extends State<SignInForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
-            decoration: const InputDecoration(hintText: 'e-mail'),
+            decoration: const InputDecoration(hintText: '이메일'),
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             validator: viewModel.validateEmail,
@@ -55,7 +55,7 @@ class _SignInFormState extends State<SignInForm> {
             height: AUTH_FORM_FIELD_GAP,
           ),
           TextFormField(
-            decoration: const InputDecoration(hintText: 'password'),
+            decoration: const InputDecoration(hintText: '비밀번호'),
             controller: _passwordController,
             validator: viewModel.validatePassword,
             obscureText: true,

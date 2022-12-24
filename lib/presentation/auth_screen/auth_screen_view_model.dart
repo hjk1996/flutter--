@@ -1,20 +1,30 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:text_project/domain/repository/storage_repo.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_event.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_state.dart';
+import 'package:text_project/presentation/common/image_handler.dart';
 
 class AuthScreenViewModel with ChangeNotifier {
+  final FirebaseStorageRepo _repo;
+  AuthScreenViewModel({required FirebaseStorageRepo repo}) : _repo = repo;
+
   AuthScreenState _state = AuthScreenState(
-      isSignIn: true,
-      email: '',
-      password: '',
-      confirmPassword: '',
-      isValidEmail: false,
-      isValidPassword: false,
-      isValidConfirmPassword: false);
+    isSignIn: true,
+    email: '',
+    password: '',
+    confirmPassword: '',
+    name: '',
+    image: null,
+    isLoading: false,
+    isValidEmail: false,
+    isValidPassword: false,
+    isValidConfirmPassword: false,
+    isValidName: false,
+  );
   AuthScreenState get state => _state;
 
   final _eventController = StreamController<AuthScreenEvent>.broadcast();
@@ -26,6 +36,9 @@ class AuthScreenViewModel with ChangeNotifier {
       email: '',
       password: '',
       confirmPassword: '',
+      name: '',
+      image: null,
+      isLoading: false,
       isValidEmail: false,
       isValidPassword: false,
       isValidConfirmPassword: false,
@@ -33,29 +46,50 @@ class AuthScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  set setEmail(String value) {
+  set email(String value) {
     _state = _state.copyWith(email: value);
     notifyListeners();
   }
 
-  set setPassword(String value) {
+  set password(String value) {
     _state = _state.copyWith(password: value);
     notifyListeners();
   }
 
-  set setConfirmPassword(String value) {
+  set confirmPassword(String value) {
     _state = _state.copyWith(confirmPassword: value);
     notifyListeners();
   }
 
+  set name(String value) {
+    _state = _state.copyWith(name: value);
+    notifyListeners();
+  }
+
+  set image(Uint8List? value) {
+    _state = _state.copyWith(image: value);
+    notifyListeners();
+  }
+
   Future<void> onAuthButtonClick() async =>
-      state.isSignIn ? _signIn() : _signUp();
+      state.isSignIn ? _signIn() : _onNextPressed();
 
   Future<void> _signIn() async {
     try {
-      final userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: state.email, password: state.password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: state.email, password: state.password);
+
+      _state = _state.copyWith(
+        email: '',
+        password: '',
+        confirmPassword: '',
+        name: '',
+        image: null,
+        isValidEmail: false,
+        isValidPassword: false,
+        isValidConfirmPassword: false,
+        isValidName: false,
+      );
 
       _eventController.sink.add(const AuthScreenEvent.onSignInSuccess());
     } on FirebaseAuthException catch (error) {
@@ -89,17 +123,91 @@ class AuthScreenViewModel with ChangeNotifier {
     }
   }
 
-  // sign up with email and password. send the validation email to the user email.
-  signUp() async {}
-
-  Future<void> _signUp() async {
+  // TODO: IMPLEMENT THIS METHOD
+  Future<void> signUp() async {
+    _state = _state.copyWith(isLoading: true);
+    notifyListeners();
     try {
-      final userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: state.email, password: state.password);
+      final userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: state.email,
+        password: state.password,
+      );
 
-      await userCredential.user!.sendEmailVerification();
-      _eventController.sink.add(const AuthScreenEvent.onSignUpSuccess());
+      final user = userCredential.user!;
+      await user.updateDisplayName(state.name);
+
+      if (state.image != null) {
+        await _updateUserPhoto(user, state.image!);
+      }
+      _eventController.sink.add(
+        const AuthScreenEvent.onSignUpSuccess(),
+      );
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case 'email-already-in-use':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('이미 사용중인 이메일입니다.'));
+          break;
+        case 'invalid-email':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('올바르지않은 이메일입니다.'));
+          break;
+        case 'operation-not-allowed':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('허용되지 않은 작업입니다.'));
+          break;
+        case 'weak-password':
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('좀 더 강한 비밀번호를 입력해주세요.'));
+          break;
+        default:
+          _eventController.sink
+              .add(const AuthScreenEvent.onAuthError('알 수 없는 에러가 발생했습니다.'));
+          break;
+      }
+    } finally {
+      _state = _state.copyWith(isLoading: false);
+      notifyListeners();
+    }
+  }
+
+  Future<void> _updateUserPhoto(User user, Uint8List photo) async {
+    try {
+      final newImage = ImageHandler.restrictImageSize(photo);
+      final path = "users/${user.uid}/profile.jpg";
+      final file = await _convertUint8ListToFile(newImage);
+      final url = await _repo.uploadFile(path, file);
+      await user.updatePhotoURL(url);
+    } on FirebaseException catch (e) {
+      throw FirebaseException(
+          plugin: e.plugin,
+          code: 'update-photo',
+          message: 'Failed to update photo');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // uint8list to file
+  Future<File> _convertUint8ListToFile(List<int> image) async {
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    final file = File('$path/image.jpg');
+    await file.writeAsBytes(image);
+    return file;
+  }
+
+  Future<void> _onNextPressed() async {
+    try {
+      final auth = FirebaseAuth.instance;
+      List<String> signInMethods =
+          await auth.fetchSignInMethodsForEmail(state.email);
+      if (signInMethods.isEmpty) {
+        _eventController.sink.add(const AuthScreenEvent.whenEmailUsable());
+      } else {
+        throw FirebaseAuthException(code: 'email-already-in-use');
+      }
     } on FirebaseAuthException catch (error) {
       switch (error.code) {
         case 'email-already-in-use':
@@ -126,12 +234,15 @@ class AuthScreenViewModel with ChangeNotifier {
     }
   }
 
+  void onProfileTap() {
+    _eventController.sink.add(const AuthScreenEvent.onProfileTap());
+  }
+
   bool get isValid => state.isSignIn
       ? state.isValidEmail && state.isValidPassword
       : state.isValidEmail &&
           state.isValidPassword &&
           state.isValidConfirmPassword;
-
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       _state = _state.copyWith(isValidEmail: false);
@@ -180,12 +291,30 @@ class AuthScreenViewModel with ChangeNotifier {
       return '비밀번호를 다시 입력해주세요.';
     }
 
-    if (value != state.confirmPassword) {
+    if (value != state.password) {
       _state = _state.copyWith(isValidConfirmPassword: false);
       return '비밀번호가 일치하지 않습니다.';
     }
 
     _state = _state.copyWith(isValidConfirmPassword: true);
+    return null;
+  }
+
+  String? validateName(String? name) {
+    if (name == null || name.isEmpty) {
+      _state = _state.copyWith(isValidName: false);
+
+      return '이름을 입력해주세요.';
+    }
+
+    if (name.length < 2) {
+      _state = _state.copyWith(isValidName: false);
+
+      return '2자 이상으로 이름을 설정해주세요.';
+    }
+
+    _state = _state.copyWith(isValidName: true);
+
     return null;
   }
 }

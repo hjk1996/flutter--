@@ -21,13 +21,13 @@ class _SignUpFormState extends State<SignUpForm> {
   void initState() {
     final viewModel = context.read<AuthScreenViewModel>();
     _emailController.addListener(() {
-      viewModel.setEmail = _emailController.text;
+      viewModel.email = _emailController.text;
     });
     _passwordController.addListener(() {
-      viewModel.setPassword = _passwordController.text;
+      viewModel.password = _passwordController.text;
     });
     _confirmPasswordController.addListener(() {
-      viewModel.setConfirmPassword = _confirmPasswordController.text;
+      viewModel.confirmPassword = _confirmPasswordController.text;
     });
     super.initState();
   }
@@ -93,7 +93,7 @@ class _SignUpFormState extends State<SignUpForm> {
           Consumer<AuthScreenViewModel>(builder: (context, vm, child) {
             return ElevatedButton(
               onPressed: vm.isValid ? vm.onAuthButtonClick : null,
-              child: const Text('계정 만들기'),
+              child: const Text('다음'),
             );
           })
         ],

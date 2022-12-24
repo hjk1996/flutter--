@@ -7,7 +7,7 @@ import 'package:text_project/domain/repository/storage_repo.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
-import 'package:text_project/presentation/game_screen/bl/robot_expert.dart';
+import 'package:text_project/presentation/game_screen/bl/robot_player.dart';
 import 'package:text_project/presentation/game_screen/bl/player_abc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -25,25 +25,27 @@ void initialSetUp() {
   getIt.registerSingleton(Connectivity());
 }
 
-RobotPlayerABC makeExpertBot(Referee referee) {
+RobotPlayerABC makeBot(GameDifficulty difficulty, Referee referee) {
   final getIt = GetIt.instance;
-  return RobotExpert(
-      referee: getIt<Referee>(), wordsRepo: getIt<FirestoreRepo>());
+  return RobotPlayer(
+      difficulty: difficulty,
+      referee: getIt<Referee>(),
+      wordsRepo: getIt<FirestoreRepo>());
 }
 
-List<ChangeNotifierProvider> getProviders() {
-  return [
-    ChangeNotifierProvider(create: (context) => AuthScreenViewModel()),
-    ChangeNotifierProvider(create: (context) => HomeScreenViewModel()),
-    ChangeNotifierProvider(create: (context) => NoteScreenViewModel()),
-    ChangeNotifierProvider(
-      create: (context) => GameScreenViewModel(
-        referee: GetIt.instance<Referee>(),
-      ),
-    ),
-    ChangeNotifierProvider(
-        create: (context) => UserScreenViewModel(
-              repo: GetIt.instance<FirebaseStorageRepo>(),
-            )),
-  ];
-}
+// List<ChangeNotifierProvider> getProviders() {
+//   return [
+//     ChangeNotifierProvider(create: (context) => AuthScreenViewModel()),
+//     ChangeNotifierProvider(create: (context) => HomeScreenViewModel()),
+//     ChangeNotifierProvider(create: (context) => NoteScreenViewModel()),
+//     ChangeNotifierProvider(
+//       create: (context) => GameScreenViewModel(
+//         referee: GetIt.instance<Referee>(),
+//       ),
+//     ),
+//     ChangeNotifierProvider(
+//         create: (context) => UserScreenViewModel(
+//               repo: GetIt.instance<FirebaseStorageRepo>(),
+//             )),
+//   ];
+// }

@@ -19,7 +19,7 @@ class GameScreenView extends StatefulWidget {
 }
 
 class _GameScreenViewState extends State<GameScreenView> {
-  StreamSubscription<GameScreenEvent>? _gameScreenEventsubscription;
+  late StreamSubscription<GameScreenEvent> _gameScreenEventsubscription;
 
   @override
   void initState() {
@@ -85,7 +85,7 @@ class _GameScreenViewState extends State<GameScreenView> {
 
   @override
   void dispose() {
-    _gameScreenEventsubscription?.cancel();
+    _gameScreenEventsubscription.cancel();
 
     super.dispose();
   }

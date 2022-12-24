@@ -6,6 +6,7 @@ import 'package:text_project/presentation/auth_screen/auth_screen_event.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/auth_screen/components/sign_in_form.dart';
 import 'package:text_project/presentation/auth_screen/components/sign_up_form.dart';
+import 'package:text_project/presentation/auth_screen/components/user_profile_setting.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
@@ -44,9 +45,14 @@ class _AuthScreenViewState extends State<AuthScreenView> {
               );
             },
             onSignUpSuccess: () {
-              Navigator.of(context).pushReplacement(
+
+            },
+            onProfileTap: () {},
+            whenEmailUsable: () {
+              Navigator.push(
+                context,
                 MaterialPageRoute(
-                  builder: (context) => const HomeScreenView(),
+                  builder: (context) => const UserProfileSetting(),
                 ),
               );
             },

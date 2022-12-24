@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/domain/model/message.dart';
-import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
+import 'package:text_project/presentation/game_screen/components/game_setting_dialog.dart';
+import 'package:text_project/presentation/game_screen/components/countdown_timer.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
 import 'package:get_it/get_it.dart';
 
@@ -31,7 +31,7 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
 
   final Stopwatch stopwatch = Stopwatch();
 
-  StreamSubscription<RefereeResponse>? _refereeResponseSubscription;
+  late StreamSubscription<RefereeResponse> _refereeResponseSubscription;
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
 
   @override
   void dispose() {
-    _refereeResponseSubscription?.cancel();
+    _refereeResponseSubscription.cancel();
     super.dispose();
   }
 
@@ -87,7 +87,9 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                     ? viewModel.referee.usedWords.last
                     : '',
               ),
-              const CountDownTimer()
+              CountDownTimer(
+                difficulty: viewModel.state.setting.difficulty,
+              ),
             ],
           ),
           actions: [
@@ -111,12 +113,11 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                     viewModel.endGame();
                   }
                 } else {
-                  final answer = await askYesOrNo(
+                  final setting = await showDialog<GameSetting>(
                     context: context,
-                    content: '먼저 공격하시겠습니까?',
-                    cancelDialog: true,
+                    builder: (context) => const GameSettingDialog(),
                   );
-                  if (answer == null) return;
+                  if (setting == null) return;
                   // check whether internet is connected before starting game
                   final connectionStatus = await GetIt.instance
                       .get<Connectivity>()
@@ -138,7 +139,7 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                     return;
                   }
 
-                  viewModel.startGame(answer);
+                  viewModel.startGame(setting);
                 }
               },
               icon: Icon(
@@ -151,71 +152,3 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
   }
 }
 
-class CountDownTimer extends StatefulWidget {
-  const CountDownTimer({super.key});
-
-  @override
-  State<CountDownTimer> createState() => _CountDownTimerState();
-}
-
-class _CountDownTimerState extends State<CountDownTimer>
-    with TickerProviderStateMixin {
-  late final AnimationController controller;
-  late final Animation<double> animation;
-  late final StreamSubscription<RefereeResponse> _subscription;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: TURN_TIME),
-    );
-    animation = Tween<double>(begin: .0, end: 1.0).animate(controller)
-      ..addStatusListener(
-        (status) {
-          if (status == AnimationStatus.completed) {}
-        },
-      );
-
-    Future.microtask(
-      () {
-        final viewModel = context.read<GameScreenViewModel>();
-        _subscription = viewModel.referee.refereeResponseStream.listen(
-          _handleResponse,
-        );
-      },
-    );
-  }
-
-  void _handleResponse(RefereeResponse response) {
-    if (response.responseTypes == RefereeResponseTypes.askNextMove) {
-      controller.reset();
-      controller.forward();
-    }
-
-    if (response.responseTypes == RefereeResponseTypes.gameEnd) {
-      controller.reset();
-      context.read<GameScreenViewModel>().endGame();
-    }
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    _subscription.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        return LinearProgressIndicator(
-          value: controller.value,
-        );
-      },
-    );
-  }
-}

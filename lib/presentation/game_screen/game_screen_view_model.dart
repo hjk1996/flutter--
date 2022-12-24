@@ -9,6 +9,8 @@ import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/game_screen/bl/player.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
+import 'package:text_project/presentation/game_screen/bl/robot_player.dart';
+import 'package:text_project/presentation/game_screen/components/game_setting_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_event.dart';
 import 'package:text_project/presentation/game_screen/game_screen_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,14 +19,16 @@ class GameScreenViewModel with ChangeNotifier {
   final Referee _referee;
   GameScreenViewModel({required Referee referee}) : _referee = referee;
 
-  GameScreenState _state =
-      GameScreenState(messages: [], isLoading: false, isPlaying: false);
+  GameScreenState _state = GameScreenState(
+    messages: [],
+    setting:
+        const GameSetting(difficulty: GameDifficulty.easy, isPlayerFirst: true),
+    isLoading: false,
+    isPlaying: false,
+  );
   GameScreenState get state => _state;
-
   Referee get referee => _referee;
-
   StreamSubscription<RefereeResponse>? _refereeSubscription;
-
   final _eventController = StreamController<GameScreenEvent>.broadcast();
   Stream<GameScreenEvent> get eventStream => _eventController.stream;
 
@@ -38,6 +42,7 @@ class GameScreenViewModel with ChangeNotifier {
         content: word,
         createdAt: DateTime.now().microsecondsSinceEpoch,
       );
+
       _updateMessage(message: message);
       _startLoading();
       await _referee.receiveMessage(message);
@@ -124,31 +129,32 @@ class GameScreenViewModel with ChangeNotifier {
   }
 
   // 게임 시작할 때 선수를 등록함.
-  void startGame(bool playerFirst) {
-    // endGame();
+  void startGame(GameSetting setting) {
     _state = GameScreenState(
       messages: [],
+      setting: setting,
       isLoading: false,
       isPlaying: true,
     );
-
     final player =
         Player(referee: referee, id: FirebaseAuth.instance.currentUser!.uid);
-    final otherPlayer = makeExpertBot(referee);
-
-    if (playerFirst) {
-      _referee.startGame(player1: player, player2: otherPlayer);
-    } else {
-      _referee.startGame(player1: otherPlayer, player2: player);
-    }
-
+    final otherPlayer = makeBot(setting.difficulty, referee);
     notifyListeners();
+
+    if (setting.isPlayerFirst) {
+      _referee.startGame(
+          setting: setting, player1: player, player2: otherPlayer);
+    } else {
+      _referee.startGame(
+          setting: setting, player1: otherPlayer, player2: player);
+    }
   }
 
   void endGame() {
     _referee.endGame();
     _state = _state.copyWith(
       messages: List.from(_referee.messages.reversed),
+      setting: _state.setting,
       isLoading: false,
       isPlaying: false,
     );
@@ -156,7 +162,12 @@ class GameScreenViewModel with ChangeNotifier {
   }
 
   void resetChat() {
-    _state = GameScreenState(messages: [], isLoading: false, isPlaying: false);
+    _state = GameScreenState(
+      messages: [],
+      setting: _state.setting,
+      isLoading: false,
+      isPlaying: false,
+    );
     notifyListeners();
   }
 

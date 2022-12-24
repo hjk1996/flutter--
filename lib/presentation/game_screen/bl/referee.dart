@@ -5,6 +5,8 @@ import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/game_screen/bl/player.dart';
 import 'package:text_project/presentation/game_screen/bl/player_abc.dart';
+import 'package:text_project/presentation/game_screen/bl/robot_player.dart';
+import 'package:text_project/presentation/game_screen/components/game_setting_dialog.dart';
 
 enum RefereeResponseTypes {
   // askRobotToMove,
@@ -35,6 +37,7 @@ class RefereeException implements Exception {
 
 class Referee {
   final FirestoreRepo wordsRepo;
+  int? _turnTime = 0;
   Referee({required this.wordsRepo});
 
   final id = REFEREE_ID;
@@ -66,14 +69,31 @@ class Referee {
   Set<String>? get killerWords => _killerWords;
 
   // 게임시작할 때 선수 등록하고 다음 동작 요청함.
-  void startGame({required PlayerABC player1, required PlayerABC player2}) {
+  void startGame(
+      {required GameSetting setting,
+      required PlayerABC player1,
+      required PlayerABC player2}) {
     _messages = [];
+    switch (setting.difficulty) {
+      case GameDifficulty.easy:
+        _turnTime = TurnTime.easy;
+        break;
+      case GameDifficulty.normal:
+        _turnTime = TurnTime.normal;
+        break;
+      case GameDifficulty.hard:
+        _turnTime = TurnTime.hard;
+        break;
+      case GameDifficulty.impossible:
+        _turnTime = TurnTime.impossible;
+        break;
+    }
     _player1 = player1;
     _player1!.init();
     _player2 = player2;
     _player2!.init();
     _playerOnTurn = player1;
-
+    _setTimer(_turnTime!);
     _refereeResponseController.sink.add(
       RefereeResponse(
         responseTypes: RefereeResponseTypes.askNextMove,
@@ -131,7 +151,7 @@ class Referee {
       );
     } else {
       _offTimer();
-      _setTimer(TURN_TIME);
+      _setTimer(_turnTime!);
       _messages.add(message);
       _switchTurn();
 

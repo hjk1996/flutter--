@@ -22,7 +22,7 @@ class HomeScreenView extends StatefulWidget {
 }
 
 class _HomeScreenViewState extends State<HomeScreenView> {
-  StreamSubscription<HomeScreenEvent>? _streamSubscription;
+  late StreamSubscription<HomeScreenEvent> _streamSubscription;
 
   final PageController pageController =
       PageController(initialPage: 0, keepPage: true);
@@ -35,7 +35,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
         // auth page로 나갈 때 initState가 call 되는 문제가 발생함.
 
         final viewModel = context.read<HomeScreenViewModel>();
-        _streamSubscription ??= viewModel.eventStream.listen(
+        _streamSubscription = viewModel.eventStream.listen(
           (event) {
             event.when(
               onGameStart: () async {
@@ -88,20 +88,13 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             );
           },
         );
-
       },
     );
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
-    _streamSubscription!.cancel();
-    _streamSubscription = null;
+    _streamSubscription.cancel();
     pageController.dispose();
     super.dispose();
   }

@@ -14,17 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-GameScreenState _$GameScreenStateFromJson(Map<String, dynamic> json) {
-  return _GameScreenState.fromJson(json);
-}
-
 /// @nodoc
 mixin _$GameScreenState {
   List<Message> get messages => throw _privateConstructorUsedError;
+  GameSetting get setting => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isPlaying => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $GameScreenStateCopyWith<GameScreenState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -35,7 +31,11 @@ abstract class $GameScreenStateCopyWith<$Res> {
   factory $GameScreenStateCopyWith(
           GameScreenState value, $Res Function(GameScreenState) then) =
       _$GameScreenStateCopyWithImpl<$Res>;
-  $Res call({List<Message> messages, bool isLoading, bool isPlaying});
+  $Res call(
+      {List<Message> messages,
+      GameSetting setting,
+      bool isLoading,
+      bool isPlaying});
 }
 
 /// @nodoc
@@ -50,6 +50,7 @@ class _$GameScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = freezed,
+    Object? setting = freezed,
     Object? isLoading = freezed,
     Object? isPlaying = freezed,
   }) {
@@ -58,6 +59,10 @@ class _$GameScreenStateCopyWithImpl<$Res>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
+      setting: setting == freezed
+          ? _value.setting
+          : setting // ignore: cast_nullable_to_non_nullable
+              as GameSetting,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -77,7 +82,11 @@ abstract class _$$_GameScreenStateCopyWith<$Res>
           _$_GameScreenState value, $Res Function(_$_GameScreenState) then) =
       __$$_GameScreenStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<Message> messages, bool isLoading, bool isPlaying});
+  $Res call(
+      {List<Message> messages,
+      GameSetting setting,
+      bool isLoading,
+      bool isPlaying});
 }
 
 /// @nodoc
@@ -94,6 +103,7 @@ class __$$_GameScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = freezed,
+    Object? setting = freezed,
     Object? isLoading = freezed,
     Object? isPlaying = freezed,
   }) {
@@ -102,6 +112,10 @@ class __$$_GameScreenStateCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
+      setting: setting == freezed
+          ? _value.setting
+          : setting // ignore: cast_nullable_to_non_nullable
+              as GameSetting,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -115,16 +129,14 @@ class __$$_GameScreenStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_GameScreenState implements _GameScreenState {
   _$_GameScreenState(
       {required final List<Message> messages,
+      required this.setting,
       required this.isLoading,
       required this.isPlaying})
       : _messages = messages;
-
-  factory _$_GameScreenState.fromJson(Map<String, dynamic> json) =>
-      _$$_GameScreenStateFromJson(json);
 
   final List<Message> _messages;
   @override
@@ -134,13 +146,15 @@ class _$_GameScreenState implements _GameScreenState {
   }
 
   @override
+  final GameSetting setting;
+  @override
   final bool isLoading;
   @override
   final bool isPlaying;
 
   @override
   String toString() {
-    return 'GameScreenState(messages: $messages, isLoading: $isLoading, isPlaying: $isPlaying)';
+    return 'GameScreenState(messages: $messages, setting: $setting, isLoading: $isLoading, isPlaying: $isPlaying)';
   }
 
   @override
@@ -149,15 +163,16 @@ class _$_GameScreenState implements _GameScreenState {
         (other.runtimeType == runtimeType &&
             other is _$_GameScreenState &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
+            const DeepCollectionEquality().equals(other.setting, setting) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality().equals(other.isPlaying, isPlaying));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_messages),
+      const DeepCollectionEquality().hash(setting),
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(isPlaying));
 
@@ -165,26 +180,19 @@ class _$_GameScreenState implements _GameScreenState {
   @override
   _$$_GameScreenStateCopyWith<_$_GameScreenState> get copyWith =>
       __$$_GameScreenStateCopyWithImpl<_$_GameScreenState>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_GameScreenStateToJson(
-      this,
-    );
-  }
 }
 
 abstract class _GameScreenState implements GameScreenState {
   factory _GameScreenState(
       {required final List<Message> messages,
+      required final GameSetting setting,
       required final bool isLoading,
       required final bool isPlaying}) = _$_GameScreenState;
 
-  factory _GameScreenState.fromJson(Map<String, dynamic> json) =
-      _$_GameScreenState.fromJson;
-
   @override
   List<Message> get messages;
+  @override
+  GameSetting get setting;
   @override
   bool get isLoading;
   @override

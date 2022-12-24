@@ -17,6 +17,27 @@ class HomeDrawer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(
+            width: 150,
+            height: 150,
+            child: ClipOval(
+              child: FirebaseAuth.instance.currentUser!.photoURL == null
+                  ? const Icon(
+                      Icons.person,
+                      size: 150,
+                    )
+                  : Image.network(
+                      FirebaseAuth.instance.currentUser!.photoURL!,
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            FirebaseAuth.instance.currentUser!.displayName!,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 20),
           const Divider(),
           ListTile(
             style: ListTileStyle.drawer,

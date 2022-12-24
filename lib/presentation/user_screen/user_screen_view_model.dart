@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:text_project/domain/repository/storage_repo.dart';
 import 'package:text_project/presentation/user_screen/user_screen_event.dart';
 import 'package:text_project/presentation/user_screen/user_screen_state.dart';
+import 'package:text_project/presentation/common/image_handler.dart';
 import 'package:http/http.dart' as http;
 
 class UserScreenViewModel with ChangeNotifier {
@@ -94,8 +95,9 @@ class UserScreenViewModel with ChangeNotifier {
   Future<void> _updateUserPhoto(Uint8List photo) async {
     try {
       if (state.user == null) return;
+      final newImage = ImageHandler.restrictImageSize(photo);
       final path = "users/${state.user!.uid}/profile.jpg";
-      final file = await _convertUint8ListToFile(photo);
+      final file = await _convertUint8ListToFile(newImage);
       final url = await _repo.uploadFile(path, file);
       await state.user!.updatePhotoURL(url);
     } on FirebaseException catch (e) {
@@ -109,7 +111,7 @@ class UserScreenViewModel with ChangeNotifier {
   }
 
   // uint8list to file
-  Future<File> _convertUint8ListToFile(Uint8List image) async {
+  Future<File> _convertUint8ListToFile(List<int> image) async {
     final tempDir = await getTemporaryDirectory();
     final path = tempDir.path;
     final file = File('$path/image.jpg');
@@ -147,7 +149,6 @@ class UserScreenViewModel with ChangeNotifier {
     }
   }
 
-  // TODO: 반환하는 파일을 File이 아니라 Image로 바꾸기
   //get user photo
   Future<Uint8List?> _getUserPhoto() async {
     try {
@@ -185,5 +186,43 @@ class UserScreenViewModel with ChangeNotifier {
 
   void onProfileTap() {
     _eventController.sink.add(const UserScreenEvent.onProfileTap());
+  }
+
+  void onVerifyEmailTap() {
+    if (FirebaseAuth.instance.currentUser!.emailVerified) {
+      _eventController.sink.add(const UserScreenEvent.onVerifyEmailTap(true));
+    } else {
+      _eventController.sink.add(const UserScreenEvent.onVerifyEmailTap(false));
+    }
+  }
+
+  void onDeleteAccountTap() {
+    _eventController.sink.add(const UserScreenEvent.onDeleteAccountTap());
+  }
+
+  Future<String?> verifyEmail() async {
+    try {
+      if (state.user == null) return null;
+      await state.user!.sendEmailVerification();
+      return state.user!.email!;
+    } on FirebaseException catch (e) {
+      _eventController.sink.add(UserScreenEvent.onError(e.code));
+      return null;
+    } catch (e) {
+      _eventController.sink.add(UserScreenEvent.onError(e.toString()));
+      return null;
+    }
+  }
+
+  // 회원탈퇴하려면 비밀번호를 한번 더 입력해야함
+  Future<void> deleteUserAccount() async {
+    try {
+      if (state.user == null) return;
+      await state.user!.delete();
+    } on FirebaseException catch (e) {
+      _eventController.sink.add(UserScreenEvent.onError(e.code));
+    } catch (e) {
+      rethrow;
+    }
   }
 }

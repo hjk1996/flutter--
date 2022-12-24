@@ -29,7 +29,11 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AuthScreenViewModel()),
+        ChangeNotifierProvider(
+          create: (context) => AuthScreenViewModel(
+            repo: GetIt.instance<FirebaseStorageRepo>(),
+          ),
+        ),
         ChangeNotifierProvider(create: (context) => HomeScreenViewModel()),
         ChangeNotifierProvider(create: (context) => NoteScreenViewModel()),
         ChangeNotifierProvider(

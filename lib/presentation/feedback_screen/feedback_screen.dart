@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:text_project/presentation/feedback_screen/feedback_screen_event.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/feedback_screen/feedback_screen_view_model.dart';
+import 'package:text_project/presentation/home_screen/home_screen_view.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -29,8 +30,26 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       _streamSubscription = viewModel.eventStream.listen((event) {
         event.when(
           onSuccess: () {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('전송했습니다.')));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreenView(),
+              ),
+            );
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('피드백이 전송되었습니다.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('확인'),
+                  ),
+                ],
+              ),
+            );
           },
           onError: (message) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -57,7 +76,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           Consumer<FeedbackScreenViewModel>(
             builder: (context, value, child) {
               return value.state.isLoading
-                  ? Padding(
+                  ? const Padding(
                       padding: EdgeInsets.all(8),
                       child: Center(
                         child: CircularProgressIndicator(),
