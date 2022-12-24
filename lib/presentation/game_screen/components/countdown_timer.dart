@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/game_screen/bl/referee.dart';
@@ -9,24 +8,7 @@ import 'package:text_project/presentation/game_screen/game_screen_view_model.dar
 import 'package:provider/provider.dart';
 
 class CountDownTimer extends StatefulWidget {
-  final GameDifficulty difficulty;
-  late final int turnTime;
-  CountDownTimer({required this.difficulty, super.key}) {
-    switch (difficulty) {
-      case GameDifficulty.easy:
-        turnTime = TurnTime.easy;
-        break;
-      case GameDifficulty.normal:
-        turnTime = TurnTime.normal;
-        break;
-      case GameDifficulty.hard:
-        turnTime = TurnTime.hard;
-        break;
-      case GameDifficulty.impossible:
-        turnTime = TurnTime.impossible;
-        break;
-    }
-  }
+  CountDownTimer({super.key});
   @override
   State<CountDownTimer> createState() => _CountDownTimerState();
 }
@@ -44,13 +26,15 @@ class _CountDownTimerState extends State<CountDownTimer>
 
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: widget.turnTime),
+      duration: const Duration(seconds: 100),
     );
     animation = Tween<double>(begin: 0, end: 1).animate(controller);
     Future.microtask(
       () {
         final viewModel = context.read<GameScreenViewModel>();
-
+        controller.duration = Duration(
+            seconds: difficultyToTurnTime(viewModel.state.setting.difficulty));
+        animation = Tween<double>(begin: 0, end: 1).animate(controller);
         _subscription = viewModel.referee.refereeResponseStream.listen(
           _handleResponse,
         );

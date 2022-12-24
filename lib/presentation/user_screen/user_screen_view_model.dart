@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/domain/repository/storage_repo.dart';
 import 'package:text_project/presentation/user_screen/user_screen_event.dart';
 import 'package:text_project/presentation/user_screen/user_screen_state.dart';
@@ -13,9 +14,11 @@ import 'package:text_project/presentation/common/image_handler.dart';
 import 'package:http/http.dart' as http;
 
 class UserScreenViewModel with ChangeNotifier {
-  final FirebaseStorageRepo _repo;
+  final FirebaseStorageRepo _storageRepo;
+  final FirestoreRepo _storeRepo;
   UserScreenState _state = UserScreenState(
     user: null,
+    userStat: null,
     realPhoto: null,
     realName: null,
     edittedPhoto: null,
@@ -28,7 +31,11 @@ class UserScreenViewModel with ChangeNotifier {
   final StreamController<UserScreenEvent> _eventController =
       StreamController<UserScreenEvent>.broadcast();
   Stream<UserScreenEvent> get eventStream => _eventController.stream;
-  UserScreenViewModel({required FirebaseStorageRepo repo}) : _repo = repo;
+  UserScreenViewModel(
+      {required FirebaseStorageRepo storageRepo,
+      required FirestoreRepo storeRepo})
+      : _storageRepo = storageRepo,
+        _storeRepo = storeRepo;
 
   set edittedPhoto(Uint8List? value) {
     _state = _state.copyWith(edittedPhoto: value, isPhotoChanged: true);
@@ -40,11 +47,22 @@ class UserScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  int get wins => _state.userStat == null
+      ? 0
+      : _state.userStat!.easyWinCount +
+          _state.userStat!.normalWinCount +
+          _state.userStat!.hardWinCount +
+          _state.userStat!.impossibleWinCount;
+
+  int get losses =>
+      _state.userStat == null ? 0 : _state.userStat!.gameCount - wins;
+
   Future<void> getUserInfo() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
+      final userStat = await _storeRepo.fetchUserStat();
       if (user == null) return;
-      _state = _state.copyWith(user: user);
+      _state = _state.copyWith(user: user, userStat: userStat);
       final photo = await _getUserPhoto();
       _state = _state.copyWith(
         realPhoto: photo,
@@ -53,8 +71,7 @@ class UserScreenViewModel with ChangeNotifier {
         edittedName: user.displayName,
       );
     } catch (e) {
-      print("failed to get user info");
-      print(e);
+      rethrow;
     }
   }
 
@@ -73,7 +90,6 @@ class UserScreenViewModel with ChangeNotifier {
         if (_state.edittedPhoto == null) {
           await _deleteUserPhoto();
         } else {
-          print('hi');
           await _updateUserPhoto(_state.edittedPhoto!);
         }
         _state = _state.copyWith(realPhoto: _state.edittedPhoto);
@@ -98,7 +114,7 @@ class UserScreenViewModel with ChangeNotifier {
       final newImage = ImageHandler.restrictImageSize(photo);
       final path = "users/${state.user!.uid}/profile.jpg";
       final file = await _convertUint8ListToFile(newImage);
-      final url = await _repo.uploadFile(path, file);
+      final url = await _storageRepo.uploadFile(path, file);
       await state.user!.updatePhotoURL(url);
     } on FirebaseException catch (e) {
       throw FirebaseException(
@@ -123,7 +139,7 @@ class UserScreenViewModel with ChangeNotifier {
     try {
       if (state.user == null) return;
       final path = "users/${state.user!.uid}/profile.jpg";
-      await _repo.deleteFile(path);
+      await _storageRepo.deleteFile(path);
       await state.user!.updatePhotoURL(null);
     } on FirebaseException catch (e) {
       throw FirebaseException(

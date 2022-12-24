@@ -67,7 +67,9 @@ class _UserScreenState extends State<UserScreen> {
               ),
             );
           },
-          onError: (message) {},
+          onError: (message) {
+            print(message);
+          },
           onProfileTap: () {},
           onSave: () {},
         );
@@ -132,9 +134,14 @@ class _UserScreenState extends State<UserScreen> {
                                               .headlineMedium,
                                         ),
                                         const SizedBox(
-                                          height: 20,
+                                          height: 10,
                                         ),
-                                        Text('70승 10패')
+                                        Text(
+                                          '${vm.wins}승 ${vm.losses}패',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                        )
                                       ],
                                     ),
                                     const Spacer(),

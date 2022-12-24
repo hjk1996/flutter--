@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:text_project/presentation/game_screen/bl/robot_player.dart';
 
 class GameSetting {
   final bool isPlayerFirst;
   final GameDifficulty difficulty;
-  const GameSetting({required this.isPlayerFirst, required this.difficulty});
+  const GameSetting({
+    required this.isPlayerFirst,
+    required this.difficulty,
+  });
 }
 
 class GameSettingDialog extends StatefulWidget {

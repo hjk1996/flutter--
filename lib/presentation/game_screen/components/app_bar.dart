@@ -87,9 +87,7 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                     ? viewModel.referee.usedWords.last
                     : '',
               ),
-              CountDownTimer(
-                difficulty: viewModel.state.setting.difficulty,
-              ),
+              CountDownTimer(),
             ],
           ),
           actions: [
@@ -151,4 +149,3 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
     );
   }
 }
-

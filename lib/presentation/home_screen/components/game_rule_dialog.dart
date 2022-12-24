@@ -9,7 +9,7 @@ class GameRuleDialog extends StatelessWidget {
     return Dialog(
       child: SizedBox(
         width: mq.size.width * 0.9,
-        height: mq.size.height * 0.4,
+        height: mq.size.height * 0.45,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
           child: Column(
@@ -33,10 +33,14 @@ class GameRuleDialog extends StatelessWidget {
                       ),
                       ListTile(
                         leading: Text('2'),
-                        title: Text('한방단어는 차례가 한 번씩 돌아간 이후 사용할 수 있습니다.'),
+                        title: Text('두음법칙을 적용할 수 있습니다.'),
                       ),
                       ListTile(
                         leading: Text('3'),
+                        title: Text('한방단어는 차례가 한 번씩 돌아간 이후 사용할 수 있습니다.'),
+                      ),
+                      ListTile(
+                        leading: Text('4'),
                         title: Text('주어진 시간 안에 올바른 답어를 입력하지 못하면 패배합니다.'),
                       ),
                     ],

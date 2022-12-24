@@ -10,6 +10,7 @@ import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
 import 'package:text_project/presentation/home_screen/components/drawer.dart';
 import 'package:text_project/presentation/home_screen/components/game_menu.dart';
+import 'package:text_project/presentation/home_screen/components/rank_board.dart';
 import 'package:text_project/presentation/home_screen/home_screen_event.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
@@ -101,41 +102,36 @@ class _HomeScreenViewState extends State<HomeScreenView> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.read<HomeScreenViewModel>();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       drawer: const HomeDrawer(),
-      body: Consumer<HomeScreenViewModel>(
-        builder: (context, vm, child) {
-          return PageView(
-            controller: vm.pageController,
-            onPageChanged: vm.changePage,
-            children: const [
-              GameMenu(),
-              RankPage(),
-            ],
-          );
-        },
-      ),
-      bottomNavigationBar: Consumer<HomeScreenViewModel>(
-        builder: (context, vm, child) {
-          return BottomNavigationBar(
-            currentIndex: vm.pageIndex,
-            onTap: viewModel.pageController.jumpToPage,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.gamepad),
-                label: '게임하기',
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "게임",
+                style: Theme.of(context).textTheme.headline4!.copyWith(
+                      color: Colors.white,
+                    ),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.workspace_premium_rounded),
-                label: '랭킹보기',
+              const SizedBox(height: 10),
+              const GameMenu(),
+              const SizedBox(height: 20),
+              Text(
+                "랭킹",
+                style: Theme.of(context).textTheme.headline4!.copyWith(
+                      color: Colors.white,
+                    ),
               ),
+              const SizedBox(height: 10),
+              const RankBoard()
             ],
-          );
-        },
+          ),
+        ),
       ),
     );
   }

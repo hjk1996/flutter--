@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/common/constants.dart';
@@ -36,9 +37,9 @@ class RefereeException implements Exception {
 }
 
 class Referee {
-  final FirestoreRepo wordsRepo;
+  final FirestoreRepo repo;
   int? _turnTime = 0;
-  Referee({required this.wordsRepo});
+  Referee({required this.repo});
 
   final id = REFEREE_ID;
 
@@ -48,22 +49,19 @@ class Referee {
       _refereeResponseController.stream;
 
   Timer? timer;
-
   PlayerABC? _player1;
   PlayerABC? _player2;
   PlayerABC? _playerOnTurn;
   PlayerABC? get playerOnTurn => _playerOnTurn;
   PlayerABC? _winner;
   PlayerABC? _loser;
-  String? _winType;
-
   List<Message> _messages = [];
   List<Message> get messages => _messages;
   Message? get lastValidMessage => _messages.isEmpty ? null : _messages.last;
   Set<String> get usedWords => Set.from(
         messages.map((message) => message.content),
       );
-
+  GameSetting? _setting;
   Map<String, dynamic>? _dooumMap;
   Set<String>? _killerWords;
   Set<String>? get killerWords => _killerWords;
@@ -74,6 +72,7 @@ class Referee {
       required PlayerABC player1,
       required PlayerABC player2}) {
     _messages = [];
+    _setting = setting;
     switch (setting.difficulty) {
       case GameDifficulty.easy:
         _turnTime = TurnTime.easy;
@@ -102,18 +101,18 @@ class Referee {
     );
   }
 
-  Future<void> sendGameLog() async {
+  Future<void> sendLog() async {
     try {
       if (_messages.isNotEmpty) {
-        await wordsRepo.sendGameLog(
-          {
-            'winner': _winner!.id,
-            'loser': _loser!.id,
-            'winType': _winType!,
-            'endAt': DateTime.now().microsecondsSinceEpoch,
-            'log': _messages.map((message) => message.toJson()).toList()
-          },
-        );
+        final Map<String, dynamic> log = {
+          'id': FirebaseAuth.instance.currentUser!.uid,
+          'win': FirebaseAuth.instance.currentUser!.uid == _winner!.id,
+          'difficulty': _setting!.difficulty.name,
+          'endAt': DateTime.now().microsecondsSinceEpoch,
+          'log': _messages.map((message) => message.toJson()).toList(),
+        };
+        await repo.sendGameLog(log);
+        await repo.updateUserInfoAfterGame(log);
       }
     } catch (err) {
       throw RefereeException(cause: '로그 전송 실패');
@@ -129,8 +128,7 @@ class Referee {
     _playerOnTurn = null;
     _winner = null;
     _loser = null;
-    _winType = null;
-    // _messages = [];
+    _setting = null;
   }
 
   Future<void> _whenPlayerPlaying(Message message) async {
@@ -174,8 +172,6 @@ class Referee {
       _winner = _player1;
     }
 
-    _winType = 'giveUp';
-
     _refereeResponseController.sink.add(
       RefereeResponse(
         responseTypes: RefereeResponseTypes.gameEnd,
@@ -183,7 +179,7 @@ class Referee {
       ),
     );
 
-    await sendGameLog();
+    await sendLog();
   }
 
   Future<void> _whenTimeOut(Message message) async {
@@ -195,8 +191,6 @@ class Referee {
       _winner = _player1;
     }
 
-    _winType = 'timeOut';
-
     _refereeResponseController.sink.add(
       RefereeResponse(
         responseTypes: RefereeResponseTypes.gameEnd,
@@ -204,7 +198,7 @@ class Referee {
       ),
     );
 
-    await sendGameLog();
+    await sendLog();
   }
 
   Future<void> receiveMessage(Message message) async {
@@ -277,7 +271,7 @@ class Referee {
     }
 
     try {
-      if (!await wordsRepo.checkWordExists(message.content)) {
+      if (!await repo.checkWordExists(message.content)) {
         return "존재하지 않는 단어입니다.";
       }
     } catch (err) {
@@ -288,7 +282,7 @@ class Referee {
   }
 
   Future<void> init() async {
-    _killerWords ??= await wordsRepo.loadKillerWords();
-    _dooumMap ??= await wordsRepo.loadDooumMap();
+    _killerWords ??= await repo.loadKillerWords();
+    _dooumMap ??= await repo.loadDooumMap();
   }
 }

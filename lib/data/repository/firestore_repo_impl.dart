@@ -1,5 +1,7 @@
 import 'package:text_project/data/data_source/firestore_helper.dart';
+import 'package:text_project/domain/model/game_log.dart';
 import 'package:text_project/domain/model/last_word.dart';
+import 'package:text_project/domain/model/user_stat.dart';
 import 'package:text_project/domain/model/word.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 
@@ -48,7 +50,23 @@ class FirestoreRepoImpl implements FirestoreRepo {
   }
 
   @override
+  Future<void> updateUserInfoAfterGame(Map<String, dynamic> log) {
+    return firestoreHelper.updateUserInfoAfterGame(log);
+  }
+
+  @override
   Future<void> sendFeedback(String title, String content) async {
     return firestoreHelper.sendFeedback(title, content);
   }
+
+  @override
+  Future<List<GameLog>> fetchUserGameLogs(int limit) async {
+    return firestoreHelper.fetchUserGameLogs(limit);
+  }
+
+  @override
+  Future<UserStat?> fetchUserStat() async {
+    return firestoreHelper.fetchUserStat();
+  }
+
 }

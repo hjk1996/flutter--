@@ -48,9 +48,10 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => UserScreenViewModel(
-            repo: GetIt.instance<FirebaseStorageRepo>(),
+            storageRepo: GetIt.instance<FirebaseStorageRepo>(),
+            storeRepo: GetIt.instance<FirestoreRepo>(),
           ),
-        ),
+        )
       ],
       builder: (context, child) => const MyApp(),
     ),

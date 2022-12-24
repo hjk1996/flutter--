@@ -21,7 +21,7 @@ void initialSetUp() {
   getIt.registerSingleton<FirestoreRepo>(FirestoreRepoImpl(FirestoreHelper()));
   getIt.registerSingleton<FirebaseStorageRepo>(
       FirebaseStorageRepoImpl(helper: FirebaseStorageHelper()));
-  getIt.registerSingleton(Referee(wordsRepo: getIt<FirestoreRepo>()));
+  getIt.registerSingleton(Referee(repo: getIt<FirestoreRepo>()));
   getIt.registerSingleton(Connectivity());
 }
 
