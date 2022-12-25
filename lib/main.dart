@@ -34,7 +34,11 @@ void main() async {
             repo: GetIt.instance<FirebaseStorageRepo>(),
           ),
         ),
-        ChangeNotifierProvider(create: (context) => HomeScreenViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => HomeScreenViewModel(
+                  firestoreRepo: GetIt.instance<FirestoreRepo>(),
+                  firebaseStorageRepo: GetIt.instance<FirebaseStorageRepo>(),
+                )),
         ChangeNotifierProvider(create: (context) => NoteScreenViewModel()),
         ChangeNotifierProvider(
           create: (context) => GameScreenViewModel(

@@ -105,7 +105,7 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                         id: FirebaseAuth.instance.currentUser!.uid,
                         messageType: MessageType.giveUp,
                         content: '',
-                        createdAt: DateTime.now().microsecondsSinceEpoch,
+                        createdAt: DateTime.now(),
                       ),
                     );
                     viewModel.endGame();

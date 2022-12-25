@@ -10,7 +10,7 @@ import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
 import 'package:text_project/presentation/home_screen/components/drawer.dart';
 import 'package:text_project/presentation/home_screen/components/game_menu.dart';
-import 'package:text_project/presentation/home_screen/components/rank_board.dart';
+import 'package:text_project/presentation/home_screen/components/rank_board_view.dart';
 import 'package:text_project/presentation/home_screen/home_screen_event.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
@@ -128,7 +128,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     ),
               ),
               const SizedBox(height: 10),
-              const RankBoard()
+              const RankBoardView()
             ],
           ),
         ),

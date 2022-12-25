@@ -45,13 +45,13 @@ class FirestoreRepoImpl implements FirestoreRepo {
   }
 
   @override
-  Future<void> sendGameLog(Map<String, dynamic> log) {
+  Future<void> sendGameLog(GameLog log) {
     return firestoreHelper.sendGameLog(log);
   }
 
   @override
-  Future<void> updateUserInfoAfterGame(Map<String, dynamic> log) {
-    return firestoreHelper.updateUserInfoAfterGame(log);
+  Future<void> updateUserStatAfterGame(GameLog log) {
+    return firestoreHelper.updateUserStatAfterGame(log);
   }
 
   @override
@@ -69,4 +69,8 @@ class FirestoreRepoImpl implements FirestoreRepo {
     return firestoreHelper.fetchUserStat();
   }
 
+  @override
+  Future<Map<String, List<UserStat>>> fetchTop10UserStats() async {
+    return firestoreHelper.fetchTop10UserStats();
+  }
 }

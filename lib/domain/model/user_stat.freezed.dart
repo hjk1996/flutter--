@@ -20,6 +20,8 @@ UserStat _$UserStatFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserStat {
+  String get uid => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   int get gameCount => throw _privateConstructorUsedError;
   int get easyWinCount => throw _privateConstructorUsedError;
   int get normalWinCount => throw _privateConstructorUsedError;
@@ -38,7 +40,9 @@ abstract class $UserStatCopyWith<$Res> {
   factory $UserStatCopyWith(UserStat value, $Res Function(UserStat) then) =
       _$UserStatCopyWithImpl<$Res>;
   $Res call(
-      {int gameCount,
+      {String uid,
+      String name,
+      int gameCount,
       int easyWinCount,
       int normalWinCount,
       int hardWinCount,
@@ -56,6 +60,8 @@ class _$UserStatCopyWithImpl<$Res> implements $UserStatCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? uid = freezed,
+    Object? name = freezed,
     Object? gameCount = freezed,
     Object? easyWinCount = freezed,
     Object? normalWinCount = freezed,
@@ -64,6 +70,14 @@ class _$UserStatCopyWithImpl<$Res> implements $UserStatCopyWith<$Res> {
     Object? lastGameAt = freezed,
   }) {
     return _then(_value.copyWith(
+      uid: uid == freezed
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       gameCount: gameCount == freezed
           ? _value.gameCount
           : gameCount // ignore: cast_nullable_to_non_nullable
@@ -99,7 +113,9 @@ abstract class _$$_UserStatCopyWith<$Res> implements $UserStatCopyWith<$Res> {
       __$$_UserStatCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int gameCount,
+      {String uid,
+      String name,
+      int gameCount,
       int easyWinCount,
       int normalWinCount,
       int hardWinCount,
@@ -119,6 +135,8 @@ class __$$_UserStatCopyWithImpl<$Res> extends _$UserStatCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? uid = freezed,
+    Object? name = freezed,
     Object? gameCount = freezed,
     Object? easyWinCount = freezed,
     Object? normalWinCount = freezed,
@@ -127,6 +145,14 @@ class __$$_UserStatCopyWithImpl<$Res> extends _$UserStatCopyWithImpl<$Res>
     Object? lastGameAt = freezed,
   }) {
     return _then(_$_UserStat(
+      uid: uid == freezed
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       gameCount: gameCount == freezed
           ? _value.gameCount
           : gameCount // ignore: cast_nullable_to_non_nullable
@@ -159,7 +185,9 @@ class __$$_UserStatCopyWithImpl<$Res> extends _$UserStatCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserStat implements _UserStat {
   _$_UserStat(
-      {required this.gameCount,
+      {required this.uid,
+      required this.name,
+      required this.gameCount,
       required this.easyWinCount,
       required this.normalWinCount,
       required this.hardWinCount,
@@ -169,6 +197,10 @@ class _$_UserStat implements _UserStat {
   factory _$_UserStat.fromJson(Map<String, dynamic> json) =>
       _$$_UserStatFromJson(json);
 
+  @override
+  final String uid;
+  @override
+  final String name;
   @override
   final int gameCount;
   @override
@@ -184,7 +216,7 @@ class _$_UserStat implements _UserStat {
 
   @override
   String toString() {
-    return 'UserStat(gameCount: $gameCount, easyWinCount: $easyWinCount, normalWinCount: $normalWinCount, hardWinCount: $hardWinCount, impossibleWinCount: $impossibleWinCount, lastGameAt: $lastGameAt)';
+    return 'UserStat(uid: $uid, name: $name, gameCount: $gameCount, easyWinCount: $easyWinCount, normalWinCount: $normalWinCount, hardWinCount: $hardWinCount, impossibleWinCount: $impossibleWinCount, lastGameAt: $lastGameAt)';
   }
 
   @override
@@ -192,6 +224,8 @@ class _$_UserStat implements _UserStat {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserStat &&
+            const DeepCollectionEquality().equals(other.uid, uid) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.gameCount, gameCount) &&
             const DeepCollectionEquality()
                 .equals(other.easyWinCount, easyWinCount) &&
@@ -209,6 +243,8 @@ class _$_UserStat implements _UserStat {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(uid),
+      const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(gameCount),
       const DeepCollectionEquality().hash(easyWinCount),
       const DeepCollectionEquality().hash(normalWinCount),
@@ -231,7 +267,9 @@ class _$_UserStat implements _UserStat {
 
 abstract class _UserStat implements UserStat {
   factory _UserStat(
-      {required final int gameCount,
+      {required final String uid,
+      required final String name,
+      required final int gameCount,
       required final int easyWinCount,
       required final int normalWinCount,
       required final int hardWinCount,
@@ -240,6 +278,10 @@ abstract class _UserStat implements UserStat {
 
   factory _UserStat.fromJson(Map<String, dynamic> json) = _$_UserStat.fromJson;
 
+  @override
+  String get uid;
+  @override
+  String get name;
   @override
   int get gameCount;
   @override

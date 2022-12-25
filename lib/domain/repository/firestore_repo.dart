@@ -11,9 +11,10 @@ abstract class FirestoreRepo {
   Future<LastWord> getLastWordInfo(String lastWord);
   Future<String> getRandomNonKillerWord();
   Future<bool> checkWordExists(String word);
-  Future<void> sendGameLog(Map<String, dynamic> log);
-  Future<void> updateUserInfoAfterGame(Map<String, dynamic> log);
+  Future<void> sendGameLog(GameLog log);
+  Future<void> updateUserStatAfterGame(GameLog log);
   Future<void> sendFeedback(String title, String content);
   Future<List<GameLog>> fetchUserGameLogs(int limit);
   Future<UserStat?> fetchUserStat();
+  Future<Map<String, List<UserStat>>> fetchTop10UserStats();
 }

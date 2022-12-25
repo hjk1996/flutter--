@@ -10,7 +10,7 @@ _$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
       id: json['id'] as String,
       messageType: $enumDecode(_$MessageTypeEnumMap, json['messageType']),
       content: json['content'] as String,
-      createdAt: json['createdAt'] as int,
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
@@ -18,7 +18,7 @@ Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
       'id': instance.id,
       'messageType': _$MessageTypeEnumMap[instance.messageType]!,
       'content': instance.content,
-      'createdAt': instance.createdAt,
+      'createdAt': instance.createdAt.toIso8601String(),
     };
 
 const _$MessageTypeEnumMap = {

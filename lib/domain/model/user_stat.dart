@@ -6,6 +6,8 @@ part 'user_stat.g.dart';
 @freezed
 class UserStat with _$UserStat {
   factory UserStat({
+    required String uid,
+    required String name,
     required int gameCount,
     required int easyWinCount,
     required int normalWinCount,

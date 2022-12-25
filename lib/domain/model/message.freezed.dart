@@ -23,7 +23,7 @@ mixin _$Message {
   String get id => throw _privateConstructorUsedError;
   MessageType get messageType => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  int get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $MessageCopyWith<$Res> {
   factory $MessageCopyWith(Message value, $Res Function(Message) then) =
       _$MessageCopyWithImpl<$Res>;
   $Res call(
-      {String id, MessageType messageType, String content, int createdAt});
+      {String id, MessageType messageType, String content, DateTime createdAt});
 }
 
 /// @nodoc
@@ -69,7 +69,7 @@ class _$MessageCopyWithImpl<$Res> implements $MessageCopyWith<$Res> {
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
     ));
   }
 }
@@ -81,7 +81,7 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
       __$$_MessageCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id, MessageType messageType, String content, int createdAt});
+      {String id, MessageType messageType, String content, DateTime createdAt});
 }
 
 /// @nodoc
@@ -116,7 +116,7 @@ class __$$_MessageCopyWithImpl<$Res> extends _$MessageCopyWithImpl<$Res>
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
     ));
   }
 }
@@ -140,7 +140,7 @@ class _$_Message implements _Message {
   @override
   final String content;
   @override
-  final int createdAt;
+  final DateTime createdAt;
 
   @override
   String toString() {
@@ -186,7 +186,7 @@ abstract class _Message implements Message {
       {required final String id,
       required final MessageType messageType,
       required final String content,
-      required final int createdAt}) = _$_Message;
+      required final DateTime createdAt}) = _$_Message;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$_Message.fromJson;
 
@@ -197,7 +197,7 @@ abstract class _Message implements Message {
   @override
   String get content;
   @override
-  int get createdAt;
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$_MessageCopyWith<_$_Message> get copyWith =>

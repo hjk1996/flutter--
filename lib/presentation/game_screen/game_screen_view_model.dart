@@ -40,7 +40,7 @@ class GameScreenViewModel with ChangeNotifier {
         id: FirebaseAuth.instance.currentUser!.uid,
         messageType: MessageType.playing,
         content: word,
-        createdAt: DateTime.now().microsecondsSinceEpoch,
+        createdAt: DateTime.now(),
       );
 
       _updateMessage(message: message);
@@ -105,7 +105,7 @@ class GameScreenViewModel with ChangeNotifier {
   }
 
   // referee가 game이 끝났다는 이벤트를 발생시켰을 경우 발동
-  void _whenGameEnd(RefereeResponse response) {
+  void _whenGameEnd(RefereeResponse response) async {
     _state = _state.copyWith(isLoading: false, isPlaying: false);
     notifyListeners();
     _eventController.add(GameScreenEvent.onGameEnd(response));
@@ -122,6 +122,10 @@ class GameScreenViewModel with ChangeNotifier {
         break;
       case RefereeResponseTypes.gameEnd:
         _whenGameEnd(response);
+        break;
+      case RefereeResponseTypes.error:
+        _eventController
+            .add(GameScreenEvent.onError(response.message!.content));
         break;
       default:
         break;

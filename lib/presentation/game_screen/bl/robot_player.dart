@@ -72,7 +72,7 @@ class RobotPlayer extends RobotPlayerABC {
             id: id,
             messageType: MessageType.playing,
             content: starter,
-            createdAt: DateTime.now().microsecondsSinceEpoch),
+            createdAt: DateTime.now()),
       );
     }
 
@@ -87,7 +87,7 @@ class RobotPlayer extends RobotPlayerABC {
           id: id,
           messageType: MessageType.giveUp,
           content: '',
-          createdAt: DateTime.now().microsecondsSinceEpoch,
+          createdAt: DateTime.now(),
         ),
       );
     }
@@ -110,7 +110,7 @@ class RobotPlayer extends RobotPlayerABC {
             id: id,
             messageType: MessageType.playing,
             content: randomKiller,
-            createdAt: DateTime.now().microsecondsSinceEpoch,
+            createdAt: DateTime.now(),
           ),
         );
       }
@@ -126,7 +126,7 @@ class RobotPlayer extends RobotPlayerABC {
               id: id,
               messageType: MessageType.playing,
               content: word,
-              createdAt: DateTime.now().microsecondsSinceEpoch,
+              createdAt: DateTime.now(),
             ),
           );
         }
@@ -139,7 +139,7 @@ class RobotPlayer extends RobotPlayerABC {
           id: id,
           messageType: MessageType.playing,
           content: _pickRandomWordFromSet(availableWords),
-          createdAt: DateTime.now().microsecondsSinceEpoch),
+          createdAt: DateTime.now()),
     );
   }
 

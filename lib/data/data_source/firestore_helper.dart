@@ -81,35 +81,34 @@ class FirestoreHelper {
     return wordInfo.exists ? true : false;
   }
 
-  Future<void> sendGameLog(Map<String, dynamic> log) async {
-    await FirebaseFirestore.instance.collection('log').add(log);
+  Future<void> sendGameLog(GameLog log) async {
+    await FirebaseFirestore.instance.collection('log').add(log.toJson());
   }
 
-  Future<void> updateUserInfoAfterGame(Map<String, dynamic> log) async {
+  Future<void> updateUserStatAfterGame(GameLog log) async {
     final user = FirebaseAuth.instance.currentUser!;
 
     // update user's game count
     // create new document if document doesn't exist
     await FirebaseFirestore.instance.collection('userStat').doc(user.uid).set(
       {
+        'uid': user.uid,
+        'name': user.displayName,
         'gameCount': FieldValue.increment(1),
-        'easyWinCount':
-            log['difficulty'] == GameDifficulty.easy.name && log['win']
-                ? FieldValue.increment(1)
-                : FieldValue.increment(0),
-        'normalWinCount':
-            log['difficulty'] == GameDifficulty.normal.name && log['win']
-                ? FieldValue.increment(1)
-                : FieldValue.increment(0),
-        'hardWinCount':
-            log['difficulty'] == GameDifficulty.hard.name && log['win']
-                ? FieldValue.increment(1)
-                : FieldValue.increment(0),
+        'easyWinCount': log.difficulty == GameDifficulty.easy && log.win
+            ? FieldValue.increment(1)
+            : FieldValue.increment(0),
+        'normalWinCount': log.difficulty == GameDifficulty.normal && log.win
+            ? FieldValue.increment(1)
+            : FieldValue.increment(0),
+        'hardWinCount': log.difficulty == GameDifficulty.hard && log.win
+            ? FieldValue.increment(1)
+            : FieldValue.increment(0),
         'impossibleWinCount':
-            log['difficulty'] == GameDifficulty.impossible.name && log['win']
+            log.difficulty == GameDifficulty.impossible && log.win
                 ? FieldValue.increment(1)
                 : FieldValue.increment(0),
-        'lastGameAt': log['endAt'],
+        'lastGameAt': log.endAt.toIso8601String(),
       },
       SetOptions(merge: true),
     );
@@ -117,7 +116,7 @@ class FirestoreHelper {
 
   Future<void> sendFeedback(String title, String content) async {
     await FirebaseFirestore.instance.collection('feedback').add({
-      'createdAt': DateTime.now().microsecondsSinceEpoch,
+      'createdAt': DateTime.now().toIso8601String(),
       'uid': FirebaseAuth.instance.currentUser!.uid,
       'title': title,
       'content': content
@@ -138,6 +137,42 @@ class FirestoreHelper {
     } else {
       return null;
     }
+  }
+
+  Future<Map<String, List<UserStat>>> fetchTop10UserStats() async {
+    final firestore = FirebaseFirestore.instance;
+
+    final easy10 = await firestore
+        .collection('userStat')
+        .orderBy('easyWinCount', descending: true)
+        .limit(10)
+        .get();
+
+    final normal10 = await firestore
+        .collection('userStat')
+        .orderBy('normalWinCount', descending: true)
+        .limit(10)
+        .get();
+
+    final hard10 = await firestore
+        .collection('userStat')
+        .orderBy('hardWinCount', descending: true)
+        .limit(10)
+        .get();
+
+    final impossible10 = await firestore
+        .collection('userStat')
+        .orderBy('impossibleWinCount', descending: true)
+        .limit(10)
+        .get();
+
+    return {
+      'easy': easy10.docs.map((e) => UserStat.fromJson(e.data())).toList(),
+      'normal': normal10.docs.map((e) => UserStat.fromJson(e.data())).toList(),
+      'hard': hard10.docs.map((e) => UserStat.fromJson(e.data())).toList(),
+      'impossible':
+          impossible10.docs.map((e) => UserStat.fromJson(e.data())).toList(),
+    };
   }
 
   // fetch user game logs

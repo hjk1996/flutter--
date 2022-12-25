@@ -8,12 +8,13 @@ part 'game_log.g.dart';
 
 @freezed
 class GameLog with _$GameLog {
-  factory GameLog(
-      {required GameDifficulty difficulty,
-      required DateTime endAt,
-      required String id,
-      required bool win,
-      required List<Message> log}) = _GameLog;
+  factory GameLog({
+    required GameDifficulty difficulty,
+    required DateTime endAt,
+    required String id,
+    required bool win,
+    required List<Message> log,
+  }) = _GameLog;
   factory GameLog.fromJson(Map<String, dynamic> json) =>
       _$GameLogFromJson(json);
 }

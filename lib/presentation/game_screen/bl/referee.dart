@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:text_project/domain/model/game_log.dart';
 import 'package:text_project/domain/model/message.dart';
+import 'package:text_project/domain/model/user_stat.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/game_screen/bl/player.dart';
@@ -18,6 +20,7 @@ enum RefereeResponseTypes {
   // 게임 끝났을 때(둘 중 한명 패배) 발생시키는 이벤트
   gameEnd,
   // 오류 발생했을 때 발생시키는 이벤트
+  error,
 }
 
 class RefereeResponse {
@@ -102,20 +105,31 @@ class Referee {
   }
 
   Future<void> sendLog() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
     try {
       if (_messages.isNotEmpty) {
-        final Map<String, dynamic> log = {
-          'id': FirebaseAuth.instance.currentUser!.uid,
-          'win': FirebaseAuth.instance.currentUser!.uid == _winner!.id,
-          'difficulty': _setting!.difficulty.name,
-          'endAt': DateTime.now().microsecondsSinceEpoch,
-          'log': _messages.map((message) => message.toJson()).toList(),
-        };
+        final log = GameLog(
+          difficulty: _setting!.difficulty,
+          endAt: DateTime.now(),
+          id: uid,
+          win: FirebaseAuth.instance.currentUser!.uid == _winner!.id,
+          log: _messages,
+        );
         await repo.sendGameLog(log);
-        await repo.updateUserInfoAfterGame(log);
+        await repo.updateUserStatAfterGame(log);
       }
     } catch (err) {
-      throw RefereeException(cause: '로그 전송 실패');
+      _refereeResponseController.sink.add(RefereeResponse(
+        responseTypes: RefereeResponseTypes.error,
+        target: uid,
+        message: Message(
+          content: '서버에 로그를 보내는데 실패했습니다.',
+          id: id,
+          messageType: MessageType.error,
+          createdAt: DateTime.now(),
+        ),
+      ));
     }
   }
 
@@ -142,7 +156,7 @@ class Referee {
           message: Message(
             content: errorMessage,
             id: id,
-            createdAt: DateTime.now().microsecondsSinceEpoch,
+            createdAt: DateTime.now(),
             messageType: MessageType.error,
           ),
         ),
@@ -235,7 +249,7 @@ class Referee {
         id: playerOnTurn!.id!,
         messageType: MessageType.timeOut,
         content: '',
-        createdAt: DateTime.now().microsecondsSinceEpoch,
+        createdAt: DateTime.now(),
       ),
     );
   }
