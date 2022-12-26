@@ -18,18 +18,21 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeScreenEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String message) onError,
     required TResult Function() onGameStart,
     required TResult Function() onLogoutPressed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String message)? onError,
     TResult Function()? onGameStart,
     TResult Function()? onLogoutPressed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? onError,
     TResult Function()? onGameStart,
     TResult Function()? onLogoutPressed,
     required TResult orElse(),
@@ -37,18 +40,21 @@ mixin _$HomeScreenEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(OnError value) onError,
     required TResult Function(OnGameStart value) onGameStart,
     required TResult Function(OnLogoutPressed value) onLogoutPressed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
     TResult Function(OnGameStart value)? onGameStart,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
     TResult Function(OnGameStart value)? onGameStart,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
     required TResult orElse(),
@@ -71,6 +77,151 @@ class _$HomeScreenEventCopyWithImpl<$Res>
   final HomeScreenEvent _value;
   // ignore: unused_field
   final $Res Function(HomeScreenEvent) _then;
+}
+
+/// @nodoc
+abstract class _$$OnErrorCopyWith<$Res> {
+  factory _$$OnErrorCopyWith(_$OnError value, $Res Function(_$OnError) then) =
+      __$$OnErrorCopyWithImpl<$Res>;
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$OnErrorCopyWithImpl<$Res> extends _$HomeScreenEventCopyWithImpl<$Res>
+    implements _$$OnErrorCopyWith<$Res> {
+  __$$OnErrorCopyWithImpl(_$OnError _value, $Res Function(_$OnError) _then)
+      : super(_value, (v) => _then(v as _$OnError));
+
+  @override
+  _$OnError get _value => super._value as _$OnError;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(_$OnError(
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$OnError with DiagnosticableTreeMixin implements OnError {
+  const _$OnError(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'HomeScreenEvent.onError(message: $message)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeScreenEvent.onError'))
+      ..add(DiagnosticsProperty('message', message));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OnError &&
+            const DeepCollectionEquality().equals(other.message, message));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$OnErrorCopyWith<_$OnError> get copyWith =>
+      __$$OnErrorCopyWithImpl<_$OnError>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) onError,
+    required TResult Function() onGameStart,
+    required TResult Function() onLogoutPressed,
+  }) {
+    return onError(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String message)? onError,
+    TResult Function()? onGameStart,
+    TResult Function()? onLogoutPressed,
+  }) {
+    return onError?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? onError,
+    TResult Function()? onGameStart,
+    TResult Function()? onLogoutPressed,
+    required TResult orElse(),
+  }) {
+    if (onError != null) {
+      return onError(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnError value) onError,
+    required TResult Function(OnGameStart value) onGameStart,
+    required TResult Function(OnLogoutPressed value) onLogoutPressed,
+  }) {
+    return onError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
+    TResult Function(OnGameStart value)? onGameStart,
+    TResult Function(OnLogoutPressed value)? onLogoutPressed,
+  }) {
+    return onError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
+    TResult Function(OnGameStart value)? onGameStart,
+    TResult Function(OnLogoutPressed value)? onLogoutPressed,
+    required TResult orElse(),
+  }) {
+    if (onError != null) {
+      return onError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnError implements HomeScreenEvent {
+  const factory OnError(final String message) = _$OnError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$OnErrorCopyWith<_$OnError> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -120,6 +271,7 @@ class _$OnGameStart with DiagnosticableTreeMixin implements OnGameStart {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String message) onError,
     required TResult Function() onGameStart,
     required TResult Function() onLogoutPressed,
   }) {
@@ -129,6 +281,7 @@ class _$OnGameStart with DiagnosticableTreeMixin implements OnGameStart {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String message)? onError,
     TResult Function()? onGameStart,
     TResult Function()? onLogoutPressed,
   }) {
@@ -138,6 +291,7 @@ class _$OnGameStart with DiagnosticableTreeMixin implements OnGameStart {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? onError,
     TResult Function()? onGameStart,
     TResult Function()? onLogoutPressed,
     required TResult orElse(),
@@ -151,6 +305,7 @@ class _$OnGameStart with DiagnosticableTreeMixin implements OnGameStart {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(OnError value) onError,
     required TResult Function(OnGameStart value) onGameStart,
     required TResult Function(OnLogoutPressed value) onLogoutPressed,
   }) {
@@ -160,6 +315,7 @@ class _$OnGameStart with DiagnosticableTreeMixin implements OnGameStart {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
     TResult Function(OnGameStart value)? onGameStart,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
   }) {
@@ -169,6 +325,7 @@ class _$OnGameStart with DiagnosticableTreeMixin implements OnGameStart {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
     TResult Function(OnGameStart value)? onGameStart,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
     required TResult orElse(),
@@ -234,6 +391,7 @@ class _$OnLogoutPressed
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String message) onError,
     required TResult Function() onGameStart,
     required TResult Function() onLogoutPressed,
   }) {
@@ -243,6 +401,7 @@ class _$OnLogoutPressed
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String message)? onError,
     TResult Function()? onGameStart,
     TResult Function()? onLogoutPressed,
   }) {
@@ -252,6 +411,7 @@ class _$OnLogoutPressed
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? onError,
     TResult Function()? onGameStart,
     TResult Function()? onLogoutPressed,
     required TResult orElse(),
@@ -265,6 +425,7 @@ class _$OnLogoutPressed
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(OnError value) onError,
     required TResult Function(OnGameStart value) onGameStart,
     required TResult Function(OnLogoutPressed value) onLogoutPressed,
   }) {
@@ -274,6 +435,7 @@ class _$OnLogoutPressed
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
     TResult Function(OnGameStart value)? onGameStart,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
   }) {
@@ -283,6 +445,7 @@ class _$OnLogoutPressed
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnError value)? onError,
     TResult Function(OnGameStart value)? onGameStart,
     TResult Function(OnLogoutPressed value)? onLogoutPressed,
     required TResult orElse(),

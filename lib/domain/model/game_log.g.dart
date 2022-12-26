@@ -22,7 +22,7 @@ Map<String, dynamic> _$$_GameLogToJson(_$_GameLog instance) =>
       'endAt': instance.endAt.toIso8601String(),
       'id': instance.id,
       'win': instance.win,
-      'log': instance.log.map((e) => e.toJson()).toList(),
+      'log': instance.log,
     };
 
 const _$GameDifficultyEnumMap = {

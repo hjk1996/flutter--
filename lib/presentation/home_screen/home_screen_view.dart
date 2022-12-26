@@ -39,6 +39,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
         _streamSubscription = viewModel.eventStream.listen(
           (event) {
             event.when(
+              onError: (message) {},
               onGameStart: () async {
                 if (!mounted) return;
                 await FirebaseAuth.instance.currentUser!.reload();
@@ -107,7 +108,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
       appBar: AppBar(),
       drawer: const HomeDrawer(),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +129,8 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     ),
               ),
               const SizedBox(height: 10),
-              const RankBoardView()
+              const RankBoardView(),
+              const SizedBox(height: 10),
             ],
           ),
         ),

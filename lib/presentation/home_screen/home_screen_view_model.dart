@@ -22,6 +22,8 @@ class HomeScreenViewModel with ChangeNotifier {
     required this.firestoreRepo,
     required this.firebaseStorageRepo,
   });
+  RankBoard? _rankBoard;
+  RankBoard? get rankBoard => _rankBoard;
 
   void changePage(int index) {
     _pageIndex = index;
@@ -42,85 +44,90 @@ class HomeScreenViewModel with ChangeNotifier {
     _eventController.sink.add(const HomeScreenEvent.onGameStart());
   }
 
-  Future<RankBoard> fetchRankBoard() async {
-    final stats = await firestoreRepo.fetchTop10UserStats();
-    print(stats);
-    final easyStats = stats['easy']!;
-    final easyPhotos = await firebaseStorageRepo
-        .getUserPhotos(easyStats.map((e) => e.uid).toList());
-    final easyRankers = easyStats
-        .asMap()
-        .map(
-          (index, stat) => MapEntry(
-            index,
-            Ranker(
-              uid: stat.uid,
-              rank: index + 1,
-              name: stat.name,
-              photo: easyPhotos[stat.uid],
-              wins: stat.easyWinCount,
+  Future<void> fetchRankBoard() async {
+    try {
+      final stats = await firestoreRepo.fetchTop10UserStats();
+      final easyStats = stats['easy']!;
+      final easyPhotos = await firebaseStorageRepo
+          .getUserPhotos(easyStats.map((e) => e.uid).toList());
+      final easyRankers = easyStats
+          .asMap()
+          .map(
+            (index, stat) => MapEntry(
+              index,
+              Ranker(
+                uid: stat.uid,
+                rank: index + 1,
+                name: stat.name,
+                photo: easyPhotos[stat.uid],
+                wins: stat.easyWinCount,
+              ),
             ),
-          ),
-        )
-        .values
-        .toList();
+          )
+          .values
+          .toList();
 
-    final normalStats = stats['normal']!;
-    final normalPhotos = await firebaseStorageRepo
-        .getUserPhotos(normalStats.map((e) => e.uid).toList());
-    final normalRankers = normalStats
-        .asMap()
-        .map((index, stat) => MapEntry(
-            index,
-            Ranker(
-              uid: stat.uid,
-              rank: index + 1,
-              name: stat.name,
-              photo: normalPhotos[stat.uid],
-              wins: stat.normalWinCount,
-            )))
-        .values
-        .toList();
+      final normalStats = stats['normal']!;
+      final normalPhotos = await firebaseStorageRepo
+          .getUserPhotos(normalStats.map((e) => e.uid).toList());
+      final normalRankers = normalStats
+          .asMap()
+          .map((index, stat) => MapEntry(
+              index,
+              Ranker(
+                uid: stat.uid,
+                rank: index + 1,
+                name: stat.name,
+                photo: normalPhotos[stat.uid],
+                wins: stat.normalWinCount,
+              )))
+          .values
+          .toList();
 
-    final hardStats = stats['hard']!;
-    final hardPhotos = await firebaseStorageRepo
-        .getUserPhotos(hardStats.map((e) => e.uid).toList());
-    final hardRankers = hardStats
-        .asMap()
-        .map((index, stat) => MapEntry(
-            index,
-            Ranker(
-              uid: stat.uid,
-              rank: index + 1,
-              name: stat.name,
-              photo: hardPhotos[stat.uid],
-              wins: stat.hardWinCount,
-            )))
-        .values
-        .toList();
+      final hardStats = stats['hard']!;
+      final hardPhotos = await firebaseStorageRepo
+          .getUserPhotos(hardStats.map((e) => e.uid).toList());
+      final hardRankers = hardStats
+          .asMap()
+          .map((index, stat) => MapEntry(
+              index,
+              Ranker(
+                uid: stat.uid,
+                rank: index + 1,
+                name: stat.name,
+                photo: hardPhotos[stat.uid],
+                wins: stat.hardWinCount,
+              )))
+          .values
+          .toList();
 
-    final impossibleStats = stats['impossible']!;
-    final impossiblePhotos = await firebaseStorageRepo
-        .getUserPhotos(impossibleStats.map((e) => e.uid).toList());
-    final impossibleRankers = impossibleStats
-        .asMap()
-        .map((index, stat) => MapEntry(
-            index,
-            Ranker(
-              uid: stat.uid,
-              rank: index + 1,
-              name: stat.name,
-              photo: impossiblePhotos[stat.uid],
-              wins: stat.impossibleWinCount,
-            )))
-        .values
-        .toList();
+      final impossibleStats = stats['impossible']!;
+      final impossiblePhotos = await firebaseStorageRepo
+          .getUserPhotos(impossibleStats.map((e) => e.uid).toList());
+      final impossibleRankers = impossibleStats
+          .asMap()
+          .map((index, stat) => MapEntry(
+              index,
+              Ranker(
+                uid: stat.uid,
+                rank: index + 1,
+                name: stat.name,
+                photo: impossiblePhotos[stat.uid],
+                wins: stat.impossibleWinCount,
+              )))
+          .values
+          .toList();
 
-    return RankBoard(
-      easyRankers: easyRankers,
-      normalRankers: normalRankers,
-      hardRankers: hardRankers,
-      impossibleRankers: impossibleRankers,
-    );
+      _rankBoard = RankBoard(
+        easyRankers: easyRankers,
+        normalRankers: normalRankers,
+        hardRankers: hardRankers,
+        impossibleRankers: impossibleRankers,
+      );
+    } catch (err) {
+      _eventController.sink.add(
+        HomeScreenEvent.onError(err.toString()),
+      );
+    }
   }
 }
