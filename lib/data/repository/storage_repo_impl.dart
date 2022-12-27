@@ -26,7 +26,7 @@ class FirebaseStorageRepoImpl implements FirebaseStorageRepo {
   }
 
   @override
-  Future<Map<String, Image>> getUserPhotos(List<String> uids) async {
+  Future<Map<String, Image?>> getUserPhotos(List<String> uids) async {
     return _helper.getUserPhotos(uids);
   }
 }

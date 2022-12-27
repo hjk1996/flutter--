@@ -10,7 +10,7 @@ import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
 import 'package:text_project/presentation/home_screen/components/drawer.dart';
 import 'package:text_project/presentation/home_screen/components/game_menu.dart';
-import 'package:text_project/presentation/home_screen/components/rank_board_view.dart';
+import 'package:text_project/presentation/home_screen/components/rank_board_page_view.dart';
 import 'package:text_project/presentation/home_screen/home_screen_event.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
@@ -122,14 +122,23 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               const SizedBox(height: 10),
               const GameMenu(),
               const SizedBox(height: 20),
-              Text(
-                "랭킹",
-                style: Theme.of(context).textTheme.headline4!.copyWith(
-                      color: Colors.white,
-                    ),
+              Row(
+                children: [
+                  Text(
+                    "랭킹",
+                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                          color: Colors.white,
+                        ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.refresh),
+                  )
+                ],
               ),
               const SizedBox(height: 10),
-              const RankBoardView(),
+              const RankBoardPageView(),
               const SizedBox(height: 10),
             ],
           ),

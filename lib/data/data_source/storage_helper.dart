@@ -23,14 +23,19 @@ class FirebaseStorageHelper {
     return url;
   }
 
-  Future<Map<String, Image>> getUserPhotos(List<String> uids) async {
-    final images = <String, Image>{};
+  Future<Map<String, Image?>> getUserPhotos(List<String> uids) async {
+    final images = <String, Image?>{};
     for (final uid in uids) {
       final path = "users/$uid/profile.jpg";
-      final url = await getDownloadUrl(path);
-      final res = await http.get(Uri.parse(url));
-      final image = Image.memory(res.bodyBytes);
-      images[uid] = image;
+
+      try {
+        final url = await getDownloadUrl(path);
+        final res = await http.get(Uri.parse(url));
+        final image = Image.memory(res.bodyBytes);
+        images[uid] = image;
+      } catch (e) {
+        images[uid] = null;
+      }
     }
     return images;
   }

@@ -106,6 +106,7 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                         messageType: MessageType.giveUp,
                         content: '',
                         createdAt: DateTime.now(),
+                  
                       ),
                     );
                     viewModel.endGame();
