@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:text_project/data/data_source/storage_helper.dart';
 import 'package:text_project/domain/repository/storage_repo.dart';
 
@@ -28,5 +29,15 @@ class FirebaseStorageRepoImpl implements FirebaseStorageRepo {
   @override
   Future<Map<String, Image?>> getUserPhotos(List<String> uids) async {
     return _helper.getUserPhotos(uids);
+  }
+
+  @override
+  Future<void> updateUserPhoto(Uint8List photo) async {
+    return _helper.updateUserPhoto(photo);
+  }
+
+  @override
+  Future<void> deleteUserPhoto() async {
+    return _helper.deleteUserPhoto();
   }
 }

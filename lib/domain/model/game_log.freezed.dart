@@ -20,9 +20,9 @@ GameLog _$GameLogFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GameLog {
+  String get id => throw _privateConstructorUsedError;
   GameDifficulty get difficulty => throw _privateConstructorUsedError;
   DateTime get endAt => throw _privateConstructorUsedError;
-  String get id => throw _privateConstructorUsedError;
   bool get win => throw _privateConstructorUsedError;
   List<Message> get log => throw _privateConstructorUsedError;
 
@@ -36,9 +36,9 @@ abstract class $GameLogCopyWith<$Res> {
   factory $GameLogCopyWith(GameLog value, $Res Function(GameLog) then) =
       _$GameLogCopyWithImpl<$Res>;
   $Res call(
-      {GameDifficulty difficulty,
+      {String id,
+      GameDifficulty difficulty,
       DateTime endAt,
-      String id,
       bool win,
       List<Message> log});
 }
@@ -53,13 +53,17 @@ class _$GameLogCopyWithImpl<$Res> implements $GameLogCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? difficulty = freezed,
     Object? endAt = freezed,
-    Object? id = freezed,
     Object? win = freezed,
     Object? log = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       difficulty: difficulty == freezed
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
@@ -68,10 +72,6 @@ class _$GameLogCopyWithImpl<$Res> implements $GameLogCopyWith<$Res> {
           ? _value.endAt
           : endAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       win: win == freezed
           ? _value.win
           : win // ignore: cast_nullable_to_non_nullable
@@ -91,9 +91,9 @@ abstract class _$$_GameLogCopyWith<$Res> implements $GameLogCopyWith<$Res> {
       __$$_GameLogCopyWithImpl<$Res>;
   @override
   $Res call(
-      {GameDifficulty difficulty,
+      {String id,
+      GameDifficulty difficulty,
       DateTime endAt,
-      String id,
       bool win,
       List<Message> log});
 }
@@ -109,13 +109,17 @@ class __$$_GameLogCopyWithImpl<$Res> extends _$GameLogCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? difficulty = freezed,
     Object? endAt = freezed,
-    Object? id = freezed,
     Object? win = freezed,
     Object? log = freezed,
   }) {
     return _then(_$_GameLog(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       difficulty: difficulty == freezed
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
@@ -124,10 +128,6 @@ class __$$_GameLogCopyWithImpl<$Res> extends _$GameLogCopyWithImpl<$Res>
           ? _value.endAt
           : endAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       win: win == freezed
           ? _value.win
           : win // ignore: cast_nullable_to_non_nullable
@@ -144,9 +144,9 @@ class __$$_GameLogCopyWithImpl<$Res> extends _$GameLogCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GameLog implements _GameLog {
   _$_GameLog(
-      {required this.difficulty,
+      {required this.id,
+      required this.difficulty,
       required this.endAt,
-      required this.id,
       required this.win,
       required final List<Message> log})
       : _log = log;
@@ -155,11 +155,11 @@ class _$_GameLog implements _GameLog {
       _$$_GameLogFromJson(json);
 
   @override
+  final String id;
+  @override
   final GameDifficulty difficulty;
   @override
   final DateTime endAt;
-  @override
-  final String id;
   @override
   final bool win;
   final List<Message> _log;
@@ -171,7 +171,7 @@ class _$_GameLog implements _GameLog {
 
   @override
   String toString() {
-    return 'GameLog(difficulty: $difficulty, endAt: $endAt, id: $id, win: $win, log: $log)';
+    return 'GameLog(id: $id, difficulty: $difficulty, endAt: $endAt, win: $win, log: $log)';
   }
 
   @override
@@ -179,10 +179,10 @@ class _$_GameLog implements _GameLog {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_GameLog &&
+            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality()
                 .equals(other.difficulty, difficulty) &&
             const DeepCollectionEquality().equals(other.endAt, endAt) &&
-            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.win, win) &&
             const DeepCollectionEquality().equals(other._log, _log));
   }
@@ -191,9 +191,9 @@ class _$_GameLog implements _GameLog {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(difficulty),
       const DeepCollectionEquality().hash(endAt),
-      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(win),
       const DeepCollectionEquality().hash(_log));
 
@@ -212,20 +212,20 @@ class _$_GameLog implements _GameLog {
 
 abstract class _GameLog implements GameLog {
   factory _GameLog(
-      {required final GameDifficulty difficulty,
+      {required final String id,
+      required final GameDifficulty difficulty,
       required final DateTime endAt,
-      required final String id,
       required final bool win,
       required final List<Message> log}) = _$_GameLog;
 
   factory _GameLog.fromJson(Map<String, dynamic> json) = _$_GameLog.fromJson;
 
   @override
+  String get id;
+  @override
   GameDifficulty get difficulty;
   @override
   DateTime get endAt;
-  @override
-  String get id;
   @override
   bool get win;
   @override

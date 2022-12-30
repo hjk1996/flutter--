@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,12 +27,15 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate(androidDebugProvider: true);
+  FirebaseApp app = Firebase.app();
+  FirebaseFunctions functions = FirebaseFunctions.instanceFor(app: app);
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => AuthScreenViewModel(
-            repo: GetIt.instance<FirebaseStorageRepo>(),
+            storeRepo: GetIt.instance<FirestoreRepo>(),
+            storageRepo: GetIt.instance<FirebaseStorageRepo>(),
           ),
         ),
         ChangeNotifierProvider(

@@ -3,14 +3,19 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/domain/repository/storage_repo.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_event.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_state.dart';
-import 'package:text_project/presentation/common/image_handler.dart';
 
 class AuthScreenViewModel with ChangeNotifier {
-  final FirebaseStorageRepo _repo;
-  AuthScreenViewModel({required FirebaseStorageRepo repo}) : _repo = repo;
+  final FirestoreRepo _storeRepo;
+  final FirebaseStorageRepo _storageRepo;
+  AuthScreenViewModel(
+      {required FirestoreRepo storeRepo,
+      required FirebaseStorageRepo storageRepo})
+      : _storeRepo = storeRepo,
+        _storageRepo = storageRepo;
 
   AuthScreenState _state = AuthScreenState(
     isSignIn: true,
@@ -51,6 +56,11 @@ class AuthScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  set name(String value) {
+    _state = _state.copyWith(name: value);
+    notifyListeners();
+  }
+
   set password(String value) {
     _state = _state.copyWith(password: value);
     notifyListeners();
@@ -61,18 +71,13 @@ class AuthScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  set name(String value) {
-    _state = _state.copyWith(name: value);
-    notifyListeners();
-  }
-
   set image(Uint8List? value) {
     _state = _state.copyWith(image: value);
     notifyListeners();
   }
 
   Future<void> onAuthButtonClick() async =>
-      state.isSignIn ? _signIn() : _onNextPressed();
+      state.isSignIn ? _signIn() : _signUp();
 
   Future<void> _signIn() async {
     try {
@@ -124,7 +129,7 @@ class AuthScreenViewModel with ChangeNotifier {
   }
 
   // TODO: IMPLEMENT THIS METHOD
-  Future<void> signUp() async {
+  Future<void> _signUp() async {
     _state = _state.copyWith(isLoading: true);
     notifyListeners();
     try {
@@ -136,14 +141,11 @@ class AuthScreenViewModel with ChangeNotifier {
 
       final user = userCredential.user!;
       await user.updateDisplayName(state.name);
-
-      if (state.image != null) {
-        await _updateUserPhoto(user, state.image!);
-      }
-      _eventController.sink.add(
-        const AuthScreenEvent.onSignUpSuccess(),
-      );
+      await _storeRepo.updateDisplayName(state.name);
+      await user.sendEmailVerification();
+      _eventController.sink.add(const AuthScreenEvent.onSignUpSuccess());
     } on FirebaseAuthException catch (error) {
+      print(error);
       switch (error.code) {
         case 'email-already-in-use':
           _eventController.sink
@@ -172,18 +174,22 @@ class AuthScreenViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> _updateUserPhoto(User user, Uint8List photo) async {
+  void skipProfileImage() {
+    _state = _state.copyWith(image: null);
+    _eventController.sink.add(const AuthScreenEvent.onProfileSettingDone());
+  }
+
+  Future<void> updateUserPhoto() async {
     try {
-      final newImage = ImageHandler.restrictImageSize(photo);
-      final path = "users/${user.uid}/profile.jpg";
-      final file = await _convertUint8ListToFile(newImage);
-      final url = await _repo.uploadFile(path, file);
-      await user.updatePhotoURL(url);
+      await _storageRepo.updateUserPhoto(state.image!);
+      _state = _state.copyWith(image: null);
+      _eventController.sink.add(const AuthScreenEvent.onProfileSettingDone());
     } on FirebaseException catch (e) {
-      throw FirebaseException(
-          plugin: e.plugin,
-          code: 'update-photo',
-          message: 'Failed to update photo');
+      print(e);
+
+      _eventController.sink.add(
+        const AuthScreenEvent.onAuthError('프로필 사진 설정에 실패했습니다.'),
+      );
     } catch (e) {
       rethrow;
     }
@@ -198,42 +204,6 @@ class AuthScreenViewModel with ChangeNotifier {
     return file;
   }
 
-  Future<void> _onNextPressed() async {
-    try {
-      final auth = FirebaseAuth.instance;
-      List<String> signInMethods =
-          await auth.fetchSignInMethodsForEmail(state.email);
-      if (signInMethods.isEmpty) {
-        _eventController.sink.add(const AuthScreenEvent.whenEmailUsable());
-      } else {
-        throw FirebaseAuthException(code: 'email-already-in-use');
-      }
-    } on FirebaseAuthException catch (error) {
-      switch (error.code) {
-        case 'email-already-in-use':
-          _eventController.sink
-              .add(const AuthScreenEvent.onAuthError('이미 사용중인 이메일입니다.'));
-          break;
-        case 'invalid-email':
-          _eventController.sink
-              .add(const AuthScreenEvent.onAuthError('올바르지않은 이메일입니다.'));
-          break;
-        case 'operation-not-allowed':
-          _eventController.sink
-              .add(const AuthScreenEvent.onAuthError('허용되지 않은 작업입니다.'));
-          break;
-        case 'weak-password':
-          _eventController.sink
-              .add(const AuthScreenEvent.onAuthError('좀 더 강한 비밀번호를 설정하세요.'));
-          break;
-        default:
-          _eventController.sink
-              .add(const AuthScreenEvent.onAuthError('알 수 없는 에러가 발생했습니다.'));
-          break;
-      }
-    }
-  }
-
   void onProfileTap() {
     _eventController.sink.add(const AuthScreenEvent.onProfileTap());
   }
@@ -242,7 +212,9 @@ class AuthScreenViewModel with ChangeNotifier {
       ? state.isValidEmail && state.isValidPassword
       : state.isValidEmail &&
           state.isValidPassword &&
-          state.isValidConfirmPassword;
+          state.isValidConfirmPassword &&
+          state.isValidName;
+
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       _state = _state.copyWith(isValidEmail: false);
@@ -304,13 +276,13 @@ class AuthScreenViewModel with ChangeNotifier {
     if (name == null || name.isEmpty) {
       _state = _state.copyWith(isValidName: false);
 
-      return '이름을 입력해주세요.';
+      return '닉네임을 입력해주세요.';
     }
 
     if (name.length < 2) {
       _state = _state.copyWith(isValidName: false);
 
-      return '2자 이상으로 이름을 설정해주세요.';
+      return '2자 이상으로 닉네임을 설정해주세요.';
     }
 
     _state = _state.copyWith(isValidName: true);

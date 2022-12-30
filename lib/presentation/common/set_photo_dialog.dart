@@ -28,7 +28,6 @@ class SetPhotoDialog extends StatelessWidget {
           },
           child: const Text('프로필 이미지 제거'),
         ),
-        const Spacer(),
         TextButton(
             onPressed: () {
               Navigator.pop(context, SetPhotoAction.CANCEL);

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'user_stat.dart';
+part of 'user_information.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,54 +14,56 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-UserStat _$UserStatFromJson(Map<String, dynamic> json) {
-  return _UserStat.fromJson(json);
+UserInformation _$UserInformationFromJson(Map<String, dynamic> json) {
+  return _UserInformation.fromJson(json);
 }
 
 /// @nodoc
-mixin _$UserStat {
-  String get uid => throw _privateConstructorUsedError;
+mixin _$UserInformation {
   String get name => throw _privateConstructorUsedError;
+  String? get photoUrl => throw _privateConstructorUsedError;
   int get gameCount => throw _privateConstructorUsedError;
   int get easyWinCount => throw _privateConstructorUsedError;
   int get normalWinCount => throw _privateConstructorUsedError;
   int get hardWinCount => throw _privateConstructorUsedError;
   int get impossibleWinCount => throw _privateConstructorUsedError;
-  DateTime get lastGameAt => throw _privateConstructorUsedError;
+  DateTime? get lastGameAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserStatCopyWith<UserStat> get copyWith =>
+  $UserInformationCopyWith<UserInformation> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserStatCopyWith<$Res> {
-  factory $UserStatCopyWith(UserStat value, $Res Function(UserStat) then) =
-      _$UserStatCopyWithImpl<$Res>;
+abstract class $UserInformationCopyWith<$Res> {
+  factory $UserInformationCopyWith(
+          UserInformation value, $Res Function(UserInformation) then) =
+      _$UserInformationCopyWithImpl<$Res>;
   $Res call(
-      {String uid,
-      String name,
+      {String name,
+      String? photoUrl,
       int gameCount,
       int easyWinCount,
       int normalWinCount,
       int hardWinCount,
       int impossibleWinCount,
-      DateTime lastGameAt});
+      DateTime? lastGameAt});
 }
 
 /// @nodoc
-class _$UserStatCopyWithImpl<$Res> implements $UserStatCopyWith<$Res> {
-  _$UserStatCopyWithImpl(this._value, this._then);
+class _$UserInformationCopyWithImpl<$Res>
+    implements $UserInformationCopyWith<$Res> {
+  _$UserInformationCopyWithImpl(this._value, this._then);
 
-  final UserStat _value;
+  final UserInformation _value;
   // ignore: unused_field
-  final $Res Function(UserStat) _then;
+  final $Res Function(UserInformation) _then;
 
   @override
   $Res call({
-    Object? uid = freezed,
     Object? name = freezed,
+    Object? photoUrl = freezed,
     Object? gameCount = freezed,
     Object? easyWinCount = freezed,
     Object? normalWinCount = freezed,
@@ -70,14 +72,14 @@ class _$UserStatCopyWithImpl<$Res> implements $UserStatCopyWith<$Res> {
     Object? lastGameAt = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: uid == freezed
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      photoUrl: photoUrl == freezed
+          ? _value.photoUrl
+          : photoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       gameCount: gameCount == freezed
           ? _value.gameCount
           : gameCount // ignore: cast_nullable_to_non_nullable
@@ -101,42 +103,44 @@ class _$UserStatCopyWithImpl<$Res> implements $UserStatCopyWith<$Res> {
       lastGameAt: lastGameAt == freezed
           ? _value.lastGameAt
           : lastGameAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$$_UserStatCopyWith<$Res> implements $UserStatCopyWith<$Res> {
-  factory _$$_UserStatCopyWith(
-          _$_UserStat value, $Res Function(_$_UserStat) then) =
-      __$$_UserStatCopyWithImpl<$Res>;
+abstract class _$$_UserInformationCopyWith<$Res>
+    implements $UserInformationCopyWith<$Res> {
+  factory _$$_UserInformationCopyWith(
+          _$_UserInformation value, $Res Function(_$_UserInformation) then) =
+      __$$_UserInformationCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String uid,
-      String name,
+      {String name,
+      String? photoUrl,
       int gameCount,
       int easyWinCount,
       int normalWinCount,
       int hardWinCount,
       int impossibleWinCount,
-      DateTime lastGameAt});
+      DateTime? lastGameAt});
 }
 
 /// @nodoc
-class __$$_UserStatCopyWithImpl<$Res> extends _$UserStatCopyWithImpl<$Res>
-    implements _$$_UserStatCopyWith<$Res> {
-  __$$_UserStatCopyWithImpl(
-      _$_UserStat _value, $Res Function(_$_UserStat) _then)
-      : super(_value, (v) => _then(v as _$_UserStat));
+class __$$_UserInformationCopyWithImpl<$Res>
+    extends _$UserInformationCopyWithImpl<$Res>
+    implements _$$_UserInformationCopyWith<$Res> {
+  __$$_UserInformationCopyWithImpl(
+      _$_UserInformation _value, $Res Function(_$_UserInformation) _then)
+      : super(_value, (v) => _then(v as _$_UserInformation));
 
   @override
-  _$_UserStat get _value => super._value as _$_UserStat;
+  _$_UserInformation get _value => super._value as _$_UserInformation;
 
   @override
   $Res call({
-    Object? uid = freezed,
     Object? name = freezed,
+    Object? photoUrl = freezed,
     Object? gameCount = freezed,
     Object? easyWinCount = freezed,
     Object? normalWinCount = freezed,
@@ -144,15 +148,15 @@ class __$$_UserStatCopyWithImpl<$Res> extends _$UserStatCopyWithImpl<$Res>
     Object? impossibleWinCount = freezed,
     Object? lastGameAt = freezed,
   }) {
-    return _then(_$_UserStat(
-      uid: uid == freezed
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_$_UserInformation(
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      photoUrl: photoUrl == freezed
+          ? _value.photoUrl
+          : photoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       gameCount: gameCount == freezed
           ? _value.gameCount
           : gameCount // ignore: cast_nullable_to_non_nullable
@@ -176,17 +180,17 @@ class __$$_UserStatCopyWithImpl<$Res> extends _$UserStatCopyWithImpl<$Res>
       lastGameAt: lastGameAt == freezed
           ? _value.lastGameAt
           : lastGameAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserStat implements _UserStat {
-  _$_UserStat(
-      {required this.uid,
-      required this.name,
+class _$_UserInformation implements _UserInformation {
+  _$_UserInformation(
+      {required this.name,
+      required this.photoUrl,
       required this.gameCount,
       required this.easyWinCount,
       required this.normalWinCount,
@@ -194,13 +198,13 @@ class _$_UserStat implements _UserStat {
       required this.impossibleWinCount,
       required this.lastGameAt});
 
-  factory _$_UserStat.fromJson(Map<String, dynamic> json) =>
-      _$$_UserStatFromJson(json);
+  factory _$_UserInformation.fromJson(Map<String, dynamic> json) =>
+      _$$_UserInformationFromJson(json);
 
   @override
-  final String uid;
-  @override
   final String name;
+  @override
+  final String? photoUrl;
   @override
   final int gameCount;
   @override
@@ -212,20 +216,20 @@ class _$_UserStat implements _UserStat {
   @override
   final int impossibleWinCount;
   @override
-  final DateTime lastGameAt;
+  final DateTime? lastGameAt;
 
   @override
   String toString() {
-    return 'UserStat(uid: $uid, name: $name, gameCount: $gameCount, easyWinCount: $easyWinCount, normalWinCount: $normalWinCount, hardWinCount: $hardWinCount, impossibleWinCount: $impossibleWinCount, lastGameAt: $lastGameAt)';
+    return 'UserInformation(name: $name, photoUrl: $photoUrl, gameCount: $gameCount, easyWinCount: $easyWinCount, normalWinCount: $normalWinCount, hardWinCount: $hardWinCount, impossibleWinCount: $impossibleWinCount, lastGameAt: $lastGameAt)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserStat &&
-            const DeepCollectionEquality().equals(other.uid, uid) &&
+            other is _$_UserInformation &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality().equals(other.photoUrl, photoUrl) &&
             const DeepCollectionEquality().equals(other.gameCount, gameCount) &&
             const DeepCollectionEquality()
                 .equals(other.easyWinCount, easyWinCount) &&
@@ -243,8 +247,8 @@ class _$_UserStat implements _UserStat {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(uid),
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(photoUrl),
       const DeepCollectionEquality().hash(gameCount),
       const DeepCollectionEquality().hash(easyWinCount),
       const DeepCollectionEquality().hash(normalWinCount),
@@ -254,34 +258,35 @@ class _$_UserStat implements _UserStat {
 
   @JsonKey(ignore: true)
   @override
-  _$$_UserStatCopyWith<_$_UserStat> get copyWith =>
-      __$$_UserStatCopyWithImpl<_$_UserStat>(this, _$identity);
+  _$$_UserInformationCopyWith<_$_UserInformation> get copyWith =>
+      __$$_UserInformationCopyWithImpl<_$_UserInformation>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserStatToJson(
+    return _$$_UserInformationToJson(
       this,
     );
   }
 }
 
-abstract class _UserStat implements UserStat {
-  factory _UserStat(
-      {required final String uid,
-      required final String name,
+abstract class _UserInformation implements UserInformation {
+  factory _UserInformation(
+      {required final String name,
+      required final String? photoUrl,
       required final int gameCount,
       required final int easyWinCount,
       required final int normalWinCount,
       required final int hardWinCount,
       required final int impossibleWinCount,
-      required final DateTime lastGameAt}) = _$_UserStat;
+      required final DateTime? lastGameAt}) = _$_UserInformation;
 
-  factory _UserStat.fromJson(Map<String, dynamic> json) = _$_UserStat.fromJson;
+  factory _UserInformation.fromJson(Map<String, dynamic> json) =
+      _$_UserInformation.fromJson;
 
-  @override
-  String get uid;
   @override
   String get name;
+  @override
+  String? get photoUrl;
   @override
   int get gameCount;
   @override
@@ -293,9 +298,9 @@ abstract class _UserStat implements UserStat {
   @override
   int get impossibleWinCount;
   @override
-  DateTime get lastGameAt;
+  DateTime? get lastGameAt;
   @override
   @JsonKey(ignore: true)
-  _$$_UserStatCopyWith<_$_UserStat> get copyWith =>
+  _$$_UserInformationCopyWith<_$_UserInformation> get copyWith =>
       throw _privateConstructorUsedError;
 }

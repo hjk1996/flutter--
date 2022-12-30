@@ -30,6 +30,7 @@ class _AuthScreenViewState extends State<AuthScreenView> {
       _streamSubscription ??= viewModel.eventStream.listen(
         (event) {
           event.when(
+            onProfileSettingDone: () {},
             onAuthError: (String message) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -45,17 +46,13 @@ class _AuthScreenViewState extends State<AuthScreenView> {
               );
             },
             onSignUpSuccess: () {
-
-            },
-            onProfileTap: () {},
-            whenEmailUsable: () {
-              Navigator.push(
-                context,
+              Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const UserProfileSetting(),
                 ),
               );
             },
+            onProfileTap: () {},
           );
         },
       );

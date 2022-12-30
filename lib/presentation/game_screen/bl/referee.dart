@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:text_project/domain/model/game_log.dart';
 import 'package:text_project/domain/model/message.dart';
-import 'package:text_project/domain/model/user_stat.dart';
+import 'package:text_project/domain/model/user_information.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/game_screen/bl/player.dart';

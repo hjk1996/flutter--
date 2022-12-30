@@ -35,7 +35,7 @@ class _RankBoardPageViewState extends State<RankBoardPageView> {
       builder: (context, vm, child) {
         return SizedBox(
           width: double.infinity,
-          height: 400,
+          height: 442,
           child: Builder(builder: (context) {
             if (vm.state.isLoading) {
               return const Center(

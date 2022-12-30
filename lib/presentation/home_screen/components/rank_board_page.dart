@@ -108,7 +108,7 @@ class RankBoardPage extends StatelessWidget {
                                 SizedBox(width: constraints.maxWidth * 0.15),
                                 SizedBox(
                                   width: constraints.maxWidth * 0.4,
-                                  child: Text(value.name,
+                                  child: Text(value.name ?? "N/A",
                                       textAlign: TextAlign.start,
                                       style: Theme.of(context)
                                           .textTheme
@@ -125,7 +125,7 @@ class RankBoardPage extends StatelessWidget {
                       flex: 1,
                       fit: FlexFit.tight,
                       child: Text(
-                        "${value.wins}승",
+                        value.wins != null ? "${value.wins}승" : "-",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
@@ -133,17 +133,21 @@ class RankBoardPage extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       fit: FlexFit.tight,
-                      child: CircleAvatar(
-                        backgroundColor: rankToBadgeColor(value.rank),
-                        child: Text(
-                          value.rank.toString(),
-                          style:
-                              Theme.of(context).textTheme.headline6!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                        ),
-                      ),
+                      child: value.rank != null
+                          ? CircleAvatar(
+                              backgroundColor: rankToBadgeColor(value.rank!),
+                              child: Text(
+                                value.rank.toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                              ),
+                            )
+                          : Text('-', textAlign: TextAlign.center),
                     ),
                   ],
                 ),

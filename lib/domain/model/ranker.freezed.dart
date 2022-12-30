@@ -16,11 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Ranker {
-  String get uid => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  int get rank => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  int? get rank => throw _privateConstructorUsedError;
   Image? get photo => throw _privateConstructorUsedError;
-  int get wins => throw _privateConstructorUsedError;
+  int? get wins => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RankerCopyWith<Ranker> get copyWith => throw _privateConstructorUsedError;
@@ -30,7 +29,7 @@ mixin _$Ranker {
 abstract class $RankerCopyWith<$Res> {
   factory $RankerCopyWith(Ranker value, $Res Function(Ranker) then) =
       _$RankerCopyWithImpl<$Res>;
-  $Res call({String uid, String name, int rank, Image? photo, int wins});
+  $Res call({String? name, int? rank, Image? photo, int? wins});
 }
 
 /// @nodoc
@@ -43,25 +42,20 @@ class _$RankerCopyWithImpl<$Res> implements $RankerCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? uid = freezed,
     Object? name = freezed,
     Object? rank = freezed,
     Object? photo = freezed,
     Object? wins = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: uid == freezed
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       rank: rank == freezed
           ? _value.rank
           : rank // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       photo: photo == freezed
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
@@ -69,7 +63,7 @@ class _$RankerCopyWithImpl<$Res> implements $RankerCopyWith<$Res> {
       wins: wins == freezed
           ? _value.wins
           : wins // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -79,7 +73,7 @@ abstract class _$$_RankerCopyWith<$Res> implements $RankerCopyWith<$Res> {
   factory _$$_RankerCopyWith(_$_Ranker value, $Res Function(_$_Ranker) then) =
       __$$_RankerCopyWithImpl<$Res>;
   @override
-  $Res call({String uid, String name, int rank, Image? photo, int wins});
+  $Res call({String? name, int? rank, Image? photo, int? wins});
 }
 
 /// @nodoc
@@ -93,25 +87,20 @@ class __$$_RankerCopyWithImpl<$Res> extends _$RankerCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? uid = freezed,
     Object? name = freezed,
     Object? rank = freezed,
     Object? photo = freezed,
     Object? wins = freezed,
   }) {
     return _then(_$_Ranker(
-      uid: uid == freezed
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       rank: rank == freezed
           ? _value.rank
           : rank // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       photo: photo == freezed
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
@@ -119,7 +108,7 @@ class __$$_RankerCopyWithImpl<$Res> extends _$RankerCopyWithImpl<$Res>
       wins: wins == freezed
           ? _value.wins
           : wins // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -128,26 +117,23 @@ class __$$_RankerCopyWithImpl<$Res> extends _$RankerCopyWithImpl<$Res>
 
 class _$_Ranker implements _Ranker {
   _$_Ranker(
-      {required this.uid,
-      required this.name,
+      {required this.name,
       required this.rank,
       required this.photo,
       required this.wins});
 
   @override
-  final String uid;
+  final String? name;
   @override
-  final String name;
-  @override
-  final int rank;
+  final int? rank;
   @override
   final Image? photo;
   @override
-  final int wins;
+  final int? wins;
 
   @override
   String toString() {
-    return 'Ranker(uid: $uid, name: $name, rank: $rank, photo: $photo, wins: $wins)';
+    return 'Ranker(name: $name, rank: $rank, photo: $photo, wins: $wins)';
   }
 
   @override
@@ -155,7 +141,6 @@ class _$_Ranker implements _Ranker {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Ranker &&
-            const DeepCollectionEquality().equals(other.uid, uid) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.rank, rank) &&
             const DeepCollectionEquality().equals(other.photo, photo) &&
@@ -165,7 +150,6 @@ class _$_Ranker implements _Ranker {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(uid),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(rank),
       const DeepCollectionEquality().hash(photo),
@@ -179,22 +163,19 @@ class _$_Ranker implements _Ranker {
 
 abstract class _Ranker implements Ranker {
   factory _Ranker(
-      {required final String uid,
-      required final String name,
-      required final int rank,
+      {required final String? name,
+      required final int? rank,
       required final Image? photo,
-      required final int wins}) = _$_Ranker;
+      required final int? wins}) = _$_Ranker;
 
   @override
-  String get uid;
+  String? get name;
   @override
-  String get name;
-  @override
-  int get rank;
+  int? get rank;
   @override
   Image? get photo;
   @override
-  int get wins;
+  int? get wins;
   @override
   @JsonKey(ignore: true)
   _$$_RankerCopyWith<_$_Ranker> get copyWith =>

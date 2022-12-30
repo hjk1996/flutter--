@@ -122,20 +122,11 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               const SizedBox(height: 10),
               const GameMenu(),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Text(
-                    "랭킹",
-                    style: Theme.of(context).textTheme.headline4!.copyWith(
-                          color: Colors.white,
-                        ),
-                  ),
-                  Spacer(),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.refresh),
-                  )
-                ],
+              Text(
+                "랭킹",
+                style: Theme.of(context).textTheme.headline4!.copyWith(
+                      color: Colors.white,
+                    ),
               ),
               const SizedBox(height: 10),
               const RankBoardPageView(),

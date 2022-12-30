@@ -13,6 +13,7 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -22,6 +23,9 @@ class _SignUpFormState extends State<SignUpForm> {
     final viewModel = context.read<AuthScreenViewModel>();
     _emailController.addListener(() {
       viewModel.email = _emailController.text;
+    });
+    _nameController.addListener(() {
+      viewModel.name = _nameController.text;
     });
     _passwordController.addListener(() {
       viewModel.password = _passwordController.text;
@@ -35,6 +39,7 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   void dispose() {
     _emailController.dispose();
+    _nameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -54,6 +59,15 @@ class _SignUpFormState extends State<SignUpForm> {
             validator: viewModel.validateEmail,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             keyboardType: TextInputType.emailAddress,
+          ),
+          const SizedBox(
+            height: AUTH_FORM_FIELD_GAP,
+          ),
+          TextFormField(
+            decoration: const InputDecoration(hintText: '닉네임'),
+            controller: _nameController,
+            validator: viewModel.validateName,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(
             height: AUTH_FORM_FIELD_GAP,
@@ -91,10 +105,14 @@ class _SignUpFormState extends State<SignUpForm> {
             height: 10,
           ),
           Consumer<AuthScreenViewModel>(builder: (context, vm, child) {
-            return ElevatedButton(
-              onPressed: vm.isValid ? vm.onAuthButtonClick : null,
-              child: const Text('다음'),
-            );
+            return viewModel.state.isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ElevatedButton(
+                    onPressed: vm.isValid ? vm.onAuthButtonClick : null,
+                    child: const Text('회원가입'),
+                  );
           })
         ],
       ),

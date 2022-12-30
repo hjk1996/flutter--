@@ -9,9 +9,9 @@ part 'game_log.g.dart';
 @freezed
 class GameLog with _$GameLog {
   factory GameLog({
+    required String id,
     required GameDifficulty difficulty,
     required DateTime endAt,
-    required String id,
     required bool win,
     required List<Message> log,
   }) = _GameLog;

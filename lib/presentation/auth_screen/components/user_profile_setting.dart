@@ -19,23 +19,24 @@ class UserProfileSetting extends StatefulWidget {
 
 class _UserProfileSettingState extends State<UserProfileSetting> {
   late StreamSubscription<AuthScreenEvent> _streamSubscription;
-  final TextEditingController _nameController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     final viewModel = context.read<AuthScreenViewModel>();
-    _nameController.addListener(
-      () {
-        viewModel.name = _nameController.text;
-      },
-    );
 
-    _streamSubscription = viewModel.eventStream.listen((event) {
-      event.when(
-          onAuthError: (_) {},
+    _streamSubscription = viewModel.eventStream.listen(
+      (event) {
+        event.when(
+          onAuthError: (String message) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(message),
+              ),
+            );
+          },
           onSignInSuccess: () {},
-          onSignUpSuccess: () async {
+          onProfileSettingDone: () async {
             await showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -60,7 +61,7 @@ class _UserProfileSettingState extends State<UserProfileSetting> {
               ),
             );
           },
-          whenEmailUsable: () {},
+          onSignUpSuccess: () async {},
           onProfileTap: () async {
             if (!mounted) return;
             final action = await showDialog<SetPhotoAction>(
@@ -89,28 +90,28 @@ class _UserProfileSettingState extends State<UserProfileSetting> {
             } else if (action == SetPhotoAction.REMOVE) {
               viewModel.image = null;
             }
-          });
-    });
+          },
+        );
+      },
+    );
   }
 
   @override
   void dispose() {
     _streamSubscription.cancel();
-    _nameController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<AuthScreenViewModel>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('유저 정보 설정'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: SizedBox(
           width: double.infinity,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Consumer<AuthScreenViewModel>(
                 builder: (context, value, child) => GestureDetector(
@@ -148,30 +149,38 @@ class _UserProfileSettingState extends State<UserProfileSetting> {
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
-                width: 200,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: '별명',
-                    border: OutlineInputBorder(),
-                  ),
-                  controller: _nameController,
-                  validator: context.read<AuthScreenViewModel>().validateName,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-              ),
               const SizedBox(
                 height: 30,
               ),
-              Consumer<AuthScreenViewModel>(
-                builder: (context, vm, child) {
-                  return vm.state.isLoading
-                      ? const CircularProgressIndicator()
-                      : ElevatedButton(
-                          onPressed: vm.state.isValidName ? vm.signUp : null,
-                          child: const Text('계정 만들기'),
-                        );
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Consumer<AuthScreenViewModel>(
+                    builder: (context, vm, child) {
+                      return vm.state.isLoading
+                          ? const CircularProgressIndicator()
+                          : Flexible(
+                              flex: 2,
+                              fit: FlexFit.tight,
+                              child: ElevatedButton(
+                                onPressed: vm.state.image != null
+                                    ? vm.updateUserPhoto
+                                    : null,
+                                child: const Text('프로필 사진 등록'),
+                              ),
+                            );
+                    },
+                  ),
+                  Flexible(flex: 1, fit: FlexFit.tight, child: Container()),
+                  Flexible(
+                    flex: 2,
+                    fit: FlexFit.tight,
+                    child: ElevatedButton(
+                      onPressed: viewModel.skipProfileImage,
+                      child: const Text('생략'),
+                    ),
+                  )
+                ],
               ),
             ],
           ),

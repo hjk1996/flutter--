@@ -49,6 +49,6 @@ app.*.map.json
 /android/app/release
 
 assets/*
-
+functions/*
 # keystore
 *.p12

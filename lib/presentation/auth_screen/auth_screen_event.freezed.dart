@@ -21,8 +21,8 @@ mixin _$AuthScreenEvent {
     required TResult Function(String message) onAuthError,
     required TResult Function() onSignInSuccess,
     required TResult Function() onSignUpSuccess,
-    required TResult Function() whenEmailUsable,
     required TResult Function() onProfileTap,
+    required TResult Function() onProfileSettingDone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,8 +30,8 @@ mixin _$AuthScreenEvent {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,8 +39,8 @@ mixin _$AuthScreenEvent {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -49,8 +49,8 @@ mixin _$AuthScreenEvent {
     required TResult Function(OnAuthError value) onAuthError,
     required TResult Function(OnSignInSuccess value) onSignInSuccess,
     required TResult Function(OnSignUpSuccess value) onSignUpSuccess,
-    required TResult Function(WhenEmailUsable value) whenEmailUsable,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnProfileSettingDone value) onProfileSettingDone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,8 +58,8 @@ mixin _$AuthScreenEvent {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -67,8 +67,8 @@ mixin _$AuthScreenEvent {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -159,8 +159,8 @@ class _$OnAuthError implements OnAuthError {
     required TResult Function(String message) onAuthError,
     required TResult Function() onSignInSuccess,
     required TResult Function() onSignUpSuccess,
-    required TResult Function() whenEmailUsable,
     required TResult Function() onProfileTap,
+    required TResult Function() onProfileSettingDone,
   }) {
     return onAuthError(message);
   }
@@ -171,8 +171,8 @@ class _$OnAuthError implements OnAuthError {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
   }) {
     return onAuthError?.call(message);
   }
@@ -183,8 +183,8 @@ class _$OnAuthError implements OnAuthError {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
     required TResult orElse(),
   }) {
     if (onAuthError != null) {
@@ -199,8 +199,8 @@ class _$OnAuthError implements OnAuthError {
     required TResult Function(OnAuthError value) onAuthError,
     required TResult Function(OnSignInSuccess value) onSignInSuccess,
     required TResult Function(OnSignUpSuccess value) onSignUpSuccess,
-    required TResult Function(WhenEmailUsable value) whenEmailUsable,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnProfileSettingDone value) onProfileSettingDone,
   }) {
     return onAuthError(this);
   }
@@ -211,8 +211,8 @@ class _$OnAuthError implements OnAuthError {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
   }) {
     return onAuthError?.call(this);
   }
@@ -223,8 +223,8 @@ class _$OnAuthError implements OnAuthError {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
     required TResult orElse(),
   }) {
     if (onAuthError != null) {
@@ -287,8 +287,8 @@ class _$OnSignInSuccess implements OnSignInSuccess {
     required TResult Function(String message) onAuthError,
     required TResult Function() onSignInSuccess,
     required TResult Function() onSignUpSuccess,
-    required TResult Function() whenEmailUsable,
     required TResult Function() onProfileTap,
+    required TResult Function() onProfileSettingDone,
   }) {
     return onSignInSuccess();
   }
@@ -299,8 +299,8 @@ class _$OnSignInSuccess implements OnSignInSuccess {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
   }) {
     return onSignInSuccess?.call();
   }
@@ -311,8 +311,8 @@ class _$OnSignInSuccess implements OnSignInSuccess {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
     required TResult orElse(),
   }) {
     if (onSignInSuccess != null) {
@@ -327,8 +327,8 @@ class _$OnSignInSuccess implements OnSignInSuccess {
     required TResult Function(OnAuthError value) onAuthError,
     required TResult Function(OnSignInSuccess value) onSignInSuccess,
     required TResult Function(OnSignUpSuccess value) onSignUpSuccess,
-    required TResult Function(WhenEmailUsable value) whenEmailUsable,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnProfileSettingDone value) onProfileSettingDone,
   }) {
     return onSignInSuccess(this);
   }
@@ -339,8 +339,8 @@ class _$OnSignInSuccess implements OnSignInSuccess {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
   }) {
     return onSignInSuccess?.call(this);
   }
@@ -351,8 +351,8 @@ class _$OnSignInSuccess implements OnSignInSuccess {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
     required TResult orElse(),
   }) {
     if (onSignInSuccess != null) {
@@ -410,8 +410,8 @@ class _$OnSignUpSuccess implements OnSignUpSuccess {
     required TResult Function(String message) onAuthError,
     required TResult Function() onSignInSuccess,
     required TResult Function() onSignUpSuccess,
-    required TResult Function() whenEmailUsable,
     required TResult Function() onProfileTap,
+    required TResult Function() onProfileSettingDone,
   }) {
     return onSignUpSuccess();
   }
@@ -422,8 +422,8 @@ class _$OnSignUpSuccess implements OnSignUpSuccess {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
   }) {
     return onSignUpSuccess?.call();
   }
@@ -434,8 +434,8 @@ class _$OnSignUpSuccess implements OnSignUpSuccess {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
     required TResult orElse(),
   }) {
     if (onSignUpSuccess != null) {
@@ -450,8 +450,8 @@ class _$OnSignUpSuccess implements OnSignUpSuccess {
     required TResult Function(OnAuthError value) onAuthError,
     required TResult Function(OnSignInSuccess value) onSignInSuccess,
     required TResult Function(OnSignUpSuccess value) onSignUpSuccess,
-    required TResult Function(WhenEmailUsable value) whenEmailUsable,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnProfileSettingDone value) onProfileSettingDone,
   }) {
     return onSignUpSuccess(this);
   }
@@ -462,8 +462,8 @@ class _$OnSignUpSuccess implements OnSignUpSuccess {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
   }) {
     return onSignUpSuccess?.call(this);
   }
@@ -474,8 +474,8 @@ class _$OnSignUpSuccess implements OnSignUpSuccess {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
     required TResult orElse(),
   }) {
     if (onSignUpSuccess != null) {
@@ -487,129 +487,6 @@ class _$OnSignUpSuccess implements OnSignUpSuccess {
 
 abstract class OnSignUpSuccess implements AuthScreenEvent {
   const factory OnSignUpSuccess() = _$OnSignUpSuccess;
-}
-
-/// @nodoc
-abstract class _$$WhenEmailUsableCopyWith<$Res> {
-  factory _$$WhenEmailUsableCopyWith(
-          _$WhenEmailUsable value, $Res Function(_$WhenEmailUsable) then) =
-      __$$WhenEmailUsableCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$WhenEmailUsableCopyWithImpl<$Res>
-    extends _$AuthScreenEventCopyWithImpl<$Res>
-    implements _$$WhenEmailUsableCopyWith<$Res> {
-  __$$WhenEmailUsableCopyWithImpl(
-      _$WhenEmailUsable _value, $Res Function(_$WhenEmailUsable) _then)
-      : super(_value, (v) => _then(v as _$WhenEmailUsable));
-
-  @override
-  _$WhenEmailUsable get _value => super._value as _$WhenEmailUsable;
-}
-
-/// @nodoc
-
-class _$WhenEmailUsable implements WhenEmailUsable {
-  const _$WhenEmailUsable();
-
-  @override
-  String toString() {
-    return 'AuthScreenEvent.whenEmailUsable()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$WhenEmailUsable);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) onAuthError,
-    required TResult Function() onSignInSuccess,
-    required TResult Function() onSignUpSuccess,
-    required TResult Function() whenEmailUsable,
-    required TResult Function() onProfileTap,
-  }) {
-    return whenEmailUsable();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? onAuthError,
-    TResult Function()? onSignInSuccess,
-    TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
-    TResult Function()? onProfileTap,
-  }) {
-    return whenEmailUsable?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? onAuthError,
-    TResult Function()? onSignInSuccess,
-    TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
-    TResult Function()? onProfileTap,
-    required TResult orElse(),
-  }) {
-    if (whenEmailUsable != null) {
-      return whenEmailUsable();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OnAuthError value) onAuthError,
-    required TResult Function(OnSignInSuccess value) onSignInSuccess,
-    required TResult Function(OnSignUpSuccess value) onSignUpSuccess,
-    required TResult Function(WhenEmailUsable value) whenEmailUsable,
-    required TResult Function(OnProfileTap value) onProfileTap,
-  }) {
-    return whenEmailUsable(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(OnAuthError value)? onAuthError,
-    TResult Function(OnSignInSuccess value)? onSignInSuccess,
-    TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
-    TResult Function(OnProfileTap value)? onProfileTap,
-  }) {
-    return whenEmailUsable?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OnAuthError value)? onAuthError,
-    TResult Function(OnSignInSuccess value)? onSignInSuccess,
-    TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
-    TResult Function(OnProfileTap value)? onProfileTap,
-    required TResult orElse(),
-  }) {
-    if (whenEmailUsable != null) {
-      return whenEmailUsable(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class WhenEmailUsable implements AuthScreenEvent {
-  const factory WhenEmailUsable() = _$WhenEmailUsable;
 }
 
 /// @nodoc
@@ -656,8 +533,8 @@ class _$OnProfileTap implements OnProfileTap {
     required TResult Function(String message) onAuthError,
     required TResult Function() onSignInSuccess,
     required TResult Function() onSignUpSuccess,
-    required TResult Function() whenEmailUsable,
     required TResult Function() onProfileTap,
+    required TResult Function() onProfileSettingDone,
   }) {
     return onProfileTap();
   }
@@ -668,8 +545,8 @@ class _$OnProfileTap implements OnProfileTap {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
   }) {
     return onProfileTap?.call();
   }
@@ -680,8 +557,8 @@ class _$OnProfileTap implements OnProfileTap {
     TResult Function(String message)? onAuthError,
     TResult Function()? onSignInSuccess,
     TResult Function()? onSignUpSuccess,
-    TResult Function()? whenEmailUsable,
     TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
     required TResult orElse(),
   }) {
     if (onProfileTap != null) {
@@ -696,8 +573,8 @@ class _$OnProfileTap implements OnProfileTap {
     required TResult Function(OnAuthError value) onAuthError,
     required TResult Function(OnSignInSuccess value) onSignInSuccess,
     required TResult Function(OnSignUpSuccess value) onSignUpSuccess,
-    required TResult Function(WhenEmailUsable value) whenEmailUsable,
     required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnProfileSettingDone value) onProfileSettingDone,
   }) {
     return onProfileTap(this);
   }
@@ -708,8 +585,8 @@ class _$OnProfileTap implements OnProfileTap {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
   }) {
     return onProfileTap?.call(this);
   }
@@ -720,8 +597,8 @@ class _$OnProfileTap implements OnProfileTap {
     TResult Function(OnAuthError value)? onAuthError,
     TResult Function(OnSignInSuccess value)? onSignInSuccess,
     TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(WhenEmailUsable value)? whenEmailUsable,
     TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
     required TResult orElse(),
   }) {
     if (onProfileTap != null) {
@@ -733,4 +610,127 @@ class _$OnProfileTap implements OnProfileTap {
 
 abstract class OnProfileTap implements AuthScreenEvent {
   const factory OnProfileTap() = _$OnProfileTap;
+}
+
+/// @nodoc
+abstract class _$$OnProfileSettingDoneCopyWith<$Res> {
+  factory _$$OnProfileSettingDoneCopyWith(_$OnProfileSettingDone value,
+          $Res Function(_$OnProfileSettingDone) then) =
+      __$$OnProfileSettingDoneCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$OnProfileSettingDoneCopyWithImpl<$Res>
+    extends _$AuthScreenEventCopyWithImpl<$Res>
+    implements _$$OnProfileSettingDoneCopyWith<$Res> {
+  __$$OnProfileSettingDoneCopyWithImpl(_$OnProfileSettingDone _value,
+      $Res Function(_$OnProfileSettingDone) _then)
+      : super(_value, (v) => _then(v as _$OnProfileSettingDone));
+
+  @override
+  _$OnProfileSettingDone get _value => super._value as _$OnProfileSettingDone;
+}
+
+/// @nodoc
+
+class _$OnProfileSettingDone implements OnProfileSettingDone {
+  const _$OnProfileSettingDone();
+
+  @override
+  String toString() {
+    return 'AuthScreenEvent.onProfileSettingDone()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$OnProfileSettingDone);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) onAuthError,
+    required TResult Function() onSignInSuccess,
+    required TResult Function() onSignUpSuccess,
+    required TResult Function() onProfileTap,
+    required TResult Function() onProfileSettingDone,
+  }) {
+    return onProfileSettingDone();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String message)? onAuthError,
+    TResult Function()? onSignInSuccess,
+    TResult Function()? onSignUpSuccess,
+    TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
+  }) {
+    return onProfileSettingDone?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? onAuthError,
+    TResult Function()? onSignInSuccess,
+    TResult Function()? onSignUpSuccess,
+    TResult Function()? onProfileTap,
+    TResult Function()? onProfileSettingDone,
+    required TResult orElse(),
+  }) {
+    if (onProfileSettingDone != null) {
+      return onProfileSettingDone();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnAuthError value) onAuthError,
+    required TResult Function(OnSignInSuccess value) onSignInSuccess,
+    required TResult Function(OnSignUpSuccess value) onSignUpSuccess,
+    required TResult Function(OnProfileTap value) onProfileTap,
+    required TResult Function(OnProfileSettingDone value) onProfileSettingDone,
+  }) {
+    return onProfileSettingDone(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnAuthError value)? onAuthError,
+    TResult Function(OnSignInSuccess value)? onSignInSuccess,
+    TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
+    TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
+  }) {
+    return onProfileSettingDone?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnAuthError value)? onAuthError,
+    TResult Function(OnSignInSuccess value)? onSignInSuccess,
+    TResult Function(OnSignUpSuccess value)? onSignUpSuccess,
+    TResult Function(OnProfileTap value)? onProfileTap,
+    TResult Function(OnProfileSettingDone value)? onProfileSettingDone,
+    required TResult orElse(),
+  }) {
+    if (onProfileSettingDone != null) {
+      return onProfileSettingDone(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnProfileSettingDone implements AuthScreenEvent {
+  const factory OnProfileSettingDone() = _$OnProfileSettingDone;
 }

@@ -119,6 +119,10 @@ class _UserScreenState extends State<UserScreen> {
                                               null
                                           ? null
                                           : MemoryImage(vm.state.realPhoto!),
+
+                                      child: vm.state.realPhoto == null
+                                          ? const Icon(Icons.person)
+                                          : null,
                                     ),
                                     const SizedBox(
                                       width: 30,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 abstract class FirebaseStorageRepo {
@@ -7,4 +8,6 @@ abstract class FirebaseStorageRepo {
   Future<String> getDownloadUrl(String path);
   Future<void> deleteFile(String path);
   Future<Map<String, Image?>> getUserPhotos(List<String> uids);
+  Future<void> updateUserPhoto(Uint8List photo);
+  Future<void> deleteUserPhoto();
 }

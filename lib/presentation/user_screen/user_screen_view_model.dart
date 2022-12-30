@@ -18,7 +18,7 @@ class UserScreenViewModel with ChangeNotifier {
   final FirestoreRepo _storeRepo;
   UserScreenState _state = UserScreenState(
     user: null,
-    userStat: null,
+    userInformation: null,
     realPhoto: null,
     realName: null,
     edittedPhoto: null,
@@ -47,22 +47,23 @@ class UserScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  int get wins => _state.userStat == null
+  int get wins => _state.userInformation == null
       ? 0
-      : _state.userStat!.easyWinCount +
-          _state.userStat!.normalWinCount +
-          _state.userStat!.hardWinCount +
-          _state.userStat!.impossibleWinCount;
+      : _state.userInformation!.easyWinCount +
+          _state.userInformation!.normalWinCount +
+          _state.userInformation!.hardWinCount +
+          _state.userInformation!.impossibleWinCount;
 
-  int get losses =>
-      _state.userStat == null ? 0 : _state.userStat!.gameCount - wins;
+  int get losses => _state.userInformation == null
+      ? 0
+      : _state.userInformation!.gameCount - wins;
 
   Future<void> getUserInfo() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
-      final userStat = await _storeRepo.fetchUserStat();
+      final userInformation = await _storeRepo.fetchUserInformation();
       if (user == null) return;
-      _state = _state.copyWith(user: user, userStat: userStat);
+      _state = _state.copyWith(user: user, userInformation: userInformation);
       final photo = await _getUserPhoto();
       _state = _state.copyWith(
         realPhoto: photo,
@@ -71,6 +72,7 @@ class UserScreenViewModel with ChangeNotifier {
         edittedName: user.displayName,
       );
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -99,8 +101,10 @@ class UserScreenViewModel with ChangeNotifier {
 
       _eventController.sink.add(const UserScreenEvent.onSave());
     } on FirebaseException catch (err) {
+      print(err);
       _eventController.sink.add(UserScreenEvent.onError(err.code));
     } catch (err) {
+      print(err);
       _eventController.sink.add(UserScreenEvent.onError(err.toString()));
     } finally {
       _state = _state.copyWith(isLoading: false);
@@ -111,11 +115,7 @@ class UserScreenViewModel with ChangeNotifier {
   Future<void> _updateUserPhoto(Uint8List photo) async {
     try {
       if (state.user == null) return;
-      final newImage = ImageHandler.restrictImageSize(photo);
-      final path = "users/${state.user!.uid}/profile.jpg";
-      final file = await _convertUint8ListToFile(newImage);
-      final url = await _storageRepo.uploadFile(path, file);
-      await state.user!.updatePhotoURL(url);
+      await _storageRepo.updateUserPhoto(photo);
     } on FirebaseException catch (e) {
       throw FirebaseException(
           plugin: e.plugin,
@@ -154,7 +154,7 @@ class UserScreenViewModel with ChangeNotifier {
   Future<void> _updateDisplayName(String name) async {
     try {
       if (state.user == null) return;
-      await state.user!.updateDisplayName(name);
+      await _storeRepo.updateDisplayName(name);
     } on FirebaseException catch (e) {
       throw FirebaseException(
           plugin: e.plugin,

@@ -1,7 +1,7 @@
 import 'package:text_project/data/data_source/firestore_helper.dart';
 import 'package:text_project/domain/model/game_log.dart';
 import 'package:text_project/domain/model/last_word.dart';
-import 'package:text_project/domain/model/user_stat.dart';
+import 'package:text_project/domain/model/user_information.dart';
 import 'package:text_project/domain/model/word.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 
@@ -51,7 +51,7 @@ class FirestoreRepoImpl implements FirestoreRepo {
 
   @override
   Future<void> updateUserStatAfterGame(GameLog log) {
-    return firestoreHelper.updateUserStatAfterGame(log);
+    return firestoreHelper.updateUserInfoAfterGame(log);
   }
 
   @override
@@ -65,12 +65,22 @@ class FirestoreRepoImpl implements FirestoreRepo {
   }
 
   @override
-  Future<UserStat?> fetchUserStat() async {
-    return firestoreHelper.fetchUserStat();
+  Future<UserInformation?> fetchUserInformation() async {
+    return firestoreHelper.fetchUserInformation();
   }
 
   @override
-  Future<Map<String, List<UserStat>>> fetchTop10UserStats() async {
-    return firestoreHelper.fetchTop10UserStats();
+  Future<Map<String, List<UserInformation>>> fetchTop5UserInformation() async {
+    return firestoreHelper.fetchTop5UserInformation();
+  }
+
+  @override
+  Future<void> updateDisplayName(String name) async {
+    return firestoreHelper.updateDisplayName(name);
+  }
+
+  @override
+  Future<List<String>> getDisplayNames(List<String> uids) async {
+    return firestoreHelper.getDisplayNames(uids);
   }
 }

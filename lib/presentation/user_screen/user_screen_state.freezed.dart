@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserScreenState {
   User? get user => throw _privateConstructorUsedError;
-  UserStat? get userStat => throw _privateConstructorUsedError;
+  UserInformation? get userInformation => throw _privateConstructorUsedError;
   Uint8List? get realPhoto => throw _privateConstructorUsedError;
   String? get realName => throw _privateConstructorUsedError;
   Uint8List? get edittedPhoto => throw _privateConstructorUsedError;
@@ -38,7 +38,7 @@ abstract class $UserScreenStateCopyWith<$Res> {
       _$UserScreenStateCopyWithImpl<$Res>;
   $Res call(
       {User? user,
-      UserStat? userStat,
+      UserInformation? userInformation,
       Uint8List? realPhoto,
       String? realName,
       Uint8List? edittedPhoto,
@@ -47,7 +47,7 @@ abstract class $UserScreenStateCopyWith<$Res> {
       bool isNameChanged,
       bool isPhotoChanged});
 
-  $UserStatCopyWith<$Res>? get userStat;
+  $UserInformationCopyWith<$Res>? get userInformation;
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$UserScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
-    Object? userStat = freezed,
+    Object? userInformation = freezed,
     Object? realPhoto = freezed,
     Object? realName = freezed,
     Object? edittedPhoto = freezed,
@@ -76,10 +76,10 @@ class _$UserScreenStateCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      userStat: userStat == freezed
-          ? _value.userStat
-          : userStat // ignore: cast_nullable_to_non_nullable
-              as UserStat?,
+      userInformation: userInformation == freezed
+          ? _value.userInformation
+          : userInformation // ignore: cast_nullable_to_non_nullable
+              as UserInformation?,
       realPhoto: realPhoto == freezed
           ? _value.realPhoto
           : realPhoto // ignore: cast_nullable_to_non_nullable
@@ -112,13 +112,13 @@ class _$UserScreenStateCopyWithImpl<$Res>
   }
 
   @override
-  $UserStatCopyWith<$Res>? get userStat {
-    if (_value.userStat == null) {
+  $UserInformationCopyWith<$Res>? get userInformation {
+    if (_value.userInformation == null) {
       return null;
     }
 
-    return $UserStatCopyWith<$Res>(_value.userStat!, (value) {
-      return _then(_value.copyWith(userStat: value));
+    return $UserInformationCopyWith<$Res>(_value.userInformation!, (value) {
+      return _then(_value.copyWith(userInformation: value));
     });
   }
 }
@@ -132,7 +132,7 @@ abstract class _$$_UserScreenStateCopyWith<$Res>
   @override
   $Res call(
       {User? user,
-      UserStat? userStat,
+      UserInformation? userInformation,
       Uint8List? realPhoto,
       String? realName,
       Uint8List? edittedPhoto,
@@ -142,7 +142,7 @@ abstract class _$$_UserScreenStateCopyWith<$Res>
       bool isPhotoChanged});
 
   @override
-  $UserStatCopyWith<$Res>? get userStat;
+  $UserInformationCopyWith<$Res>? get userInformation;
 }
 
 /// @nodoc
@@ -159,7 +159,7 @@ class __$$_UserScreenStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
-    Object? userStat = freezed,
+    Object? userInformation = freezed,
     Object? realPhoto = freezed,
     Object? realName = freezed,
     Object? edittedPhoto = freezed,
@@ -173,10 +173,10 @@ class __$$_UserScreenStateCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      userStat: userStat == freezed
-          ? _value.userStat
-          : userStat // ignore: cast_nullable_to_non_nullable
-              as UserStat?,
+      userInformation: userInformation == freezed
+          ? _value.userInformation
+          : userInformation // ignore: cast_nullable_to_non_nullable
+              as UserInformation?,
       realPhoto: realPhoto == freezed
           ? _value.realPhoto
           : realPhoto // ignore: cast_nullable_to_non_nullable
@@ -216,7 +216,7 @@ class _$_UserScreenState
     implements _UserScreenState {
   _$_UserScreenState(
       {required this.user,
-      required this.userStat,
+      required this.userInformation,
       required this.realPhoto,
       required this.realName,
       required this.edittedPhoto,
@@ -228,7 +228,7 @@ class _$_UserScreenState
   @override
   final User? user;
   @override
-  final UserStat? userStat;
+  final UserInformation? userInformation;
   @override
   final Uint8List? realPhoto;
   @override
@@ -246,7 +246,7 @@ class _$_UserScreenState
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserScreenState(user: $user, userStat: $userStat, realPhoto: $realPhoto, realName: $realName, edittedPhoto: $edittedPhoto, edittedName: $edittedName, isLoading: $isLoading, isNameChanged: $isNameChanged, isPhotoChanged: $isPhotoChanged)';
+    return 'UserScreenState(user: $user, userInformation: $userInformation, realPhoto: $realPhoto, realName: $realName, edittedPhoto: $edittedPhoto, edittedName: $edittedName, isLoading: $isLoading, isNameChanged: $isNameChanged, isPhotoChanged: $isPhotoChanged)';
   }
 
   @override
@@ -255,7 +255,7 @@ class _$_UserScreenState
     properties
       ..add(DiagnosticsProperty('type', 'UserScreenState'))
       ..add(DiagnosticsProperty('user', user))
-      ..add(DiagnosticsProperty('userStat', userStat))
+      ..add(DiagnosticsProperty('userInformation', userInformation))
       ..add(DiagnosticsProperty('realPhoto', realPhoto))
       ..add(DiagnosticsProperty('realName', realName))
       ..add(DiagnosticsProperty('edittedPhoto', edittedPhoto))
@@ -271,7 +271,8 @@ class _$_UserScreenState
         (other.runtimeType == runtimeType &&
             other is _$_UserScreenState &&
             const DeepCollectionEquality().equals(other.user, user) &&
-            const DeepCollectionEquality().equals(other.userStat, userStat) &&
+            const DeepCollectionEquality()
+                .equals(other.userInformation, userInformation) &&
             const DeepCollectionEquality().equals(other.realPhoto, realPhoto) &&
             const DeepCollectionEquality().equals(other.realName, realName) &&
             const DeepCollectionEquality()
@@ -289,7 +290,7 @@ class _$_UserScreenState
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(user),
-      const DeepCollectionEquality().hash(userStat),
+      const DeepCollectionEquality().hash(userInformation),
       const DeepCollectionEquality().hash(realPhoto),
       const DeepCollectionEquality().hash(realName),
       const DeepCollectionEquality().hash(edittedPhoto),
@@ -307,7 +308,7 @@ class _$_UserScreenState
 abstract class _UserScreenState implements UserScreenState {
   factory _UserScreenState(
       {required final User? user,
-      required final UserStat? userStat,
+      required final UserInformation? userInformation,
       required final Uint8List? realPhoto,
       required final String? realName,
       required final Uint8List? edittedPhoto,
@@ -319,7 +320,7 @@ abstract class _UserScreenState implements UserScreenState {
   @override
   User? get user;
   @override
-  UserStat? get userStat;
+  UserInformation? get userInformation;
   @override
   Uint8List? get realPhoto;
   @override

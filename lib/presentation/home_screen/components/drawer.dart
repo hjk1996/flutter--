@@ -22,9 +22,11 @@ class HomeDrawer extends StatelessWidget {
             height: 150,
             child: ClipOval(
               child: FirebaseAuth.instance.currentUser!.photoURL == null
-                  ? const Icon(
-                      Icons.person,
-                      size: 150,
+                  ? const CircleAvatar(
+                      child: Icon(
+                        Icons.person,
+                        size: 100,
+                      ),
                     )
                   : Image.network(
                       FirebaseAuth.instance.currentUser!.photoURL!,
