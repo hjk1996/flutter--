@@ -49,7 +49,6 @@ class HomeScreenViewModel with ChangeNotifier {
     _eventController.sink.add(const HomeScreenEvent.onGameStart());
   }
 
-  // TODO:
   Future<void> fetchRankBoard() async {
     _state = _state.copyWith(isLoading: true);
     notifyListeners();
@@ -97,7 +96,7 @@ class HomeScreenViewModel with ChangeNotifier {
                 rank: index + 1,
                 name: i.name,
                 photo: i.photoUrl != null ? Image.network(i.photoUrl!) : null,
-                wins: i.easyWinCount,
+                wins: i.normalWinCount,
               ),
             ),
           )
@@ -128,7 +127,7 @@ class HomeScreenViewModel with ChangeNotifier {
                 rank: index + 1,
                 name: i.name,
                 photo: i.photoUrl != null ? Image.network(i.photoUrl!) : null,
-                wins: i.easyWinCount,
+                wins: i.hardWinCount,
               ),
             ),
           )
@@ -158,7 +157,7 @@ class HomeScreenViewModel with ChangeNotifier {
                 rank: index + 1,
                 name: i.name,
                 photo: i.photoUrl != null ? Image.network(i.photoUrl!) : null,
-                wins: i.easyWinCount,
+                wins: i.impossibleWinCount,
               ),
             ),
           )
@@ -187,6 +186,7 @@ class HomeScreenViewModel with ChangeNotifier {
         ),
       );
     } catch (err) {
+      throw err;
       _eventController.sink.add(
         HomeScreenEvent.onError(err.toString()),
       );

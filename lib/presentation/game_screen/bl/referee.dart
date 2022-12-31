@@ -120,6 +120,7 @@ class Referee {
         await repo.updateUserStatAfterGame(log);
       }
     } catch (err) {
+      print(err);
       _refereeResponseController.sink.add(RefereeResponse(
         responseTypes: RefereeResponseTypes.error,
         target: uid,

@@ -29,10 +29,12 @@ class _GameMenuState extends State<GameMenu> {
           children: [
             GameMenuCard(
               content: 'AI',
+              assetPath: 'assets/images/home_screen/ai_game.png',
               onTap: context.read<HomeScreenViewModel>().onGameStart,
             ),
             GameMenuCard(
               content: 'PvP',
+              assetPath: 'assets/images/home_screen/ai_game.png',
               onTap: () {
                 showDialog(
                   context: context,
@@ -71,7 +73,32 @@ class _GameMenuState extends State<GameMenu> {
               ),
             ),
           ),
-        )
+        ),
+        Positioned(
+          top: 10,
+          left: 10,
+          child: Center(child: Builder(builder: (context) {
+            if (_currentPage == 0) {
+              return Text(
+                'AI와 대결하기',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+              );
+            } else {
+              return Text(
+                '사람과 대결하기',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+              );
+            }
+          })),
+        ),
       ]),
     );
   }
@@ -79,15 +106,26 @@ class _GameMenuState extends State<GameMenu> {
 
 class GameMenuCard extends StatelessWidget {
   final String content;
+  final String assetPath;
   final VoidCallback onTap;
-  const GameMenuCard({super.key, required this.content, required this.onTap});
+  const GameMenuCard(
+      {super.key,
+      required this.content,
+      required this.assetPath,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(assetPath),
+            fit: BoxFit.fitWidth,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
         child: Center(
           child: Text(
             content,

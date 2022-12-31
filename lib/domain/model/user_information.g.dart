@@ -8,8 +8,8 @@ part of 'user_information.dart';
 
 _$_UserInformation _$$_UserInformationFromJson(Map<String, dynamic> json) =>
     _$_UserInformation(
-      name: json['name'] as String,
-      photoUrl: json['photoUrl'] as String?,
+      name: json['name'] ,
+      photoUrl: json['photoUrl'] ,
       gameCount: json['gameCount'] ?? 0,
       easyWinCount: json['easyWinCount'] ?? 0,
       normalWinCount: json['normalWinCount'] ?? 0,
@@ -17,7 +17,7 @@ _$_UserInformation _$$_UserInformationFromJson(Map<String, dynamic> json) =>
       impossibleWinCount: json['impossibleWinCount'] ?? 0,
       lastGameAt: json['lastGameAt'] == null
           ? null
-          : DateTime.parse(json['lastGameAt'] as String),
+          : DateTime.parse(json['lastGameAt'] ),
     );
 
 Map<String, dynamic> _$$_UserInformationToJson(_$_UserInformation instance) =>

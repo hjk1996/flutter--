@@ -7,9 +7,9 @@ part of 'game_log.dart';
 // **************************************************************************
 
 _$_GameLog _$$_GameLogFromJson(Map<String, dynamic> json) => _$_GameLog(
-      id: json['id'] as String,
+      id: json['id'],
       difficulty: $enumDecode(_$GameDifficultyEnumMap, json['difficulty']),
-      endAt: DateTime.parse(json['endAt'] as String),
+      endAt: DateTime.parse(json['endAt']),
       win: json['win'] as bool,
       log: (json['log'] as List<dynamic>)
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
@@ -22,7 +22,7 @@ Map<String, dynamic> _$$_GameLogToJson(_$_GameLog instance) =>
       'difficulty': _$GameDifficultyEnumMap[instance.difficulty]!,
       'endAt': instance.endAt.toIso8601String(),
       'win': instance.win,
-      'log': instance.log,
+      'log': instance.log.map((e) => e.toJson()).toList(),
     };
 
 const _$GameDifficultyEnumMap = {

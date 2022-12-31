@@ -74,8 +74,8 @@ class FirestoreHelper {
     return wordInfo.exists ? true : false;
   }
 
-  Future<void> sendGameLog(GameLog log) async {
-    await _firestore.collection('log').add(log.toJson());
+  Future<void> sendGameLog(GameLog gameLog) async {
+    await _firestore.collection('gameLogs').add(gameLog.toJson());
   }
 
   Future<void> updateDisplayName(String name) async {
@@ -165,21 +165,11 @@ class FirestoreHelper {
         .limit(5)
         .get();
 
-    final easy5Names = await Future.wait(easy5.docs.map((e) async {
-      final name = await getDisplayName(e.data()['uid']);
-      return name;
-    }));
-
     final normal5 = await firestore
         .collection('users')
         .orderBy('normalWinCount', descending: true)
         .limit(5)
         .get();
-
-    final normal5Names = await Future.wait(normal5.docs.map((e) async {
-      final name = await getDisplayName(e.data()['uid']);
-      return name;
-    }));
 
     final hard10 = await firestore
         .collection('users')
@@ -187,22 +177,11 @@ class FirestoreHelper {
         .limit(5)
         .get();
 
-    final hard10Names = await Future.wait(hard10.docs.map((e) async {
-      final name = await getDisplayName(e.data()['uid']);
-      return name;
-    }));
-
     final impossible10 = await firestore
         .collection('users')
         .orderBy('impossibleWinCount', descending: true)
         .limit(5)
         .get();
-
-    final impossible10Names =
-        await Future.wait(impossible10.docs.map((e) async {
-      final name = await getDisplayName(e.data()['uid']);
-      return name;
-    }));
 
     return {
       'easy':
