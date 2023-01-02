@@ -114,24 +114,37 @@ class _GameScreenViewState extends State<GameScreenView> {
                       return SingleChildScrollView(
                         reverse: true,
                         child: Column(
-                          children: vm.state.messages
-                              .map(
-                                (message) => message.id ==
-                                        FirebaseAuth.instance.currentUser!.uid
-                                    ? MyChatBubble(
-                                        message: message,
-                                      )
-                                    : vm.state.isPlaying
-                                        ? OpponentChatBubble(
-                                            message: message,
-                                          )
-                                        : SlidableChatBubble(
-                                            message: message,
-                                          ),
+                          children: [
+                            ...vm.state.messages
+                                .map(
+                                  (message) => message.id ==
+                                          FirebaseAuth.instance.currentUser!.uid
+                                      ? MyChatBubble(
+                                          message: message,
+                                        )
+                                      : vm.state.isPlaying
+                                          ? OpponentChatBubble(
+                                              message: message,
+                                            )
+                                          : SlidableChatBubble(
+                                              message: message,
+                                            ),
+                                )
+                                .toList()
+                                .reversed
+                                .toList(),
+                            if (!vm.state.isPlaying &&
+                                vm.state.messages.isNotEmpty)
+                              const Text(
+                                '단어를 슬라이드한 후 저장한 뒤\n단어장에서 뜻을 확인할 수 있습니다.',
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
                               )
-                              .toList()
-                              .reversed
-                              .toList(),
+                          ],
                         ),
                       );
                     },
@@ -139,7 +152,14 @@ class _GameScreenViewState extends State<GameScreenView> {
                 ),
               ),
             ),
-            const ChatInputBox()
+            Consumer<GameScreenViewModel>(
+              builder: (context, vm, child) {
+                return Visibility(
+                  visible: vm.state.isPlaying,
+                  child: const ChatInputBox(),
+                );
+              },
+            ),
           ],
         ),
       ),

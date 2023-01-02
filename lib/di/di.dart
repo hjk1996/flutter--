@@ -1,4 +1,5 @@
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_project/data/data_source/firestore_helper.dart';
 import 'package:text_project/data/data_source/storage_helper.dart';
 import 'package:text_project/data/repository/storage_repo_impl.dart';
@@ -16,13 +17,14 @@ import 'package:text_project/presentation/home_screen/home_screen_view_model.dar
 import 'package:text_project/presentation/note_screen/note_screen_view_model.dart';
 import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
 
-void initialSetUp() {
+Future<void> initialSetUp() async {
   final getIt = GetIt.instance;
   getIt.registerSingleton<FirestoreRepo>(FirestoreRepoImpl(FirestoreHelper()));
   getIt.registerSingleton<FirebaseStorageRepo>(
       FirebaseStorageRepoImpl(helper: FirebaseStorageHelper()));
   getIt.registerSingleton(Referee(repo: getIt<FirestoreRepo>()));
   getIt.registerSingleton(Connectivity());
+  getIt.registerSingleton(await SharedPreferences.getInstance());
 }
 
 RobotPlayerABC makeBot(GameDifficulty difficulty, Referee referee) {

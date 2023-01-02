@@ -5,6 +5,8 @@ part 'note_screen_event.freezed.dart';
 
 
 @freezed
-abstract class NoteScreenEvent with _$NoteScreenEvent {
+abstract class 
+NoteScreenEvent with _$NoteScreenEvent {
+  const factory NoteScreenEvent.onSortButtonPressed() = OnSortButtonPressed;
   const factory NoteScreenEvent.onDelete(String word) = OnDelete;
 }

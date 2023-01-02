@@ -21,33 +21,42 @@ class _ChatInputBoxState extends State<ChatInputBox> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: Row(
-        children: [
-          Expanded(
-            child: TextFormField(
-              controller: _controller,
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 10,
+        bottom: 10,
+      ),
+      child: SizedBox(
+        height: 50,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: _controller,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              ),
             ),
-          ),
-          Consumer<GameScreenViewModel>(
-            builder: (context, vm, child) {
-              return IconButton(
-                onPressed: () async {
-                  if (_controller.text.isEmpty) return;
+            Consumer<GameScreenViewModel>(
+              builder: (context, vm, child) {
+                return IconButton(
+                  onPressed: () async {
+                    if (_controller.text.isEmpty) return;
 
-                  if (vm.referee.playerOnTurn?.id ==
-                      FirebaseAuth.instance.currentUser!.uid) {
-                    final messageContent = _controller.text;
-                    _controller.clear();
-                    await vm.sendMessage(messageContent);
-                  }
-                },
-                icon: const Icon(Icons.send),
-              );
-            },
-          ),
-        ],
+                    if (vm.referee.playerOnTurn?.id ==
+                        FirebaseAuth.instance.currentUser!.uid) {
+                      final messageContent = _controller.text;
+                      _controller.clear();
+                      await vm.sendMessage(messageContent);
+                    }
+                  },
+                  icon: const Icon(Icons.send),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

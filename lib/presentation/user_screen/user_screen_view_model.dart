@@ -114,7 +114,7 @@ class UserScreenViewModel with ChangeNotifier {
 
   Future<void> _updateUserPhoto(Uint8List photo) async {
     try {
-      if (state.user == null) return;
+      if (state.user == null) return; 
       await _storageRepo.updateUserPhoto(photo);
     } on FirebaseException catch (e) {
       throw FirebaseException(
@@ -126,21 +126,10 @@ class UserScreenViewModel with ChangeNotifier {
     }
   }
 
-  // uint8list to file
-  Future<File> _convertUint8ListToFile(List<int> image) async {
-    final tempDir = await getTemporaryDirectory();
-    final path = tempDir.path;
-    final file = File('$path/image.jpg');
-    await file.writeAsBytes(image);
-    return file;
-  }
 
   Future<void> _deleteUserPhoto() async {
     try {
-      if (state.user == null) return;
-      final path = "users/${state.user!.uid}/profile.jpg";
-      await _storageRepo.deleteFile(path);
-      await state.user!.updatePhotoURL(null);
+      await _storageRepo.deleteUserPhoto();
     } on FirebaseException catch (e) {
       throw FirebaseException(
           plugin: e.plugin,

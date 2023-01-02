@@ -141,7 +141,8 @@ class __$$_GameLogCopyWithImpl<$Res> extends _$GameLogCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_GameLog implements _GameLog {
   _$_GameLog(
       {required this.id,

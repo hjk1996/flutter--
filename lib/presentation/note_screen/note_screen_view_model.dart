@@ -2,27 +2,73 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:text_project/domain/model/note_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_project/presentation/note_screen/note_screen_event.dart';
 
+enum SortType {
+  date,
+  word,
+}
+
 class NoteScreenViewModel with ChangeNotifier {
   List<NoteItem> _notes = [];
   List<NoteItem> get notes => _notes;
+  List<NoteItem> get favorites => notes.where((e) => e.isFavorite).toList();
+  bool isFavoritesOnly = false;
   NoteItem? _lastDeletedNote;
   int? _lastDeletedNoteIndex;
+  SortType _sortType = SortType.date;
+  SortType get sortType => _sortType;
+
+  final SharedPreferences _prefs = GetIt.instance<SharedPreferences>();
   final StreamController<NoteScreenEvent> _eventController =
       StreamController<NoteScreenEvent>.broadcast();
+
   Stream<NoteScreenEvent> get eventStream => _eventController.stream;
 
   NoteScreenViewModel();
 
-  Future<void> refresh() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? dataString = prefs.getString('notes');
+  void onSortButtonPressed() {
+    _eventController.sink.add(const NoteScreenEvent.onSortButtonPressed());
+  }
+
+  void setSortType(SortType value) {
+    _sortType = value;
+    notifyListeners();
+  }
+
+  void sort({bool asending = true}) {
+    switch (_sortType) {
+      case SortType.date:
+        if (asending) {
+          _notes.sort((a, b) => a.savedAt.compareTo(b.savedAt));
+        } else {
+          _notes.sort((a, b) => b.savedAt.compareTo(a.savedAt));
+        }
+        break;
+      case SortType.word:
+        if (asending) {
+          _notes.sort((a, b) => b.word.compareTo(a.word));
+        } else {
+          _notes.sort((a, b) => a.word.compareTo(b.word));
+        }
+        break;
+    }
+    notifyListeners();
+  }
+
+  Future<void> toggleFavoritesOnly() async {
+    isFavoritesOnly = !isFavoritesOnly;
+    notifyListeners();
+  }
+
+  Future<void> loadNotes() async {
+    final String? dataString = _prefs.getString('notes');
     final List<dynamic> data = jsonDecode(dataString ?? '[]');
     _notes = data.map((e) => NoteItem.fromJson(e)).toList();
-    notifyListeners();
+    _notes.sort((a, b) => b.savedAt.compareTo(a.savedAt));
   }
 
   void updateWord(String word) {
@@ -33,9 +79,8 @@ class NoteScreenViewModel with ChangeNotifier {
   }
 
   Future<void> saveNotes() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     final data = _notes.map((e) => e.toJson()).toList();
-    prefs.setString('notes', jsonEncode(data));
+    _prefs.setString('notes', jsonEncode(data));
   }
 
   Future<void> toggleFavorite(String word) async {

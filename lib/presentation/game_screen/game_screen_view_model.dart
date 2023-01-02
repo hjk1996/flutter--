@@ -188,6 +188,7 @@ class GameScreenViewModel with ChangeNotifier {
           'word': word,
           "isFavorite": false,
           "meanings": wordInfo.meanings,
+          "savedAt": DateTime.now().toIso8601String(),
         }
       ];
       await prefs.setString('notes', jsonEncode(data));

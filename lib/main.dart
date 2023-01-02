@@ -22,7 +22,7 @@ import 'package:text_project/domain/repository/firestore_repo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  initialSetUp();
+  await initialSetUp();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

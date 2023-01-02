@@ -8,6 +8,7 @@ part 'game_log.g.dart';
 
 @freezed
 class GameLog with _$GameLog {
+  @JsonSerializable(explicitToJson: true)
   factory GameLog({
     required String id,
     required GameDifficulty difficulty,

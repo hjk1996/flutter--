@@ -16,42 +16,43 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$NoteScreenEvent {
-  String get word => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() onSortButtonPressed,
     required TResult Function(String word) onDelete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onSortButtonPressed,
     TResult Function(String word)? onDelete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onSortButtonPressed,
     TResult Function(String word)? onDelete,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(OnSortButtonPressed value) onSortButtonPressed,
     required TResult Function(OnDelete value) onDelete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnSortButtonPressed value)? onSortButtonPressed,
     TResult Function(OnDelete value)? onDelete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnSortButtonPressed value)? onSortButtonPressed,
     TResult Function(OnDelete value)? onDelete,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $NoteScreenEventCopyWith<NoteScreenEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -60,7 +61,6 @@ abstract class $NoteScreenEventCopyWith<$Res> {
   factory $NoteScreenEventCopyWith(
           NoteScreenEvent value, $Res Function(NoteScreenEvent) then) =
       _$NoteScreenEventCopyWithImpl<$Res>;
-  $Res call({String word});
 }
 
 /// @nodoc
@@ -71,27 +71,118 @@ class _$NoteScreenEventCopyWithImpl<$Res>
   final NoteScreenEvent _value;
   // ignore: unused_field
   final $Res Function(NoteScreenEvent) _then;
-
-  @override
-  $Res call({
-    Object? word = freezed,
-  }) {
-    return _then(_value.copyWith(
-      word: word == freezed
-          ? _value.word
-          : word // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
-abstract class _$$OnDeleteCopyWith<$Res>
-    implements $NoteScreenEventCopyWith<$Res> {
+abstract class _$$OnSortButtonPressedCopyWith<$Res> {
+  factory _$$OnSortButtonPressedCopyWith(_$OnSortButtonPressed value,
+          $Res Function(_$OnSortButtonPressed) then) =
+      __$$OnSortButtonPressedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$OnSortButtonPressedCopyWithImpl<$Res>
+    extends _$NoteScreenEventCopyWithImpl<$Res>
+    implements _$$OnSortButtonPressedCopyWith<$Res> {
+  __$$OnSortButtonPressedCopyWithImpl(
+      _$OnSortButtonPressed _value, $Res Function(_$OnSortButtonPressed) _then)
+      : super(_value, (v) => _then(v as _$OnSortButtonPressed));
+
+  @override
+  _$OnSortButtonPressed get _value => super._value as _$OnSortButtonPressed;
+}
+
+/// @nodoc
+
+class _$OnSortButtonPressed implements OnSortButtonPressed {
+  const _$OnSortButtonPressed();
+
+  @override
+  String toString() {
+    return 'NoteScreenEvent.onSortButtonPressed()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$OnSortButtonPressed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onSortButtonPressed,
+    required TResult Function(String word) onDelete,
+  }) {
+    return onSortButtonPressed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onSortButtonPressed,
+    TResult Function(String word)? onDelete,
+  }) {
+    return onSortButtonPressed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onSortButtonPressed,
+    TResult Function(String word)? onDelete,
+    required TResult orElse(),
+  }) {
+    if (onSortButtonPressed != null) {
+      return onSortButtonPressed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnSortButtonPressed value) onSortButtonPressed,
+    required TResult Function(OnDelete value) onDelete,
+  }) {
+    return onSortButtonPressed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnSortButtonPressed value)? onSortButtonPressed,
+    TResult Function(OnDelete value)? onDelete,
+  }) {
+    return onSortButtonPressed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnSortButtonPressed value)? onSortButtonPressed,
+    TResult Function(OnDelete value)? onDelete,
+    required TResult orElse(),
+  }) {
+    if (onSortButtonPressed != null) {
+      return onSortButtonPressed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnSortButtonPressed implements NoteScreenEvent {
+  const factory OnSortButtonPressed() = _$OnSortButtonPressed;
+}
+
+/// @nodoc
+abstract class _$$OnDeleteCopyWith<$Res> {
   factory _$$OnDeleteCopyWith(
           _$OnDelete value, $Res Function(_$OnDelete) then) =
       __$$OnDeleteCopyWithImpl<$Res>;
-  @override
   $Res call({String word});
 }
 
@@ -150,6 +241,7 @@ class _$OnDelete implements OnDelete {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() onSortButtonPressed,
     required TResult Function(String word) onDelete,
   }) {
     return onDelete(word);
@@ -158,6 +250,7 @@ class _$OnDelete implements OnDelete {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? onSortButtonPressed,
     TResult Function(String word)? onDelete,
   }) {
     return onDelete?.call(word);
@@ -166,6 +259,7 @@ class _$OnDelete implements OnDelete {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onSortButtonPressed,
     TResult Function(String word)? onDelete,
     required TResult orElse(),
   }) {
@@ -178,6 +272,7 @@ class _$OnDelete implements OnDelete {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(OnSortButtonPressed value) onSortButtonPressed,
     required TResult Function(OnDelete value) onDelete,
   }) {
     return onDelete(this);
@@ -186,6 +281,7 @@ class _$OnDelete implements OnDelete {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(OnSortButtonPressed value)? onSortButtonPressed,
     TResult Function(OnDelete value)? onDelete,
   }) {
     return onDelete?.call(this);
@@ -194,6 +290,7 @@ class _$OnDelete implements OnDelete {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnSortButtonPressed value)? onSortButtonPressed,
     TResult Function(OnDelete value)? onDelete,
     required TResult orElse(),
   }) {
@@ -207,9 +304,7 @@ class _$OnDelete implements OnDelete {
 abstract class OnDelete implements NoteScreenEvent {
   const factory OnDelete(final String word) = _$OnDelete;
 
-  @override
   String get word;
-  @override
   @JsonKey(ignore: true)
   _$$OnDeleteCopyWith<_$OnDelete> get copyWith =>
       throw _privateConstructorUsedError;
