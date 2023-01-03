@@ -22,11 +22,9 @@ class _OpponentChatBubbleState extends State<OpponentChatBubble> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CircleAvatar(
-            child: Icon(
-              widget.message.id == REFEREE_ID
-                  ? Icons.emoji_people_rounded
-                  : Icons.person,
-            ),
+            backgroundImage: AssetImage(widget.message.id == REFEREE_ID
+                ? 'assets/images/game_screen/referee.png'
+                : 'assets/images/game_screen/robot.png'),
           ),
           BubbleSpecialThree(
             color: widget.message.id == REFEREE_ID

@@ -19,6 +19,9 @@ class NoteScreenViewModel with ChangeNotifier {
   bool isFavoritesOnly = false;
   NoteItem? _lastDeletedNote;
   int? _lastDeletedNoteIndex;
+  bool _asecnding = true;
+  bool get ascending => _asecnding;
+
   SortType _sortType = SortType.date;
   SortType get sortType => _sortType;
 
@@ -34,25 +37,26 @@ class NoteScreenViewModel with ChangeNotifier {
     _eventController.sink.add(const NoteScreenEvent.onSortButtonPressed());
   }
 
-  void setSortType(SortType value) {
+  void setSortMethod(SortType value, bool ascending) {
     _sortType = value;
+    _asecnding = ascending;
     notifyListeners();
   }
 
-  void sort({bool asending = true}) {
+  void sort() {
     switch (_sortType) {
       case SortType.date:
-        if (asending) {
+        if (_asecnding) {
           _notes.sort((a, b) => a.savedAt.compareTo(b.savedAt));
         } else {
           _notes.sort((a, b) => b.savedAt.compareTo(a.savedAt));
         }
         break;
       case SortType.word:
-        if (asending) {
-          _notes.sort((a, b) => b.word.compareTo(a.word));
-        } else {
+        if (_asecnding) {
           _notes.sort((a, b) => a.word.compareTo(b.word));
+        } else {
+          _notes.sort((a, b) => b.word.compareTo(a.word));
         }
         break;
     }

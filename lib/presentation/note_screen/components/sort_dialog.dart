@@ -10,7 +10,18 @@ class SortDialog extends StatefulWidget {
 }
 
 class _SortDialogState extends State<SortDialog> {
-  bool _ascending = true;
+  late SortType tempSortType;
+  late bool tempAscending;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final viewModel = context.read<NoteScreenViewModel>();
+    tempSortType = viewModel.sortType;
+    tempAscending = viewModel.ascending;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -26,9 +37,11 @@ class _SortDialogState extends State<SortDialog> {
                 textAlign: TextAlign.center,
               ),
               value: SortType.date,
-              groupValue: vm.sortType,
+              groupValue: tempSortType,
               onChanged: (value) {
-                vm.setSortType(value as SortType);
+                setState(() {
+                  tempSortType = value as SortType;
+                });
               },
             ),
             RadioListTile(
@@ -37,18 +50,20 @@ class _SortDialogState extends State<SortDialog> {
                 textAlign: TextAlign.center,
               ),
               value: SortType.word,
-              groupValue: vm.sortType,
+              groupValue: tempSortType,
               onChanged: (value) {
-                vm.setSortType(value as SortType);
+                setState(() {
+                  tempSortType = value as SortType;
+                });
               },
             ),
             const Divider(),
             CheckboxListTile(
               title: const Text('오름차순 정렬'),
-              value: _ascending,
+              value: tempAscending,
               onChanged: (value) {
                 setState(() {
-                  _ascending = value!;
+                  tempAscending = value!;
                 });
               },
             ),
@@ -60,7 +75,10 @@ class _SortDialogState extends State<SortDialog> {
         TextButton(
           child: const Text('적용'),
           onPressed: () {
-            context.read<NoteScreenViewModel>().sort(asending: _ascending);
+            context
+                .read<NoteScreenViewModel>()
+                .setSortMethod(tempSortType, tempAscending);
+            context.read<NoteScreenViewModel>().sort();
             Navigator.of(context).pop();
           },
         ),

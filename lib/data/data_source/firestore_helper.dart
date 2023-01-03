@@ -207,4 +207,13 @@ class FirestoreHelper {
 
     return logs.docs.map((e) => GameLog.fromJson(e.data())).toList();
   }
+
+  Future<bool> checkNameExists(String name) async {
+    final users = await FirebaseFirestore.instance
+        .collection('users')
+        .where('name', isEqualTo: name)
+        .get();
+
+    return users.docs.isNotEmpty;
+  }
 }

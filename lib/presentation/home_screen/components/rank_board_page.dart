@@ -106,16 +106,12 @@ class RankBoardPage extends StatelessWidget {
                                       : const Center(child: Icon(Icons.person)),
                                 ),
                                 SizedBox(width: constraints.maxWidth * 0.15),
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.4,
+                                Expanded(
                                   child: Text(value.name ?? "N/A",
-                                      textAlign: TextAlign.start,
+                                      textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline6!
-                                          .copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          )),
+                                          .bodyMedium),
                                 )
                               ],
                             );
@@ -147,7 +143,7 @@ class RankBoardPage extends StatelessWidget {
                                     ),
                               ),
                             )
-                          : Text('-', textAlign: TextAlign.center),
+                          : const Text('-', textAlign: TextAlign.center),
                     ),
                   ],
                 ),

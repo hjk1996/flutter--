@@ -32,7 +32,6 @@ class _SlidableChatBubbleState extends State<SlidableChatBubble> {
                 await context
                     .read<GameScreenViewModel>()
                     .saveWord(widget.message.content);
-                
               },
               icon: Icons.bookmark,
               foregroundColor: Colors.white,
@@ -43,9 +42,9 @@ class _SlidableChatBubbleState extends State<SlidableChatBubble> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CircleAvatar(
-              child: Icon(widget.message.id == REFEREE_ID
-                  ? Icons.emoji_people_rounded
-                  : Icons.person),
+              backgroundImage: AssetImage(widget.message.id == REFEREE_ID
+                  ? 'assets/images/game_screen/referee.png'
+                  : 'assets/images/game_screen/robot.png'),
             ),
             BubbleSpecialThree(
               color: widget.message.id == REFEREE_ID

@@ -51,6 +51,7 @@ dependencies:
   image_picker: ^0.8.6
   image: ^3.2.2
   cloud_functions: ^3.3.9
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +80,9 @@ flutter:
   assets:
     - assets/icons/robot.png
     - assets/images/home_screen/ai_game.png
+    - assets/images/home_screen/pvp_game.png
+    - assets/images/game_screen/robot.png
+    - assets/images/game_screen/referee.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

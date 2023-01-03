@@ -70,13 +70,14 @@ class _AuthScreenViewState extends State<AuthScreenView> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<AuthScreenViewModel>();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            viewModel.state.isSignIn ? const SignInForm() : const SignUpForm(),
-          ],
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: viewModel.state.isSignIn
+              ? const SignInForm()
+              : const SignUpForm(),
         ),
       ),
     );

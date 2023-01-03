@@ -106,6 +106,10 @@ class _UserProfileSettingState extends State<UserProfileSetting> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<AuthScreenViewModel>();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('프로필 사진 설정'),
+        actions: null,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: SizedBox(

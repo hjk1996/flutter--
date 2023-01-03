@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:text_project/domain/model/note_item.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/note_screen/note_screen_view_model.dart';
+import 'package:intl/intl.dart';
 
 class NoteCard extends StatelessWidget {
   const NoteCard({required this.noteItem, super.key});
@@ -23,9 +24,23 @@ class NoteCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(
-                    noteItem.word,
-                    style: Theme.of(context).textTheme.headline4,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        noteItem.word,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      Text(
+                        DateFormat('yyyy년 M월 d일').format(
+                              noteItem.savedAt,
+                            ) +
+                            "에 추가됨",
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                              color: Colors.grey,
+                            ),
+                      ),
+                    ],
                   ),
                   const Spacer(),
                   IconButton(

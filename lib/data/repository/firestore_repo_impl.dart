@@ -83,4 +83,9 @@ class FirestoreRepoImpl implements FirestoreRepo {
   Future<List<String>> getDisplayNames(List<String> uids) async {
     return firestoreHelper.getDisplayNames(uids);
   }
+
+  @override
+  Future<bool> checkNameExists(String name) async {
+    return firestoreHelper.checkNameExists(name);
+  }
 }

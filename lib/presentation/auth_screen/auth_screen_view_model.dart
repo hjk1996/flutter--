@@ -133,6 +133,14 @@ class AuthScreenViewModel with ChangeNotifier {
     _state = _state.copyWith(isLoading: true);
     notifyListeners();
     try {
+      final nameExists = await _storeRepo.checkNameExists(state.name);
+
+      if (nameExists) {
+        _eventController.sink
+            .add(const AuthScreenEvent.onAuthError('이미 사용중인 이름입니다.'));
+        return;
+      }
+
       final userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: state.email,
@@ -283,6 +291,12 @@ class AuthScreenViewModel with ChangeNotifier {
       _state = _state.copyWith(isValidName: false);
 
       return '2자 이상으로 닉네임을 설정해주세요.';
+    }
+
+    if (name.length > 10) {
+      _state = _state.copyWith(isValidName: false);
+
+      return '10자 이하로 닉네임을 설정해주세요.';
     }
 
     _state = _state.copyWith(isValidName: true);

@@ -31,7 +31,7 @@ class ChatBubbleColors {
   static const yourBackgroundDark = Colors.grey;
   static const yourTextDark = Colors.white;
   static const refereeBackgroundDark = Colors.red;
-  static const refereeTextDark = AppColors.textDark;
+  static const refereeTextDark = Colors.black;
 }
 
 /// Reference to the application theme.

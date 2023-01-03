@@ -114,7 +114,7 @@ class UserScreenViewModel with ChangeNotifier {
 
   Future<void> _updateUserPhoto(Uint8List photo) async {
     try {
-      if (state.user == null) return; 
+      if (state.user == null) return;
       await _storageRepo.updateUserPhoto(photo);
     } on FirebaseException catch (e) {
       throw FirebaseException(
@@ -125,7 +125,6 @@ class UserScreenViewModel with ChangeNotifier {
       rethrow;
     }
   }
-
 
   Future<void> _deleteUserPhoto() async {
     try {
@@ -140,9 +139,17 @@ class UserScreenViewModel with ChangeNotifier {
     }
   }
 
+  //TODO: 중복이름 변경 방지하기.
   Future<void> _updateDisplayName(String name) async {
     try {
       if (state.user == null) return;
+
+      if (await _storeRepo.checkNameExists(name)) {
+        throw FirebaseException(
+            plugin: 'firebase_auth',
+            code: 'name-exists',
+            message: '이미 사용');
+      }
       await _storeRepo.updateDisplayName(name);
     } on FirebaseException catch (e) {
       throw FirebaseException(
@@ -186,6 +193,10 @@ class UserScreenViewModel with ChangeNotifier {
       return '별명은 2자 이상이어야 합니다.';
     }
 
+    if (value.length > 10) {
+      return '별명은 10자 이하여야 합니다.';
+    }
+
     return null;
   }
 
@@ -220,14 +231,29 @@ class UserScreenViewModel with ChangeNotifier {
   }
 
   // 회원탈퇴하려면 비밀번호를 한번 더 입력해야함
-  Future<void> deleteUserAccount() async {
+  Future<String?> deleteUserAccount(String password) async {
     try {
-      if (state.user == null) return;
+      final userCredential =
+          await FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(
+        EmailAuthProvider.credential(
+          email: state.user!.email!,
+          password: password,
+        ),
+      );
+
+      userCredential.user!.delete();
+
       await state.user!.delete();
-    } on FirebaseException catch (e) {
-      _eventController.sink.add(UserScreenEvent.onError(e.code));
+
+      return null;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        return '비밀번호가 일치하지 않습니다.';
+      } else {
+        return '회원탈퇴에 실패했습니다.';
+      }
     } catch (e) {
-      rethrow;
+      return '회원탈퇴에 실패했습니다.';
     }
   }
 }

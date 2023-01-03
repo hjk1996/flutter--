@@ -19,4 +19,5 @@ abstract class FirestoreRepo {
   Future<UserInformation?> fetchUserInformation();
   Future<Map<String, List<UserInformation>>> fetchTop5UserInformation();
   Future<List<String>> getDisplayNames(List<String> uids);
+  Future<bool> checkNameExists(String name);
 }

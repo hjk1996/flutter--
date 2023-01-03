@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_file.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/note_screen/components/note_card.dart';
 import 'package:text_project/presentation/note_screen/components/sort_dialog.dart';
@@ -15,6 +16,11 @@ class NoteScreen extends StatefulWidget {
 
 class _NoteScreenState extends State<NoteScreen> {
   StreamSubscription? _subscription;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {

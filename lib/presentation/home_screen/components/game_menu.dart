@@ -28,13 +28,11 @@ class _GameMenuState extends State<GameMenu> {
           },
           children: [
             GameMenuCard(
-              content: 'AI',
               assetPath: 'assets/images/home_screen/ai_game.png',
               onTap: context.read<HomeScreenViewModel>().onGameStart,
             ),
             GameMenuCard(
-              content: 'PvP',
-              assetPath: 'assets/images/home_screen/ai_game.png',
+              assetPath: 'assets/images/home_screen/pvp_game.png',
               onTap: () {
                 showDialog(
                   context: context,
@@ -105,14 +103,9 @@ class _GameMenuState extends State<GameMenu> {
 }
 
 class GameMenuCard extends StatelessWidget {
-  final String content;
   final String assetPath;
   final VoidCallback onTap;
-  const GameMenuCard(
-      {super.key,
-      required this.content,
-      required this.assetPath,
-      required this.onTap});
+  const GameMenuCard({super.key, required this.assetPath, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -125,12 +118,6 @@ class GameMenuCard extends StatelessWidget {
             fit: BoxFit.fitWidth,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Center(
-          child: Text(
-            content,
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
         ),
       ),
     );

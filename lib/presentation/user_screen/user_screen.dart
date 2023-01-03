@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
 import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/edit_screen/edit_screen.dart';
+import 'package:text_project/presentation/user_screen/components/password_dialog.dart';
 import 'package:text_project/presentation/user_screen/user_screen_event.dart';
 import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
 
@@ -29,17 +30,47 @@ class _UserScreenState extends State<UserScreen> {
           onDeleteAccountTap: () async {
             final res =
                 await askYesOrNo(context: context, content: '정말로 탈퇴하시겠습니까?');
-            if (res != null && res) {
-              await viewModel.deleteUserAccount();
-              if (!mounted) return;
+            if (res == null || res == false) return;
 
+            final message = await showDialog<String?>(
+              context: context,
+              builder: (context) => const PasswordDialog(),
+            );
+
+            if (!mounted) return;
+
+            if (message != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(message),
+                ),
+              );
+            } else {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const AuthScreenView(),
                 ),
               );
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('회원탈퇴에 성공했습니다.'),
+                ),
+              );
             }
+
+            // {
+            //   await viewModel.deleteUserAccount();
+            //   if (!mounted) return;
+
+            //   Navigator.pushReplacement(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => const AuthScreenView(),
+            //     ),
+            //   );
+            // }
           },
           onVerifyEmailTap: (verified) async {
             if (verified) {
@@ -119,7 +150,6 @@ class _UserScreenState extends State<UserScreen> {
                                               null
                                           ? null
                                           : MemoryImage(vm.state.realPhoto!),
-
                                       child: vm.state.realPhoto == null
                                           ? const Icon(Icons.person)
                                           : null,
@@ -149,12 +179,6 @@ class _UserScreenState extends State<UserScreen> {
                                       ],
                                     ),
                                     const Spacer(),
-                                    IconButton(
-                                        onPressed: context
-                                            .read<UserScreenViewModel>()
-                                            .onEditPressed,
-                                        icon: const Icon(
-                                            Icons.arrow_forward_ios_outlined))
                                   ],
                                 );
                               },
@@ -166,6 +190,23 @@ class _UserScreenState extends State<UserScreen> {
                           GestureDetector(
                             onTap: context
                                 .read<UserScreenViewModel>()
+                                .onEditPressed,
+                            child: const SizedBox(
+                              width: double.infinity,
+                              height: 70,
+                              child: Card(
+                                child: ListTile(
+                                  title: Text(
+                                    '유저 정보 수정',
+                                  ),
+                                  trailing: Icon(Icons.settings),
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: context
+                                .read<UserScreenViewModel>()
                                 .onVerifyEmailTap,
                             child: const SizedBox(
                               width: double.infinity,
@@ -173,14 +214,13 @@ class _UserScreenState extends State<UserScreen> {
                               child: Card(
                                 child: ListTile(
                                   title: Text(
-                                    '이메일 인증',
+                                    '인증 메일 다시 보내기',
                                   ),
                                   trailing: Icon(Icons.verified),
                                 ),
                               ),
                             ),
                           ),
-                          const Divider(),
                           GestureDetector(
                             onTap: context
                                 .read<UserScreenViewModel>()
