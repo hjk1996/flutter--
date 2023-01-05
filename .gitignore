@@ -48,6 +48,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+key.jks
 dev_assets/*
 assets/*
 functions/*
