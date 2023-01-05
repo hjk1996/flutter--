@@ -1,6 +1,5 @@
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:text_project/domain/model/message.dart';
 import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/common/theme.dart';

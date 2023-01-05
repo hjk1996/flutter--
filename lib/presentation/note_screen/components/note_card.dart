@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:text_project/domain/model/note_item.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/note_screen/note_screen_view_model.dart';
@@ -32,10 +31,9 @@ class NoteCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline4,
                       ),
                       Text(
-                        DateFormat('yyyy년 M월 d일').format(
-                              noteItem.savedAt,
-                            ) +
-                            "에 추가됨",
+                        "${DateFormat('yyyy년 M월 d일').format(
+                          noteItem.savedAt,
+                        )} 에 추가됨",
                         style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               color: Colors.grey,
                             ),

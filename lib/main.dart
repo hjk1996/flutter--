@@ -1,5 +1,3 @@
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +9,7 @@ import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dar
 import 'package:text_project/presentation/common/theme.dart';
 import 'package:text_project/presentation/feedback_screen/feedback_screen_view_model.dart';
 import 'package:text_project/presentation/game_screen/game_screen_view_model.dart';
+import 'package:text_project/presentation/history_screen/history_view_model.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:text_project/presentation/note_screen/note_screen_view_model.dart';
@@ -26,9 +25,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate(androidDebugProvider: true);
   FirebaseApp app = Firebase.app();
-  FirebaseFunctions functions = FirebaseFunctions.instanceFor(app: app);
   runApp(
     MultiProvider(
       providers: [
@@ -59,7 +56,11 @@ void main() async {
             storageRepo: GetIt.instance<FirebaseStorageRepo>(),
             storeRepo: GetIt.instance<FirestoreRepo>(),
           ),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              HistoryViewModel(storeRepo: GetIt.instance<FirestoreRepo>()),
+        ),
       ],
       builder: (context, child) => const MyApp(),
     ),

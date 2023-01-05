@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
@@ -13,7 +12,6 @@ import 'package:text_project/presentation/home_screen/components/game_menu.dart'
 import 'package:text_project/presentation/home_screen/components/rank_board_page_view.dart';
 import 'package:text_project/presentation/home_screen/home_screen_event.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
-import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
 class HomeScreenView extends StatefulWidget {
   const HomeScreenView({Key? key}) : super(key: key);
@@ -49,7 +47,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     builder: (context) {
                       return AlertDialog(
                         title: const Text(
-                          "이메일 인증이 필요합니다.\n인증을 마친 후 이용해주세요.",
+                          "이메일 인증이 필요합니다.\n인증 후 이용해주세요.",
                           textAlign: TextAlign.center,
                         ),
                         actions: [

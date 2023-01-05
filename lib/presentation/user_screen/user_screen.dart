@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
-import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/edit_screen/edit_screen.dart';
+import 'package:text_project/presentation/history_screen/history_screen.dart';
 import 'package:text_project/presentation/user_screen/components/password_dialog.dart';
 import 'package:text_project/presentation/user_screen/user_screen_event.dart';
 import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
@@ -28,49 +28,29 @@ class _UserScreenState extends State<UserScreen> {
       _eventSubscription = viewModel.eventStream.listen((event) {
         event.when(
           onDeleteAccountTap: () async {
-            final res =
-                await askYesOrNo(context: context, content: '정말로 탈퇴하시겠습니까?');
-            if (res == null || res == false) return;
-
-            final message = await showDialog<String?>(
+            final password = await showDialog<String?>(
               context: context,
               builder: (context) => const PasswordDialog(),
             );
 
+            if (password == null) return;
+            final deleted = await viewModel.deleteUserAccount(password);
+
             if (!mounted) return;
 
-            if (message != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(message),
-                ),
-              );
-            } else {
+            if (deleted) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const AuthScreenView(),
                 ),
               );
-
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('회원탈퇴에 성공했습니다.'),
+                  content: Text('계정이 성공적으로 삭제되었습니다.'),
                 ),
               );
             }
-
-            // {
-            //   await viewModel.deleteUserAccount();
-            //   if (!mounted) return;
-
-            //   Navigator.pushReplacement(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => const AuthScreenView(),
-            //     ),
-            //   );
-            // }
           },
           onVerifyEmailTap: (verified) async {
             if (verified) {
@@ -99,7 +79,11 @@ class _UserScreenState extends State<UserScreen> {
             );
           },
           onError: (message) {
-            print(message);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(message),
+              ),
+            );
           },
           onProfileTap: () {},
           onSave: () {},
@@ -205,6 +189,26 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                           ),
                           GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HistoryScreen(),
+                              ),
+                            ),
+                            child: const SizedBox(
+                              width: double.infinity,
+                              height: 70,
+                              child: Card(
+                                child: ListTile(
+                                  title: Text(
+                                    '최근 전적',
+                                  ),
+                                  trailing: Icon(Icons.history),
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
                             onTap: context
                                 .read<UserScreenViewModel>()
                                 .onVerifyEmailTap,
@@ -230,9 +234,7 @@ class _UserScreenState extends State<UserScreen> {
                               height: 70,
                               child: Card(
                                 child: ListTile(
-                                  title: Text(
-                                    '회원 탈퇴',
-                                  ),
+                                  title: Text('회원 탈퇴'),
                                   trailing: Icon(Icons.delete),
                                 ),
                               ),

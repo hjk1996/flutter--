@@ -1,4 +1,4 @@
-package com.example.text_project
+package com.example.word_relay_app
 
 import io.flutter.embedding.android.FlutterActivity
 

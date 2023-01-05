@@ -1,13 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:text_project/domain/model/rank_board.dart';
 import 'package:text_project/presentation/home_screen/components/rank_board_page.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 import 'package:provider/provider.dart';
 
-//TODO: 구현하기
 class RankBoardPageView extends StatefulWidget {
   const RankBoardPageView({super.key});
 

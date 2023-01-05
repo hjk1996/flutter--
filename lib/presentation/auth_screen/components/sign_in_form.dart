@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
 import 'package:text_project/presentation/common/constants.dart';
@@ -43,6 +42,16 @@ class _SignInFormState extends State<SignInForm> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Text(
+            '끝말잇기 로그인',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
           TextFormField(
             decoration: const InputDecoration(hintText: '이메일'),
             controller: _emailController,
@@ -78,6 +87,10 @@ class _SignInFormState extends State<SignInForm> {
           ),
           Consumer<AuthScreenViewModel>(
             builder: (context, vm, child) {
+              if (vm.state.isLoading) {
+                return const CircularProgressIndicator();
+              }
+
               return ElevatedButton(
                 onPressed: vm.isValid ? vm.onAuthButtonClick : null,
                 child: const Text('로그인'),

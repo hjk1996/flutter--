@@ -8,7 +8,6 @@ import 'package:text_project/presentation/auth_screen/components/sign_in_form.da
 import 'package:text_project/presentation/auth_screen/components/sign_up_form.dart';
 import 'package:text_project/presentation/auth_screen/components/user_profile_setting.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view.dart';
-import 'package:text_project/presentation/initial_screen/initial_screen_view.dart';
 
 class AuthScreenView extends StatefulWidget {
   const AuthScreenView({Key? key}) : super(key: key);

@@ -29,7 +29,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.2
   provider: ^6.0.3
   freezed_annotation: ^2.1.0
@@ -39,19 +38,16 @@ dependencies:
   firebase_auth: ^3.11.2
   path_provider: ^2.0.11
   firebase_storage: ^10.3.11
-  firebase_app_check: ^0.0.9+1
-  dio: ^4.0.6
   cloud_firestore: ^3.5.1
   google_fonts: ^3.0.1
   flutter_slidable: ^2.0.0
   get_it: ^7.2.0
   shared_preferences: ^2.0.15
   connectivity_plus: ^3.0.2
-  animated_text_kit: ^4.2.2
   image_picker: ^0.8.6
   image: ^3.2.2
-  cloud_functions: ^3.3.9
   intl: ^0.17.0
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +61,16 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   json_serializable: ^6.4.0
+  flutter_native_splash: ^2.2.16
+  flutter_launcher_icons: ^0.11.0
+
+flutter_icons:
+  android: true
+  image_path: "dev_assets/app_logo.png"
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "dev_assets/splash_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -81,8 +87,12 @@ flutter:
     - assets/icons/robot.png
     - assets/images/home_screen/ai_game.png
     - assets/images/home_screen/pvp_game.png
+    - assets/images/home_screen/gold_medal.png
+    - assets/images/home_screen/silver_medal.png
+    - assets/images/home_screen/bronze_medal.png
     - assets/images/game_screen/robot.png
     - assets/images/game_screen/referee.png
+    - assets/images/auth_screen/main.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

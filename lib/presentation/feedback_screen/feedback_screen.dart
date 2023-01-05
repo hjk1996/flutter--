@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:text_project/presentation/feedback_screen/feedback_screen_event.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/feedback_screen/feedback_screen_view_model.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view.dart';
-import 'package:text_project/presentation/home_screen/home_screen_view_model.dart';
 
 class FeedbackScreen extends StatefulWidget {
   const FeedbackScreen({super.key});
@@ -113,6 +111,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       if (value == null || value.isEmpty) {
                         return '제목을 입력해야합니다.';
                       }
+
+                      return null;
                     },
                     maxLines: 1,
                     maxLength: 30,
@@ -135,6 +135,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       if (value == null || value.isEmpty) {
                         return '내용을 입력해야합니다.';
                       }
+
+                      return null;
                     },
                     keyboardType: TextInputType.multiline,
                     maxLines: 20,

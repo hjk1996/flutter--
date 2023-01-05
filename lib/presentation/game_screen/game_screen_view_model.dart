@@ -193,7 +193,7 @@ class GameScreenViewModel with ChangeNotifier {
       ];
       await prefs.setString('notes', jsonEncode(data));
       _eventController.add(GameScreenEvent.onSaveWord(word));
-    } on FirebaseException catch (err) {
+    } on FirebaseException catch (_) {
       _eventController.add(
         const GameScreenEvent.onError('서버에서 단어에 대한 정보를 받아오지 못했습니다.'),
       );

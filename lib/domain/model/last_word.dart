@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:text_project/domain/model/word.dart';
 
 part 'last_word.freezed.dart';
 part 'last_word.g.dart';

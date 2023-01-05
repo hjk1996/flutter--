@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/note_screen/note_screen_view_model.dart';
 
-import 'package:flutter/material.dart';
 
 class SortDialog extends StatefulWidget {
+
+  const SortDialog({Key? key}) : super(key: key);
   @override
-  _SortDialogState createState() => _SortDialogState();
+  SortDialogState createState() => SortDialogState();
 }
 
-class _SortDialogState extends State<SortDialog> {
+class SortDialogState extends State<SortDialog> {
   late SortType tempSortType;
   late bool tempAscending;
 

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
 
 class NameInputBox extends StatefulWidget {
+  const NameInputBox({Key? key}) : super(key: key);
   @override
   State<NameInputBox> createState() => _NameInputBoxState();
 }

@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_event.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view_model.dart';
-import 'package:text_project/presentation/common/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/common/set_photo_dialog.dart';
 import 'package:text_project/presentation/home_screen/home_screen_view.dart';
-import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
 
 class UserProfileSetting extends StatefulWidget {
   const UserProfileSetting({super.key});
@@ -41,7 +39,7 @@ class _UserProfileSettingState extends State<UserProfileSetting> {
               context: context,
               builder: (context) => AlertDialog(
                 title: const Text(
-                  '회원가입이 완료되었습니다.\n이메일 인증 후 이용해주세요.',
+                  '회원가입이 완료되었습니다.\n이메일 인증 후 이용해주세요.\n인증 메일을 찾을 수 없는 경우 스팸 메일함을 확인해주세요.',
                   textAlign: TextAlign.center,
                 ),
                 actions: [
@@ -68,7 +66,7 @@ class _UserProfileSettingState extends State<UserProfileSetting> {
               context: context,
               builder: (context) => const SetPhotoDialog(),
             );
-            if (action == SetPhotoAction.CAMERA) {
+            if (action == SetPhotoAction.camera) {
               final image = await ImagePicker().pickImage(
                 source: ImageSource.camera,
                 imageQuality: 50,
@@ -77,7 +75,7 @@ class _UserProfileSettingState extends State<UserProfileSetting> {
                 final imageBytes = await image.readAsBytes();
                 viewModel.image = imageBytes;
               }
-            } else if (action == SetPhotoAction.GALLERY) {
+            } else if (action == SetPhotoAction.gallery) {
               final image = await ImagePicker().pickImage(
                 source: ImageSource.gallery,
                 imageQuality: 50,
@@ -87,7 +85,7 @@ class _UserProfileSettingState extends State<UserProfileSetting> {
 
                 viewModel.image = imageBytes;
               }
-            } else if (action == SetPhotoAction.REMOVE) {
+            } else if (action == SetPhotoAction.remove) {
               viewModel.image = null;
             }
           },

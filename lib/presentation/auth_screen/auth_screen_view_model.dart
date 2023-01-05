@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/domain/repository/storage_repo.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_event.dart';
@@ -80,6 +78,9 @@ class AuthScreenViewModel with ChangeNotifier {
       state.isSignIn ? _signIn() : _signUp();
 
   Future<void> _signIn() async {
+    _state = _state.copyWith(isLoading: true);
+    notifyListeners();
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: state.email, password: state.password);
@@ -125,10 +126,12 @@ class AuthScreenViewModel with ChangeNotifier {
               .add(const AuthScreenEvent.onAuthError('알 수 없는 에러가 발생했습니다.'));
           break;
       }
+    } finally {
+      _state = _state.copyWith(isLoading: false);
+      notifyListeners();
     }
   }
 
-  // TODO: IMPLEMENT THIS METHOD
   Future<void> _signUp() async {
     _state = _state.copyWith(isLoading: true);
     notifyListeners();
@@ -153,7 +156,6 @@ class AuthScreenViewModel with ChangeNotifier {
       await user.sendEmailVerification();
       _eventController.sink.add(const AuthScreenEvent.onSignUpSuccess());
     } on FirebaseAuthException catch (error) {
-      print(error);
       switch (error.code) {
         case 'email-already-in-use':
           _eventController.sink
@@ -193,23 +195,12 @@ class AuthScreenViewModel with ChangeNotifier {
       _state = _state.copyWith(image: null);
       _eventController.sink.add(const AuthScreenEvent.onProfileSettingDone());
     } on FirebaseException catch (e) {
-      print(e);
-
       _eventController.sink.add(
         const AuthScreenEvent.onAuthError('프로필 사진 설정에 실패했습니다.'),
       );
     } catch (e) {
       rethrow;
     }
-  }
-
-  // uint8list to file
-  Future<File> _convertUint8ListToFile(List<int> image) async {
-    final tempDir = await getTemporaryDirectory();
-    final path = tempDir.path;
-    final file = File('$path/image.jpg');
-    await file.writeAsBytes(image);
-    return file;
   }
 
   void onProfileTap() {
@@ -238,6 +229,12 @@ class AuthScreenViewModel with ChangeNotifier {
       _state = _state.copyWith(isValidEmail: false);
 
       return '이메일 형식이 올바르지 않습니다';
+    }
+
+    if (!value.endsWith('@naver.com')) {
+      _state = _state.copyWith(isValidEmail: false);
+
+      return '네이버 이메일만 사용 가능합니다.';
     }
 
     _state = _state.copyWith(isValidEmail: true);

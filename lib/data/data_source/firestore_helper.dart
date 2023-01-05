@@ -10,6 +10,7 @@ import 'package:text_project/presentation/game_screen/bl/robot_player.dart';
 
 class FirestoreHelper {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<Word> getWordInfo(String word) async {
     final wordInfo = await _firestore.collection('words').doc(word).get();
@@ -79,7 +80,7 @@ class FirestoreHelper {
   }
 
   Future<void> updateDisplayName(String name) async {
-    final user = FirebaseAuth.instance.currentUser!;
+    final user = _auth.currentUser!;
     await user.updateDisplayName(name);
     final uid = user.uid;
     await _firestore.collection('users').doc(uid).set(
@@ -105,7 +106,7 @@ class FirestoreHelper {
   }
 
   Future<void> updateUserInfoAfterGame(GameLog log) async {
-    final user = FirebaseAuth.instance.currentUser!;
+    final user = _auth.currentUser!;
 
     // update user's game count
     // create new document if document doesn't exist
@@ -142,7 +143,7 @@ class FirestoreHelper {
 
   // fetch user stat
   Future<UserInformation?> fetchUserInformation() async {
-    final user = FirebaseAuth.instance.currentUser!;
+    final user = _auth.currentUser!;
 
     final stat = await FirebaseFirestore.instance
         .collection('users')
@@ -199,7 +200,7 @@ class FirestoreHelper {
   // fetch user game logs
   Future<List<GameLog>> fetchUserGameLogs(int limit) async {
     final logs = await FirebaseFirestore.instance
-        .collection('log')
+        .collection('gameLogs')
         .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .limit(limit)
         .orderBy('endAt', descending: true)
@@ -209,6 +210,9 @@ class FirestoreHelper {
   }
 
   Future<bool> checkNameExists(String name) async {
+    if (_auth.currentUser == null) return false;
+    if (_auth.currentUser!.displayName == name) return false;
+
     final users = await FirebaseFirestore.instance
         .collection('users')
         .where('name', isEqualTo: name)

@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:text_project/domain/model/ranker.dart';
 
-rankToBadgeColor(int rank) {
+rankToBadge(int rank) {
   switch (rank) {
     case 1:
-      return Colors.amber;
+      return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Image.asset('assets/images/home_screen/gold_medal.png'),
+      );
+
     case 2:
-      return Colors.grey;
+      return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Image.asset('assets/images/home_screen/silver_medal.png'),
+      );
     case 3:
-      return Colors.brown;
+      return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Image.asset('assets/images/home_screen/bronze_medal.png'),
+      );
     default:
-      return Colors.white;
+      return Text(
+        '$rank위',
+        textAlign: TextAlign.center,
+      );
   }
 }
 
@@ -130,19 +143,7 @@ class RankBoardPage extends StatelessWidget {
                       flex: 1,
                       fit: FlexFit.tight,
                       child: value.rank != null
-                          ? CircleAvatar(
-                              backgroundColor: rankToBadgeColor(value.rank!),
-                              child: Text(
-                                value.rank.toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                              ),
-                            )
+                          ? rankToBadge(value.rank!)
                           : const Text('-', textAlign: TextAlign.center),
                     ),
                   ],

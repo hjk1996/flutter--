@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:text_project/domain/model/rank_board.dart';
 import 'package:text_project/domain/model/ranker.dart';
-import 'package:text_project/domain/model/user_information.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/domain/repository/storage_repo.dart';
 import 'package:text_project/presentation/home_screen/home_screen_event.dart';
@@ -186,7 +185,6 @@ class HomeScreenViewModel with ChangeNotifier {
         ),
       );
     } catch (err) {
-      throw err;
       _eventController.sink.add(
         HomeScreenEvent.onError(err.toString()),
       );

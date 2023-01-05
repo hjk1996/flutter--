@@ -87,7 +87,7 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                     ? viewModel.referee.usedWords.last
                     : '',
               ),
-              CountDownTimer(),
+              const CountDownTimer(),
             ],
           ),
           actions: [
@@ -106,7 +106,6 @@ class _GameScreenAppBarState extends State<GameScreenAppBar>
                         messageType: MessageType.giveUp,
                         content: '',
                         createdAt: DateTime.now(),
-                  
                       ),
                     );
                     viewModel.endGame();

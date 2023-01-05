@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 import 'package:text_project/presentation/common/set_photo_dialog.dart';
 import 'package:text_project/presentation/edit_screen/components/name_input_box.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +37,6 @@ class _EditScreenState extends State<EditScreen> {
             );
           },
           onError: (String message) {
-            print(message);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('변경사항 저장에 실패했습니다.'),
@@ -52,7 +49,7 @@ class _EditScreenState extends State<EditScreen> {
               context: context,
               builder: (context) => const SetPhotoDialog(),
             );
-            if (action == SetPhotoAction.CAMERA) {
+            if (action == SetPhotoAction.camera) {
               final image = await ImagePicker().pickImage(
                 source: ImageSource.camera,
                 imageQuality: 50,
@@ -61,7 +58,7 @@ class _EditScreenState extends State<EditScreen> {
                 final imageBytes = await image.readAsBytes();
                 viewModel.edittedPhoto = imageBytes;
               }
-            } else if (action == SetPhotoAction.GALLERY) {
+            } else if (action == SetPhotoAction.gallery) {
               final image = await ImagePicker().pickImage(
                 source: ImageSource.gallery,
                 imageQuality: 50,
@@ -71,7 +68,7 @@ class _EditScreenState extends State<EditScreen> {
 
                 viewModel.edittedPhoto = imageBytes;
               }
-            } else if (action == SetPhotoAction.REMOVE) {
+            } else if (action == SetPhotoAction.remove) {
               viewModel.edittedPhoto = null;
             }
           },

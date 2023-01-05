@@ -8,7 +8,7 @@ import 'package:text_project/presentation/game_screen/game_screen_view_model.dar
 import 'package:provider/provider.dart';
 
 class CountDownTimer extends StatefulWidget {
-  CountDownTimer({super.key});
+  const CountDownTimer({super.key});
   @override
   State<CountDownTimer> createState() => _CountDownTimerState();
 }

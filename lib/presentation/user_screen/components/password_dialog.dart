@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:text_project/presentation/user_screen/user_screen_view_model.dart';
 
 class PasswordDialog extends StatefulWidget {
   const PasswordDialog({super.key});
@@ -33,12 +31,7 @@ class _PasswordDialogState extends State<PasswordDialog> {
       actions: [
         TextButton(
           onPressed: () async {
-            final res =
-                await context.read<UserScreenViewModel>().deleteUserAccount(
-                      _controller.text,
-                    );
-            if (!mounted) return;
-            Navigator.of(context).pop(res);
+            Navigator.of(context).pop(_controller.text);
           },
           child: const Text('확인'),
         ),

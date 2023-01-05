@@ -1,16 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:text_project/domain/repository/firestore_repo.dart';
 import 'package:text_project/domain/repository/storage_repo.dart';
 import 'package:text_project/presentation/user_screen/user_screen_event.dart';
 import 'package:text_project/presentation/user_screen/user_screen_state.dart';
-import 'package:text_project/presentation/common/image_handler.dart';
 import 'package:http/http.dart' as http;
 
 class UserScreenViewModel with ChangeNotifier {
@@ -72,7 +67,6 @@ class UserScreenViewModel with ChangeNotifier {
         edittedName: user.displayName,
       );
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -101,10 +95,8 @@ class UserScreenViewModel with ChangeNotifier {
 
       _eventController.sink.add(const UserScreenEvent.onSave());
     } on FirebaseException catch (err) {
-      print(err);
       _eventController.sink.add(UserScreenEvent.onError(err.code));
     } catch (err) {
-      print(err);
       _eventController.sink.add(UserScreenEvent.onError(err.toString()));
     } finally {
       _state = _state.copyWith(isLoading: false);
@@ -139,16 +131,13 @@ class UserScreenViewModel with ChangeNotifier {
     }
   }
 
-  //TODO: 중복이름 변경 방지하기.
   Future<void> _updateDisplayName(String name) async {
     try {
       if (state.user == null) return;
 
       if (await _storeRepo.checkNameExists(name)) {
         throw FirebaseException(
-            plugin: 'firebase_auth',
-            code: 'name-exists',
-            message: '이미 사용');
+            plugin: 'firebase_auth', code: 'name-exists', message: '이미 사용');
       }
       await _storeRepo.updateDisplayName(name);
     } on FirebaseException catch (e) {
@@ -172,9 +161,11 @@ class UserScreenViewModel with ChangeNotifier {
         // byte array to image
         return res.bodyBytes;
       }
+    } on FirebaseException catch (e) {
+      throw FirebaseException(
+          plugin: e.plugin, code: 'get-photo', message: 'Failed to get photo');
     } catch (e) {
-      print("failed to update photo");
-      print(e);
+      rethrow;
     }
     return null;
   }
@@ -231,7 +222,7 @@ class UserScreenViewModel with ChangeNotifier {
   }
 
   // 회원탈퇴하려면 비밀번호를 한번 더 입력해야함
-  Future<String?> deleteUserAccount(String password) async {
+  Future<bool> deleteUserAccount(String password) async {
     try {
       final userCredential =
           await FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(
@@ -245,15 +236,20 @@ class UserScreenViewModel with ChangeNotifier {
 
       await state.user!.delete();
 
-      return null;
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
-        return '비밀번호가 일치하지 않습니다.';
+        _eventController.sink
+            .add(const UserScreenEvent.onError('비밀번호가 일치하지 않습니다.'));
       } else {
-        return '회원탈퇴에 실패했습니다.';
+        _eventController.sink
+            .add(const UserScreenEvent.onError('회원탈퇴에 실패했습니다.'));
       }
+
+      return false;
     } catch (e) {
-      return '회원탈퇴에 실패했습니다.';
+      _eventController.sink.add(const UserScreenEvent.onError('회원탈퇴에 실패했습니다.'));
+      return false;
     }
   }
 }

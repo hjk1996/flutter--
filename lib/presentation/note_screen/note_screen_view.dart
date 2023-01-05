@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_file.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/presentation/note_screen/components/note_card.dart';
 import 'package:text_project/presentation/note_screen/components/sort_dialog.dart';
@@ -32,7 +31,7 @@ class _NoteScreenState extends State<NoteScreen> {
         event.when(onSortButtonPressed: () {
           showDialog(
             context: context,
-            builder: (context) => SortDialog(),
+            builder: (context) => const SortDialog(),
           );
         }, onDelete: (String word) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -88,7 +87,7 @@ class _NoteScreenState extends State<NoteScreen> {
                 if (viewModel.notes.isEmpty) {
                   return Center(
                     child: Text(
-                      '단어장에 단어가 없습니다.',
+                      '저장한 단어가 없습니다.',
                       style: Theme.of(context).textTheme.headline5,
                     ),
                   );
