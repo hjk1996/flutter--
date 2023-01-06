@@ -30,7 +30,7 @@ class FirebaseStorageHelper {
   Future<Map<String, Image?>> getUserPhotos(List<String> uids) async {
     final images = <String, Image?>{};
     for (final uid in uids) {
-      final path = "users/$uid/profile.jpg";
+      final path = "users/$uid/profile_200x200.jpg";
 
       try {
         final url = await getDownloadUrl(path);

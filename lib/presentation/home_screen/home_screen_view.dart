@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
+import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/common/yes_or_no_dialog.dart';
 
 import 'package:text_project/presentation/game_screen/game_screen_view.dart';
@@ -25,6 +27,13 @@ class _HomeScreenViewState extends State<HomeScreenView> {
 
   final PageController pageController =
       PageController(initialPage: 0, keepPage: true);
+
+  BannerAd banner = BannerAd(
+    size: AdSize.banner,
+    adUnitId: UNIT_ID['android']!,
+    listener: const BannerAdListener(),
+    request: const AdRequest(),
+  )..load();
 
   @override
   void initState() {
@@ -96,6 +105,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
   void dispose() {
     _streamSubscription.cancel();
     pageController.dispose();
+    banner.dispose();
     super.dispose();
   }
 
@@ -119,7 +129,13 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               ),
               const SizedBox(height: 10),
               const GameMenu(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 50,
+                child: AdWidget(
+                  ad: banner,
+                ),
+              ),
               Text(
                 "랭킹",
                 style: Theme.of(context).textTheme.headline4!.copyWith(

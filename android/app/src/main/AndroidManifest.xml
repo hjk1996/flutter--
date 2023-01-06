@@ -9,7 +9,11 @@
    <application
         android:label="끝말잇기"
         android:name="${applicationName}"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7342752901906106~3929392751"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

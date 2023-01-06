@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:text_project/di/di.dart';
 import 'package:text_project/presentation/auth_screen/auth_screen_view.dart';
@@ -25,7 +27,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseApp app = Firebase.app();
+  await MobileAds.instance.initialize();
+  Firebase.app();
   runApp(
     MultiProvider(
       providers: [

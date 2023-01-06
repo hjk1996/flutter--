@@ -231,12 +231,6 @@ class AuthScreenViewModel with ChangeNotifier {
       return '이메일 형식이 올바르지 않습니다';
     }
 
-    if (!value.endsWith('@naver.com')) {
-      _state = _state.copyWith(isValidEmail: false);
-
-      return '네이버 이메일만 사용 가능합니다.';
-    }
-
     _state = _state.copyWith(isValidEmail: true);
     return null;
   }

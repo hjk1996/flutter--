@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:text_project/presentation/common/constants.dart';
 import 'package:text_project/presentation/game_screen/components/app_bar.dart';
 import 'package:text_project/presentation/game_screen/components/chat_input_box.dart';
 import 'package:text_project/presentation/game_screen/components/my_chat_bubble.dart';
@@ -20,6 +22,13 @@ class GameScreenView extends StatefulWidget {
 
 class _GameScreenViewState extends State<GameScreenView> {
   late StreamSubscription<GameScreenEvent> _gameScreenEventsubscription;
+
+  BannerAd banner = BannerAd(
+    size: AdSize.banner,
+    adUnitId: UNIT_ID['android']!,
+    listener: const BannerAdListener(),
+    request: const AdRequest(),
+  )..load();
 
   @override
   void initState() {
@@ -86,8 +95,8 @@ class _GameScreenViewState extends State<GameScreenView> {
   @override
   void dispose() {
     _gameScreenEventsubscription.cancel();
-
     super.dispose();
+    banner.dispose();
   }
 
   @override
@@ -143,7 +152,7 @@ class _GameScreenViewState extends State<GameScreenView> {
                                   fontSize: 12,
                                   color: Colors.grey,
                                 ),
-                              )
+                              ),
                           ],
                         ),
                       );
@@ -154,10 +163,14 @@ class _GameScreenViewState extends State<GameScreenView> {
             ),
             Consumer<GameScreenViewModel>(
               builder: (context, vm, child) {
-                return Visibility(
-                  visible: vm.state.isPlaying,
-                  child: const ChatInputBox(),
-                );
+                return vm.state.isPlaying
+                    ? const ChatInputBox()
+                    : SizedBox(
+                        height: 50,
+                        child: AdWidget(
+                          ad: banner,
+                        ),
+                      );
               },
             ),
           ],

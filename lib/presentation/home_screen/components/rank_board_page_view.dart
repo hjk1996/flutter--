@@ -73,7 +73,7 @@ class _RankBoardPageViewState extends State<RankBoardPageView> {
                   ],
                 ),
                 Positioned(
-                  bottom: 10,
+                  top: 5,
                   right: 10,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),

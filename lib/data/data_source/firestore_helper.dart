@@ -110,7 +110,8 @@ class FirestoreHelper {
 
     // update user's game count
     // create new document if document doesn't exist
-    await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
+
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).update(
       {
         'gameCount': FieldValue.increment(1),
         'easyWinCount': log.difficulty == GameDifficulty.easy && log.win
@@ -128,7 +129,6 @@ class FirestoreHelper {
                 : FieldValue.increment(0),
         'lastGameAt': log.endAt.toIso8601String(),
       },
-      SetOptions(merge: true),
     );
   }
 
