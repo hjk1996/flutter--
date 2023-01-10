@@ -19,6 +19,7 @@ class _CountDownTimerState extends State<CountDownTimer>
   late AnimationController controller;
   late Animation<double> animation;
   late final StreamSubscription<RefereeResponse> _subscription;
+  
 
   @override
   void initState() {
@@ -32,6 +33,8 @@ class _CountDownTimerState extends State<CountDownTimer>
     Future.microtask(
       () {
         final viewModel = context.read<GameScreenViewModel>();
+
+
         controller.duration = Duration(
             seconds: difficultyToTurnTime(viewModel.state.setting.difficulty));
         animation = Tween<double>(begin: 0, end: 1).animate(controller);
